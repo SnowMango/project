@@ -105,30 +105,18 @@ class PopWindowManager {
 //        func callFunc() {
 //            finishCall?()
 //        }
-
-//        NetworkManager.shared.request(.theADs(advertCodes: [AdvertCode.S01]), modelType: [BaseADModel].self, success: { (model) in
-//            if let ad = model?.first {
-//                //处理数据
-//                let alert = WindowAlert(alertType: AlertType.image)
-//                alert.closeBtn.setImage(UIImage(named: "close"), for: .normal)
-//                Task { @MainActor in
-//                    alert.imageView.kf.setImage(with: ad.highPhoto?.validURL())
-//                }
-//                alert.closeCallBack = {
-//                    callFunc()
-//                }
-//                alert.imageViewCallBack = {
-//                    if let url = ad.linkUrl {
-//                        JumpManager.jumpToWeb(url, superVC: Tools.getTopVC(), dismissedBlock: callFunc)
-//                    }
-//                }
-//                alert.show()
-//            } else {
-//                callFunc()
-//            }
-//        }) { (_,_) in
+//        
+//        let alert = WindowAlert(url: "https://zhunqi-liangjie.oss-cn-shenzhen.aliyuncs.com/banner%E5%9B%BE/%E4%BB%80%E4%B9%88%E6%98%AF%E9%87%8F%E5%8C%96.png", actionTitle: "立即参与",alertType: .image)
+//        alert.closeCallBack = {
 //            callFunc()
 //        }
-        
+//        alert.imageViewCallBack = {
+//            callFunc()
+//        }
+//        alert.doneCallBack = {
+//            callFunc()
+//        }
+//        alert.show()
+
     }
 }
