@@ -46,7 +46,6 @@ struct ZQ {
         }
         
         static func verbose(_ message: @autoclosure () -> DDLogMessageFormat,
-                            level: DDLogLevel = DDDefaultLogLevel,
                             context: Int = 0,
                             file: StaticString = #file,
                             function: StaticString = #function,
@@ -55,17 +54,16 @@ struct ZQ {
                             asynchronous: Bool = asyncLoggingEnabled,
                             ddlog: DDLog = .sharedInstance) {
             DDLogVerbose(message(),
-                       level: level,
-                       context: context,
-                       file: file,
-                       function: function,
-                       line: line,
-                       tag: tag,
-                       asynchronous: asynchronous,
-                       ddlog: ddlog)
+                         level: .verbose,
+                         context: context,
+                         file: file,
+                         function: function,
+                         line: line,
+                         tag: tag,
+                         asynchronous: asynchronous,
+                         ddlog: ddlog)
         }
         static func debug(_ message: @autoclosure () -> DDLogMessageFormat,
-                          level: DDLogLevel = DDDefaultLogLevel,
                           context: Int = 0,
                           file: StaticString = #file,
                           function: StaticString = #function,
@@ -74,7 +72,7 @@ struct ZQ {
                           asynchronous: Bool = asyncLoggingEnabled,
                           ddlog: DDLog = .sharedInstance) {
             DDLogDebug(message(),
-                       level: level,
+                       level: .debug,
                        context: context,
                        file: file,
                        function: function,
@@ -85,7 +83,6 @@ struct ZQ {
         }
         
         static func info(_ message: @autoclosure () -> DDLogMessageFormat,
-                         level: DDLogLevel = DDDefaultLogLevel,
                          context: Int = 0,
                          file: StaticString = #file,
                          function: StaticString = #function,
@@ -94,7 +91,7 @@ struct ZQ {
                          asynchronous: Bool = asyncLoggingEnabled,
                          ddlog: DDLog = .sharedInstance) {
             DDLogInfo(message(),
-                      level: level,
+                      level: .info,
                       context: context,
                       file: file,
                       function: function,
@@ -105,7 +102,6 @@ struct ZQ {
         }
         
         static func warn(_ message: @autoclosure () -> DDLogMessageFormat,
-                         level: DDLogLevel = DDDefaultLogLevel,
                          context: Int = 0,
                          file: StaticString = #file,
                          function: StaticString = #function,
@@ -114,7 +110,7 @@ struct ZQ {
                          asynchronous: Bool = asyncLoggingEnabled,
                          ddlog: DDLog = .sharedInstance) {
             DDLogWarn(message(),
-                      level: level,
+                      level: .warning,
                       context: context,
                       file: file,
                       function: function,
@@ -125,7 +121,6 @@ struct ZQ {
         }
         
         static func error(_ message: @autoclosure () -> DDLogMessageFormat,
-                          level: DDLogLevel = DDDefaultLogLevel,
                           context: Int = 0,
                           file: StaticString = #file,
                           function: StaticString = #function,
@@ -134,7 +129,7 @@ struct ZQ {
                           asynchronous: Bool = false,
                           ddlog: DDLog = .sharedInstance) {
             DDLogError(message(),
-                       level: level,
+                       level: .warning,
                        context: context,
                        file: file,
                        function: function,
