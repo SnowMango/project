@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 enum AlertType {
     ///单个按钮
@@ -250,24 +251,39 @@ extension WindowAlert {
             return
         case .image:
             contentView.backgroundColor = nil
-            contentView.addSubview(imageView)
-            imageView.layer.cornerRadius = wScale(18)
-            imageView.layer.masksToBounds = true
-            imageView.snp.makeConstraints { (make) in
-                make.width.equalTo(wScale(280))
-                make.height.equalTo(wScale(400))
-                make.top.equalToSuperview()
-                make.centerX.equalToSuperview()
-            }
+            
             
             contentView.addSubview(closeBtn)
             closeBtn.backgroundColor = nil
-            closeBtn.setImage(UIImage(named: "close"), for: .normal)
+            closeBtn.setImage(UIImage(named:"close.white"), for: .normal)
             closeBtn.snp.makeConstraints { (make) in
-                make.width.height.equalTo(wScale(27))
+                make.width.height.equalTo(wScale(28))
+                make.top.right.equalTo(0)
+            }
+            
+            contentView.addSubview(imageView)
+            imageView.layer.cornerRadius = wScale(18)
+            imageView.kf.setImage(with: URL(string: upUrl ?? ""))
+            imageView.layer.masksToBounds = true
+            imageView.snp.makeConstraints { (make) in
+                make.top.equalTo(closeBtn.snp.bottom).offset(wScale(5))
+//                make.width.equalTo(wScale(280))
+                make.height.lessThanOrEqualTo(wScale(400))
+                make.centerX.equalToSuperview()
+                make.left.greaterThanOrEqualTo(0)
+            }
+            
+            contentView.addSubview(actionBtn)
+            actionBtn.backgroundColor = nil
+            actionBtn.titleLabel?.font = .kScale(22, weight: .medium)
+            actionBtn.setTitle(actionTitle ?? "确定", for: .normal)
+            actionBtn.setTitleColor(UIColor("#FFF1A9"), for: .normal)
+            actionBtn.setBackgroundImage(UIImage(named: "red.yellow.btn.bg"), for: .normal)
+            actionBtn.snp.makeConstraints { (make) in
                 make.top.equalTo(imageView.snp.bottom).offset(wScale(20))
                 make.centerX.equalToSuperview()
-                make.bottom.equalToSuperview()
+                make.bottom.lessThanOrEqualTo(0)
+                make.left.greaterThanOrEqualTo(0)
             }
             
         case .join:
@@ -289,7 +305,7 @@ extension WindowAlert {
                 make.top.equalToSuperview().offset(wScale(19))
                 make.centerX.equalToSuperview()
             }
-            closeBtn.setImage(UIImage(named: "close"), for: .normal)
+            closeBtn.setImage(UIImage(named: "close.white"), for: .normal)
             closeBtn.backgroundColor = .clear
             closeBtn.snp.makeConstraints { make in
                 make.width.height.equalTo(wScale(40))
