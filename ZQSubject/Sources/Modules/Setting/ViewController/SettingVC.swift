@@ -53,6 +53,7 @@ class SettingVC: BaseViewController {
         versionLb.font = .kFontScale(13)
         versionLb.textColor = .kText1
         versionLb.numberOfLines = 0
+        versionLb.textAlignment = .center
         let production: String = switch env {
         case .dev: "当前版本(V\(kAppVersion))\n\(AppBuildVersion)"
         case .test: "当前版本(V\(kAppVersion))\n\(AppBuildVersion)"
