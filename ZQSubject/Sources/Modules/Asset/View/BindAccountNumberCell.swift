@@ -70,14 +70,26 @@ class BindAccountNumberCell: RadiusCollectionCell {
 }
 
 extension BindAccountNumberCell: BindAccountCellProtocol {
-    func load(item: BindAccountVC.SectionItem, with value: String) {
+    func load(item: BindAccountVC.SectionItem, with value: String, placeholder: String?) {
+        self.load(item: item, with: value, placeholder: placeholder, placeholderColor: nil)
+    }
+    func load(item: BindAccountVC.SectionItem, with value: String, placeholder: String?, placeholderColor: UIColor?) {
+        
         self.iconImageView.image = UIImage(named: item.icon)
         self.titleLb.text = item.title
         
         if value.count > 0 {
             self.inputField.text = value
         }
-        self.descLb.text = item.placeholder
+        self.descLb.text = placeholder
+        if let color = placeholderColor {
+            self.inputField.textColor = color
+            self.descLb.textColor = color
+        }
+    }
+    
+    func load(item: BindAccountVC.SectionItem, with value: String) {
+        self.load(item: item, with: value, placeholder: item.placeholder)
     }
 }
 

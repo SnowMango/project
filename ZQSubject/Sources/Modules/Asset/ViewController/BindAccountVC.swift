@@ -81,6 +81,7 @@ class BindAccountVC: BaseViewController {
     
     var dataModel: BindAccountModel = BindAccountModel()
     var rule: FundsRule?
+    var canFree: Bool = true
     
     private weak var accountInput: UITextField?
     private weak var fundsInput: UITextField?
@@ -92,7 +93,10 @@ class BindAccountVC: BaseViewController {
         super.viewDidLoad()
         setupUI()
         titleName = "绑定券商账户"
-    
+        if self.canFree {
+            dataModel.carryTime = 1
+            dataModel.serviceTime = 1
+        }
         guard let profile = AppManager.shared.profile else { return }
         if let order = profile.orderVerificationList?.first {
             if order.verificationResult == 0 {
@@ -288,11 +292,16 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
                 cell.load(item: item, with: "")
             case .shichang:
                 if let cell = cell as? BindAccountNumberCell {
-                    cell.inputField.isUserInteractionEnabled = true
+                    cell.inputField.isUserInteractionEnabled = !self.canFree
                     self.fundsTimeInput = cell.inputField
                     cell.inputField.delegate = self
                 }
-                cell.load(item: item, with:  "\(dataModel.carryTime/12)")
+                if dataModel.carryTime < 12 {
+                    cell.load(item: item, with:  "\(dataModel.carryTime*30)",placeholder: "天")
+                }else{
+                    cell.load(item: item, with:  "\(dataModel.carryTime/12)")
+                }
+                
             case .dazaiziji:
                 if let cell = cell as? BindAccountNumberCell {
                     cell.inputField.isUserInteractionEnabled = true
@@ -303,27 +312,52 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
             case .fuwufei:
                 var value: String = "--"
                 if let rule = rule {
-                    value = "\(Int(dataModel.service(rule)))"
+                    if self.canFree {
+                        value = "免费体验"
+                        cell.load(item: item, with: value, placeholder: nil, placeholderColor: UIColor("#EC3B34"))
+                    } else{
+                        value = "\(Int(dataModel.service(rule, free: self.canFree)))"
+                        cell.load(item: item, with: value)
+                    }
+                }else{
+                    cell.load(item: item, with: value)
                 }
-                cell.load(item: item, with: value)
+                
             case .serverTime:
                 if let cell = cell as? BindAccountNumberCell {
                     self.severTimeInput = cell.inputField
                     cell.inputField.delegate = self
+                    cell.inputField.isUserInteractionEnabled = !self.canFree
                 }
-                cell.load(item: item, with:  "\(dataModel.serviceTime/12)")
+                if dataModel.serviceTime < 12 {
+                    cell.load(item: item, with:  "\(dataModel.serviceTime*30)",placeholder: "天",placeholderColor: UIColor("#EC3B34"))
+                }else{
+                    cell.load(item: item, with:  "\(dataModel.serviceTime/12)")
+                }
             case .server:
                 var value: String = "--"
                 if let rule = rule {
-                    value = "\(Int(dataModel.server(rule)))"
+                    if self.canFree {
+                        value = "免费体验"
+                        cell.load(item: item, with: value, placeholder: nil, placeholderColor: UIColor("#EC3B34"))
+                    } else{
+                        value = "\(Int(dataModel.server(rule, free: self.canFree)))"
+                        cell.load(item: item, with: value)
+                    }
+                }else {
+                    cell.load(item: item, with: value)
                 }
-                cell.load(item: item, with: value)
+               
             case .total:
                 var value: String = "--"
                 if let rule = rule {
-                    value = "\(Int(dataModel.total(rule)))"
+                    value = "\(Int(dataModel.total(rule, free: self.canFree)))"
                 }
-                cell.load(item: item, with: value)
+                if self.canFree {
+                    cell.load(item: item, with: value,placeholder: "", placeholderColor:  UIColor("#EC3B34"))
+                }else{
+                    cell.load(item: item, with: value)
+                }
             }
         }
         
@@ -335,7 +369,7 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
         
         footer.payAndBindBtn.addTarget(self, action: #selector(payAndBindClick), for: .touchUpInside)
 //        self.agreementBox = footer.checkBtn
-         
+        footer.freeInfoView.isHidden = !self.canFree
         return footer
     }
     
@@ -415,5 +449,12 @@ extension BindAccountVC: UITextFieldDelegate {
 }
 
 protocol BindAccountCellProtocol {
-    func load(item: BindAccountVC.SectionItem, with Value: String)
+    func load(item: BindAccountVC.SectionItem, with value: String)
+    func load(item: BindAccountVC.SectionItem, with value: String, placeholder: String?)
+    func load(item: BindAccountVC.SectionItem, with value: String, placeholder: String?, placeholderColor: UIColor?)
+}
+
+extension BindAccountCellProtocol {
+    func load(item: BindAccountVC.SectionItem, with Value: String, placeholder: String?) {}
+    func load(item: BindAccountVC.SectionItem, with value: String, placeholder: String?, placeholderColor: UIColor? ) {}
 }

@@ -73,14 +73,34 @@ class BindAccountInputCell: RadiusCollectionCell {
 }
 
 extension BindAccountInputCell: BindAccountCellProtocol {
-    func load(item: BindAccountVC.SectionItem, with value: String) {
+    func load(item: BindAccountVC.SectionItem, with value: String, placeholder: String?) {
+        self.load(item: item, with: value, placeholder: placeholder, placeholderColor: nil)
+    }
+    
+    func load(item: BindAccountVC.SectionItem, with value: String, placeholder: String?, placeholderColor: UIColor?) {
         self.iconImageView.image = UIImage(named: item.icon)
         self.titleLb.text = item.title
         if value.count > 0 {
             self.inputField.text = value
         }
-        self.inputField.attributedPlaceholder = NSAttributedString(string: item.placeholder, attributes: [.font:UIFont.kScale(14), .foregroundColor:UIColor.kText1])
+        if let color = placeholderColor {
+            self.inputField.textColor = color
+        }
+        if let placeholder = placeholder {
+            if let color = placeholderColor {
+                self.inputField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.font:UIFont.kScale(14), .foregroundColor:color])
+            }else{
+                self.inputField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.font:UIFont.kScale(14), .foregroundColor:UIColor.kText1])
+            }
+        }else{
+            self.inputField.attributedPlaceholder = nil
+        }
     }
+    
+    func load(item: BindAccountVC.SectionItem, with value: String) {
+        self.load(item: item, with: value, placeholder: item.placeholder)
+    }
+   
 }
 
 extension BindAccountInputCell: BuildStrategyCellProtocol {
