@@ -1,0 +1,134 @@
+import UIKit
+import Kingfisher
+
+typealias finishedCall = (() -> ())?
+class PopWindowManager {
+    func needUpgrade(_ lhs:String, _ rhs:String) -> Bool {
+        if lhs == rhs {
+            return false
+        }
+        let lbs: [String] = lhs.components(separatedBy: ".")
+        let rbs: [String] = rhs.components(separatedBy: ".")
+        
+        for (lf, rf) in zip(lbs, rbs) {
+            if let lInt = Int(lf), let rInt = Int(rf) {
+                if lInt < rInt {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    ///升级信息
+    func showUpgradeViewIfNeeded(_ finishCall: finishedCall) {
+        func callFunc() {
+            finishCall?()
+        }
+        let appVersion = kAppVersion
+        NetworkManager.shared.request(NoAuthTarget.version) { (result: NetworkResult<VersionInfo>) in
+            do {
+                let version = try result.get()
+                if !self.needUpgrade(appVersion, version.versionName){
+                    callFunc()
+                    return
+                }
+                if let ignore = kUserDefault.object(forKey: UserDefaultKey.upgradeAppCode.rawValue) as? String, ignore == version.versionName{
+                    /// 非强制版本
+                    callFunc()
+                    return
+                }
+                let alert = UpgradeAlert(model: version)
+                alert.closeCallBack = {
+                    kUserDefault.set(version.versionName, forKey: UserDefaultKey.upgradeAppCode.rawValue)
+                    callFunc()
+                }
+                alert.doneCallBack = {
+                    callFunc()
+                }
+                alert.show()
+                
+            } catch {
+                callFunc()
+            }
+        }
+
+    }
+    
+    ///展示闪屏广告
+    func showLaunchADViewIfNeeded(_ finishCall: finishedCall) {
+        finishCall?()
+//        getSplashAD()
+//        
+//        func callFunc() {
+//            finishCall?()
+//        }
+//        
+//        guard let adStr = kUserDefault.value(forKey: UserDefaultKey.splashAD.rawValue),
+//              let adModel = BaseADModel.deserialize(from: adStr as? String),
+//              let imgURL = adModel.highPhoto
+//        else {
+//            callFunc()
+//            return
+//        }
+//        
+//        let splashView = SplashAD(imageUrl: imgURL, adUrl: adModel.linkUrl) { (didTap) in
+//            
+//            //有广告链接才跳转
+//            guard let url = adModel.linkUrl, url.count > 0, didTap else {
+//                callFunc()
+//                return
+//            }
+//            
+//            JumpManager.jumpToWeb(url, superVC: Tools.getTopVC(), dismissedBlock: callFunc)
+//        }
+//        splashView.show()
+    }
+    
+    ///请求闪屏广告,用于下次打开app时显示
+    private func getSplashAD() {
+//        NetworkManager.shared.request(.theADs(advertCodes: [AdvertCode.Q01]), modelType: [BaseADModel].self, success: { (model) in
+//            if let adModel = model?.first {
+//                kUserDefault.set(adModel.toJSONString(), forKey: UserDefaultKey.splashAD.rawValue)
+//            } else {
+//                kUserDefault.removeObject(forKey: UserDefaultKey.splashAD.rawValue)
+//            }
+//        }) { (_,_) in
+//        }
+        
+    }
+    
+    
+    //MARK:--
+    ///主页广告弹窗
+    func showHomeADViewIfNeeded(_ finishCall: finishedCall) {
+        finishCall?()
+//        func callFunc() {
+//            finishCall?()
+//        }
+
+//        NetworkManager.shared.request(.theADs(advertCodes: [AdvertCode.S01]), modelType: [BaseADModel].self, success: { (model) in
+//            if let ad = model?.first {
+//                //处理数据
+//                let alert = WindowAlert(alertType: AlertType.image)
+//                alert.closeBtn.setImage(UIImage(named: "close"), for: .normal)
+//                Task { @MainActor in
+//                    alert.imageView.kf.setImage(with: ad.highPhoto?.validURL())
+//                }
+//                alert.closeCallBack = {
+//                    callFunc()
+//                }
+//                alert.imageViewCallBack = {
+//                    if let url = ad.linkUrl {
+//                        JumpManager.jumpToWeb(url, superVC: Tools.getTopVC(), dismissedBlock: callFunc)
+//                    }
+//                }
+//                alert.show()
+//            } else {
+//                callFunc()
+//            }
+//        }) { (_,_) in
+//            callFunc()
+//        }
+        
+    }
+}

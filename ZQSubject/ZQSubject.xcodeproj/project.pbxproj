@@ -1,0 +1,656 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		37FA4A4543EB9BB3D2DD88B6 /* Pods_ZQSubject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A0A1E9FB2E435EECC3B4ECC /* Pods_ZQSubject.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1357CBB8F09DAE73BAF85C40 /* Pods-ZQSubject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZQSubject.release.xcconfig"; path = "Target Support Files/Pods-ZQSubject/Pods-ZQSubject.release.xcconfig"; sourceTree = "<group>"; };
+		4A0A1E9FB2E435EECC3B4ECC /* Pods_ZQSubject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZQSubject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5876D4782C0595D7EF08600C /* Pods-ZQSubject.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZQSubject.test.xcconfig"; path = "Target Support Files/Pods-ZQSubject/Pods-ZQSubject.test.xcconfig"; sourceTree = "<group>"; };
+		6AA9C6562DA8A5C800CB3841 /* ZQSubject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZQSubject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C6DBEA69C44ECC52972F903 /* Pods-ZQSubject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZQSubject.debug.xcconfig"; path = "Target Support Files/Pods-ZQSubject/Pods-ZQSubject.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6AA9C6682DA8A5C900CB3841 /* Exceptions for "ZQSubject" folder in "ZQSubject" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 6AA9C6552DA8A5C800CB3841 /* ZQSubject */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		6AA9C6582DA8A5C800CB3841 /* ZQSubject */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6AA9C6682DA8A5C900CB3841 /* Exceptions for "ZQSubject" folder in "ZQSubject" target */,
+			);
+			path = ZQSubject;
+			sourceTree = "<group>";
+		};
+		6AA9C7732DA8A6B000CB3841 /* Sources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6AA9C6532DA8A5C800CB3841 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37FA4A4543EB9BB3D2DD88B6 /* Pods_ZQSubject.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5FC8B2A10AAA34C7CDAC8BB7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8C6DBEA69C44ECC52972F903 /* Pods-ZQSubject.debug.xcconfig */,
+				1357CBB8F09DAE73BAF85C40 /* Pods-ZQSubject.release.xcconfig */,
+				5876D4782C0595D7EF08600C /* Pods-ZQSubject.test.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		6AA9C64D2DA8A5C800CB3841 = {
+			isa = PBXGroup;
+			children = (
+				6AA9C7732DA8A6B000CB3841 /* Sources */,
+				6AA9C6582DA8A5C800CB3841 /* ZQSubject */,
+				6AA9C6572DA8A5C800CB3841 /* Products */,
+				5FC8B2A10AAA34C7CDAC8BB7 /* Pods */,
+				B3BE22746D9BAA7237BD4EB4 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		6AA9C6572DA8A5C800CB3841 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6AA9C6562DA8A5C800CB3841 /* ZQSubject.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B3BE22746D9BAA7237BD4EB4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4A0A1E9FB2E435EECC3B4ECC /* Pods_ZQSubject.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6AA9C6552DA8A5C800CB3841 /* ZQSubject */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6AA9C6692DA8A5C900CB3841 /* Build configuration list for PBXNativeTarget "ZQSubject" */;
+			buildPhases = (
+				1246FF3FF84E916066FA9616 /* [CP] Check Pods Manifest.lock */,
+				6AA9C6522DA8A5C800CB3841 /* Sources */,
+				6AA9C6532DA8A5C800CB3841 /* Frameworks */,
+				6AA9C6542DA8A5C800CB3841 /* Resources */,
+				5722017E520C6C2AD70A6881 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				6AA9C6582DA8A5C800CB3841 /* ZQSubject */,
+				6AA9C7732DA8A6B000CB3841 /* Sources */,
+			);
+			name = ZQSubject;
+			productName = ZQSubject;
+			productReference = 6AA9C6562DA8A5C800CB3841 /* ZQSubject.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6AA9C64E2DA8A5C800CB3841 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					6AA9C6552DA8A5C800CB3841 = {
+						CreatedOnToolsVersion = 16.3;
+					};
+				};
+			};
+			buildConfigurationList = 6AA9C6512DA8A5C800CB3841 /* Build configuration list for PBXProject "ZQSubject" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6AA9C64D2DA8A5C800CB3841;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 6AA9C6572DA8A5C800CB3841 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6AA9C6552DA8A5C800CB3841 /* ZQSubject */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6AA9C6542DA8A5C800CB3841 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1246FF3FF84E916066FA9616 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ZQSubject-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5722017E520C6C2AD70A6881 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ZQSubject/Pods-ZQSubject-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ZQSubject/Pods-ZQSubject-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ZQSubject/Pods-ZQSubject-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6AA9C6522DA8A5C800CB3841 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6A69EAEF2DC9AE77008EC11F /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = A3XA2Q3K5P;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Test;
+		};
+		6A69EAF02DC9AE77008EC11F /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5876D4782C0595D7EF08600C /* Pods-ZQSubject.test.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ZQSubject/ZQSubject.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1018;
+				DEVELOPMENT_TEAM = JWZ974JZH5;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CocoaLumberjack/CocoaLumberjack.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CryptoSwift/CryptoSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DeviceKit/DeviceKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FSPagerView/FSPagerView.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardCore/IQKeyboardCore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardNotification/IQKeyboardNotification.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardReturnManager/IQKeyboardReturnManager.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardToolbar/IQKeyboardToolbar.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardToolbarManager/IQKeyboardToolbarManager.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQTextInputViewNotification/IQTextInputViewNotification.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQTextView/IQTextView.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ImageViewer.swift/ImageViewer_swift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JLRoutes/JLRoutes.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher/Kingfisher.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MBProgressHUD/MBProgressHUD.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh/MJRefresh.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MarqueeLabel/MarqueeLabel.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya/Moya.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReachabilitySwift/Reachability.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Realm/Realm.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RealmSwift/RealmSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON/SwiftyJSON.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Then/Then.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/UITextView+Placeholder/UITextView_Placeholder.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/WMZPageController/WMZPageController.framework/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/JCore/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/JPush/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Realm/Headers\"",
+				);
+				INFOPLIST_FILE = ZQSubject/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "量界";
+				INFOPLIST_KEY_NSCameraUsageDescription = "需要访问相机以选择照片";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "需要访问相册以选择照片";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhitu.liangjie;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = TEST;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ZQSubject/App-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Test;
+		};
+		6AA9C66A2DA8A5C900CB3841 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8C6DBEA69C44ECC52972F903 /* Pods-ZQSubject.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ZQSubject/ZQSubject.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1018;
+				DEVELOPMENT_TEAM = JWZ974JZH5;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CocoaLumberjack/CocoaLumberjack.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CryptoSwift/CryptoSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DeviceKit/DeviceKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FSPagerView/FSPagerView.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardCore/IQKeyboardCore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardNotification/IQKeyboardNotification.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardReturnManager/IQKeyboardReturnManager.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardToolbar/IQKeyboardToolbar.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardToolbarManager/IQKeyboardToolbarManager.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQTextInputViewNotification/IQTextInputViewNotification.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQTextView/IQTextView.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ImageViewer.swift/ImageViewer_swift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JLRoutes/JLRoutes.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher/Kingfisher.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MBProgressHUD/MBProgressHUD.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh/MJRefresh.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MarqueeLabel/MarqueeLabel.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya/Moya.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReachabilitySwift/Reachability.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Realm/Realm.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RealmSwift/RealmSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON/SwiftyJSON.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Then/Then.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/UITextView+Placeholder/UITextView_Placeholder.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/WMZPageController/WMZPageController.framework/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/JCore/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/JPush/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Realm/Headers\"",
+				);
+				INFOPLIST_FILE = ZQSubject/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "量界";
+				INFOPLIST_KEY_NSCameraUsageDescription = "需要访问相机以选择照片";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "需要访问相册以选择照片";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhitu.liangjie;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ZQSubject/App-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		6AA9C66B2DA8A5C900CB3841 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1357CBB8F09DAE73BAF85C40 /* Pods-ZQSubject.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ZQSubject/ZQSubject.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1018;
+				DEVELOPMENT_TEAM = JWZ974JZH5;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CocoaLumberjack/CocoaLumberjack.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CryptoSwift/CryptoSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DeviceKit/DeviceKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FSPagerView/FSPagerView.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardCore/IQKeyboardCore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardNotification/IQKeyboardNotification.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardReturnManager/IQKeyboardReturnManager.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardToolbar/IQKeyboardToolbar.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardToolbarManager/IQKeyboardToolbarManager.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQTextInputViewNotification/IQTextInputViewNotification.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQTextView/IQTextView.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ImageViewer.swift/ImageViewer_swift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JLRoutes/JLRoutes.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher/Kingfisher.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MBProgressHUD/MBProgressHUD.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh/MJRefresh.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MarqueeLabel/MarqueeLabel.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya/Moya.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReachabilitySwift/Reachability.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Realm/Realm.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RealmSwift/RealmSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON/SwiftyJSON.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Then/Then.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/UITextView+Placeholder/UITextView_Placeholder.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/WMZPageController/WMZPageController.framework/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/JCore/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/JPush/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Realm/Headers\"",
+				);
+				INFOPLIST_FILE = ZQSubject/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "量界";
+				INFOPLIST_KEY_NSCameraUsageDescription = "需要访问相机以选择照片";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "需要访问相册以选择照片";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhitu.liangjie;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ZQSubject/App-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		6AA9C66C2DA8A5C900CB3841 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = A3XA2Q3K5P;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		6AA9C66D2DA8A5C900CB3841 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = A3XA2Q3K5P;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6AA9C6512DA8A5C800CB3841 /* Build configuration list for PBXProject "ZQSubject" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AA9C66C2DA8A5C900CB3841 /* Debug */,
+				6AA9C66D2DA8A5C900CB3841 /* Release */,
+				6A69EAEF2DC9AE77008EC11F /* Test */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6AA9C6692DA8A5C900CB3841 /* Build configuration list for PBXNativeTarget "ZQSubject" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AA9C66A2DA8A5C900CB3841 /* Debug */,
+				6AA9C66B2DA8A5C900CB3841 /* Release */,
+				6A69EAF02DC9AE77008EC11F /* Test */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6AA9C64E2DA8A5C800CB3841 /* Project object */;
+}
