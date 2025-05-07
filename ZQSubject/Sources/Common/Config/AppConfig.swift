@@ -33,7 +33,7 @@ enum Environment: Int {
         case .dev:
             "http://92.168.2.134"
         case .test:
-            "http://h5.zhunqikj.cn/#"
+            "https://zqapi-test.zhunqikj.cn/#"
         case .pro:
             "http://h5.zhunqikj.cn/#"
         }
