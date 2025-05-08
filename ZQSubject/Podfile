@@ -29,15 +29,13 @@ target 'ZQSubject' do
   # Objective-C
   pod 'MJRefresh'                     #上下拉刷新
   pod 'FDFullscreenPopGesture'        #侧滑返回
-  pod 'MBProgressHUD'                 #蒙板
+  #MBProgressHUD的PrivacyInfo
+  pod 'MBProgressHUD', :git => 'https://github.com/jdg/MBProgressHUD.git'
   # 分页控制器
   pod 'WMZPageController'
   pod 'JLRoutes'                      #路由管理
   
   pod 'UITextView+Placeholder'
-  
-  pod 'ImageViewer.swift', '~> 3.0'
-  pod 'ImageViewer.swift/Fetcher', '~> 3.0'
   
   #推送 友盟
 #  pod 'UMCommon'
@@ -47,7 +45,6 @@ target 'ZQSubject' do
   
   #极光
   pod 'JPush'
-  
 
 end
 

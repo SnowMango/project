@@ -39,6 +39,8 @@
 		};
 		6AA9C7732DA8A6B000CB3841 /* Sources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
@@ -194,13 +196,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ZQSubject/Pods-ZQSubject-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ZQSubject/Pods-ZQSubject-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -286,7 +284,7 @@
 				CODE_SIGN_ENTITLEMENTS = ZQSubject/ZQSubject.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1018;
+				CURRENT_PROJECT_VERSION = 1019;
 				DEVELOPMENT_TEAM = JWZ974JZH5;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -363,7 +361,7 @@
 				CODE_SIGN_ENTITLEMENTS = ZQSubject/ZQSubject.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1018;
+				CURRENT_PROJECT_VERSION = 1019;
 				DEVELOPMENT_TEAM = JWZ974JZH5;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -439,7 +437,7 @@
 				CODE_SIGN_ENTITLEMENTS = ZQSubject/ZQSubject.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1018;
+				CURRENT_PROJECT_VERSION = 1019;
 				DEVELOPMENT_TEAM = JWZ974JZH5;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
