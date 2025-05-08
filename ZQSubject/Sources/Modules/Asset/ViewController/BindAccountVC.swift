@@ -81,7 +81,6 @@ class BindAccountVC: BaseViewController {
     
     var dataModel: BindAccountModel = BindAccountModel()
     var rule: FundsRule?
-    var canFree: Bool = true
     
     private weak var accountInput: UITextField?
     private weak var fundsInput: UITextField?
@@ -93,10 +92,7 @@ class BindAccountVC: BaseViewController {
         super.viewDidLoad()
         setupUI()
         titleName = "绑定券商账户"
-        if self.canFree {
-            dataModel.carryTime = 1
-            dataModel.serviceTime = 1
-        }
+    
         guard let profile = AppManager.shared.profile else { return }
         if let order = profile.orderVerificationList?.first {
             if order.verificationResult == 0 {
@@ -149,7 +145,7 @@ class BindAccountVC: BaseViewController {
         commit.securityId = self.dataModel.securityId
         commit.securityName = self.dataModel.securityName
         commit.fundAccount = account
-        
+        commit.activitySource = dataModel.activitySource
         commit.carryTime = self.dataModel.carryTime
         commit.serviceTime = self.dataModel.serviceTime
         
@@ -158,25 +154,32 @@ class BindAccountVC: BaseViewController {
         
         commit.serviceFund = self.dataModel.server(rule)
         commit.totalFund = self.dataModel.total(rule)
+        
+        if dataModel.isFree() {
+            requestCommitBind(commit)
+            return
+        }
         let vc = BindAccountPayVC()
         vc.commitModel = commit
         self.navigationController?.show(vc, sender: nil)
     }
+    
     func updateData() {
         guard let rule = self.rule else { return }
-        
-        if self.canFree == false, let text = self.fundsTimeInput?.text, let fundsYear = Int(text) {
+        let canFree = dataModel.isFree()
+        if !canFree, let text = self.fundsTimeInput?.text, let fundsYear = Int(text) {
             self.dataModel.carryTime = fundsYear * 12
         }
         if let text = self.fundsInput?.text, let funds = Float(text), funds >= rule.minCarryFund {
             dataModel.carryFund = funds
         }
-        if self.canFree == false, let text = self.severTimeInput?.text, let severYear = Int(text) {
+        if !canFree, let text = self.severTimeInput?.text, let severYear = Int(text) {
             dataModel.serviceTime = severYear * 12
         }
     }
     
     func requestFundInfo() {
+        reqeustActivity()
         self.view.showLoading()
         NetworkManager.shared.request(AuthTarget.funds) { (result: NetworkResult<[SecurityResponse]>) in
             self.view.hideHud()
@@ -206,6 +209,42 @@ class BindAccountVC: BaseViewController {
                 self.rule = response
                 self.dataModel.carryFund = response.minCarryFund
                 self.collectionView.reloadData()
+            } catch NetworkError.server(_,let message)  {
+                self.view.showText(message)
+            } catch {
+                self.view.showText("网络错误")
+            }
+        }
+    }
+    
+    func reqeustActivity() {
+        NetworkManager.shared.request(AuthTarget.activity) { (result: NetworkResult<ActivityResponse>) in
+            do {
+                let response = try result.get()
+                let freeCode:String = "tyhd"
+                guard let item = response.activityInfoList.first(where: { $0.activityCode == freeCode }) else {return}
+                // 已领取免费体验权益 且活动未失效
+                if item.rights == 1, item.status == 1 {
+                    self.dataModel.carryTime = 1
+                    self.dataModel.serviceTime = 1
+                    self.dataModel.activitySource = item.activityCode
+                    self.collectionView.reloadData()
+                }
+            } catch {
+            
+            }
+        }
+    }
+    
+    func requestCommitBind(_ commit: BindAccountModel) {
+        self.view.showLoading()
+        NetworkManager.shared.request(AuthTarget.bindFund(commit)) { (result:OptionalJSONResult) in
+            self.view.hideHud()
+            do {
+                let _ = try result.get()
+                StrategyAlert(title: "温馨提示", content: "审核中", desc: "财务审核中，请您耐心等待", alertType: .info) {
+                    Router.shared.route(.backHome)
+                }.show()
             } catch NetworkError.server(_,let message)  {
                 self.view.showText(message)
             } catch {
@@ -276,7 +315,7 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item = items[indexPath.section][indexPath.row]
         let cell =  collectionView.dequeueReusableCell(withReuseIdentifier:item.indetifier, for: indexPath)
-       
+        let canFree = dataModel.isFree()
         if let cell = cell as? BindAccountCellProtocol {
             switch item {
             case .quanshang:
@@ -293,7 +332,7 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
                 cell.load(item: item, with: "")
             case .shichang:
                 if let cell = cell as? BindAccountNumberCell {
-                    cell.inputField.isUserInteractionEnabled = !self.canFree
+                    cell.inputField.isUserInteractionEnabled = !canFree
                     self.fundsTimeInput = cell.inputField
                     cell.inputField.delegate = self
                 }
@@ -304,7 +343,7 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
                     value = dataModel.carryTime*30
                     placeholder = "天"
                 }
-                if self.canFree {
+                if canFree {
                     cell.load(item: item, with:  "\(value)",placeholder: placeholder)
                 }else{
                     cell.load(item: item, with:  "\(value)")
@@ -320,11 +359,11 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
             case .fuwufei:
                 var value: String = "--"
                 if let rule = rule {
-                    if self.canFree {
+                    if canFree {
                         value = "免费体验"
                         cell.load(item: item, with: value, placeholder: nil, placeholderColor: .kAlert3)
                     } else{
-                        value = "\(Int(dataModel.service(rule, free: self.canFree)))"
+                        value = "\(Int(dataModel.service(rule)))"
                         cell.load(item: item, with: value)
                     }
                 }else{
@@ -335,7 +374,7 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
                 if let cell = cell as? BindAccountNumberCell {
                     self.severTimeInput = cell.inputField
                     cell.inputField.delegate = self
-                    cell.inputField.isUserInteractionEnabled = !self.canFree
+                    cell.inputField.isUserInteractionEnabled = !canFree
                 }
                 var value = dataModel.serviceTime/12
                 var placeholder = item.placeholder
@@ -343,7 +382,7 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
                     value = dataModel.serviceTime*30
                     placeholder = "天"
                 }
-                if self.canFree {
+                if canFree {
                     cell.load(item: item, with: "\(value)",placeholder: placeholder,placeholderColor: .kAlert3)
                 }else{
                     cell.load(item: item, with: "\(value)")
@@ -351,11 +390,11 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
             case .server:
                 var value: String = "--"
                 if let rule = rule {
-                    if self.canFree {
+                    if canFree {
                         value = "免费体验"
                         cell.load(item: item, with: value, placeholder: nil, placeholderColor: .kAlert3)
                     } else{
-                        value = "\(Int(dataModel.server(rule, free: self.canFree)))"
+                        value = "\(Int(dataModel.server(rule)))"
                         cell.load(item: item, with: value)
                     }
                 }else {
@@ -365,9 +404,9 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
             case .total:
                 var value: String = "--"
                 if let rule = rule {
-                    value = "\(Int(dataModel.total(rule, free: self.canFree)))"
+                    value = "\(Int(dataModel.total(rule)))"
                 }
-                if self.canFree {
+                if canFree {
                     cell.load(item: item, with: value,placeholder: item.placeholder, placeholderColor:  .kAlert3)
                 }else{
                     cell.load(item: item, with: value)
@@ -381,9 +420,10 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "BindAccountFooter", for: indexPath) as! BindAccountFooter
         
+        let canFree = dataModel.isFree()
         footer.payAndBindBtn.addTarget(self, action: #selector(payAndBindClick), for: .touchUpInside)
 //        self.agreementBox = footer.checkBtn
-        footer.freeInfoView.isHidden = !self.canFree
+        footer.freeInfoView.isHidden = !canFree
         return footer
     }
     

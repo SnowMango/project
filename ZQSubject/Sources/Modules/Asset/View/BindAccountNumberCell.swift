@@ -107,7 +107,8 @@ extension BindAccountNumberCell: BuildStrategyCellProtocol {
         self.iconImageView.image = UIImage(named: item.icon)
         self.titleLb.text = item.title
         self.inputField.text = value
-        self.descLb.text = item.placeholder
+        
+        self.descLb.text = placeholder
         self.inputField.isSecureTextEntry = item.secureText
         if let color = placeholderColor {
             self.inputField.textColor = color

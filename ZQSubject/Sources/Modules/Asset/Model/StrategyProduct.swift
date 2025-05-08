@@ -52,4 +52,16 @@ struct FundsOrder: Decodable {
     let verificationTime: String?
     /// 审核人id
     let verificationUserId: Int?
+    
+    /// 订单来源
+    let activitySource: String?
+    
+    func isActivityOrder() -> Bool {
+        return activitySource != nil
+    }
+    
+    func isFreeOrder() -> Bool {
+        guard isActivityOrder() else { return false }
+        return paymentScreenshotUrl == nil
+    }
 }

@@ -20,7 +20,8 @@ enum Environment: Int {
     func baseURL() -> URL {
         switch self {
         case .dev:
-            return URL(string: "http://192.168.2.200:9091/userService")!
+//            return URL(string: "http://192.168.2.200:9091/userService")!
+            return URL(string: "https://zqapi-test.zhunqikj.cn/userService")!
         case .test:
             return URL(string: "https://zqapi-test.zhunqikj.cn/userService")!
         case .pro:
@@ -31,7 +32,8 @@ enum Environment: Int {
     var tokenWebHost: String {
         switch self {
         case .dev:
-            "http://92.168.2.134"
+//            "http://92.168.2.134"
+            "https://zqapi-test.zhunqikj.cn/#"
         case .test:
             "https://zqapi-test.zhunqikj.cn/#"
         case .pro:

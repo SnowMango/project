@@ -8,6 +8,7 @@ class UserProfile: Decodable {
     var fundAccount: String? /// 资金账户
     var gender: Int? /// 0未知 1男 2女
     var id: Int ///  用户id
+    var channelCode: String?
     var idCard: String? //身份证
     var isRealName: Int? /// 是否实名认证  1认证通过 2认证不通过 3未知
     var isUserQa: Int? /// 是否用户问答
