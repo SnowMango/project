@@ -170,7 +170,7 @@ class BindAccountVC: BaseViewController {
         if !canFree, let text = self.fundsTimeInput?.text, let fundsYear = Int(text) {
             self.dataModel.carryTime = fundsYear * 12
         }
-        if let text = self.fundsInput?.text, let funds = Float(text), funds >= rule.minCarryFund {
+        if !canFree, let text = self.fundsInput?.text, let funds = Float(text), funds >= rule.minCarryFund {
             dataModel.carryFund = funds
         }
         if !canFree, let text = self.severTimeInput?.text, let severYear = Int(text) {
@@ -228,6 +228,9 @@ class BindAccountVC: BaseViewController {
                     self.dataModel.carryTime = 1
                     self.dataModel.serviceTime = 1
                     self.dataModel.activitySource = item.activityCode
+                    if let rule = self.rule {
+                        self.dataModel.carryFund = rule.minCarryFund
+                    }
                     self.collectionView.reloadData()
                 }
             } catch {
@@ -351,7 +354,7 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
                 
             case .dazaiziji:
                 if let cell = cell as? BindAccountNumberCell {
-                    cell.inputField.isUserInteractionEnabled = true
+                    cell.inputField.isUserInteractionEnabled = !canFree
                     self.fundsInput = cell.inputField
                     cell.inputField.delegate = self
                 }

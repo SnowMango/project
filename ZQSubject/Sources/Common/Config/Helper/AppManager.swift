@@ -22,6 +22,8 @@ class AppManager {
     private var enableRefresh: Bool = true
     func showLogin(reason: String? = nil, _ deleteAccount: Bool = false) {
         removeUserInfo(isDeleteAccount: deleteAccount)
+        taskIndex = 0
+        taskExecuting = false
         if let reason = reason {
             Router.shared.route(.login, parameters: [ShowLoginReasonKey: reason])
         }else{
