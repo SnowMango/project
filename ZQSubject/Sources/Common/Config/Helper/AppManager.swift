@@ -32,7 +32,10 @@ class AppManager {
     }
     
     func refreshUserInfo(){
-        guard let _ = kUserDefault.value(forKey: UserDefaultKey.userToken.rawValue) as? String else { return }
+        guard let _ = kUserDefault.value(forKey: UserDefaultKey.userToken.rawValue) as? String else {
+            NotificationCenter.default.post(name: UserProfileDidUpdateName, object: nil)
+            return
+        }
         if !self.enableRefresh {
             return
         }
@@ -42,10 +45,9 @@ class AppManager {
             do {
                 let reponse = try result.get()
                 self.profile = reponse
-                NotificationCenter.default.post(name: UserProfileDidUpdateName, object: nil)
             } catch {
-                
             }
+            NotificationCenter.default.post(name: UserProfileDidUpdateName, object: nil)
         }
     }
 
