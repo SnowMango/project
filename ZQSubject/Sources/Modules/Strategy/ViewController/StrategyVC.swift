@@ -55,14 +55,12 @@ class StrategyVC: WMZPageController {
         downSc?.backgroundColor = .clear
         downSc?.mj_header = RefreshHeader(refreshingTarget: self, refreshingAction: #selector(initData))
         
-        if let resources = AppManager.shared.appResources {
-            
-            if  let category = resources.first(where: {  $0.resourceKey == "market_information_classification" }){
-                self.categories = category.data
-            }
-            if  let banner = resources.first(where: {  $0.resourceKey == "QS_middle_banner" }){
-                self.banners = banner.data
-            }
+        if let category = AppManager.shared.resource(with: "market_information_classification"){
+            self.categories = category.data
+        }
+        
+        if let banner = AppManager.shared.resource(with: "QS_middle_banner") {
+            self.banners = banner.data
         }
         initData()
     }

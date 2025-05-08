@@ -61,8 +61,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //配置日志
         Logger.setup()
         AppManager.shared.reloadAppResource()
-        //App Router
+        //Routers
         Router.shared.appRoutes()
+        Router.shared.webRoutes()
+        
         // Keyboard Congfig
         IQKeyboardManager.shared.isEnabled = true
         IQKeyboardToolbarManager.shared.isEnabled = true

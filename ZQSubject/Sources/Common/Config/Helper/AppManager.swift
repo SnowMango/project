@@ -29,10 +29,6 @@ class AppManager {
         }
     }
     
-    func setLoginRootVC(_ title: String? = nil, isDeleteAccount: Bool = false) {
-        
-    }
-    
     func refreshUserInfo(){
         guard let _ = kUserDefault.value(forKey: UserDefaultKey.userToken.rawValue) as? String else { return }
         if !self.enableRefresh {
@@ -91,6 +87,30 @@ class AppManager {
             }
         }
     }
+    func needHomeAd() -> Bool {
+        guard let profile = profile else { return false }
+        if profile.strategySuccess() {
+            return false
+        }
+        let key = "\(profile.id)-homeAD-LastTime"
+        let fm = DateFormatter()
+        fm.dateFormat = "yyyy-MM-dd"
+       
+        guard let value = kUserDefault.string(forKey: key),let lastTime = fm.date(from: value) else { return true }
+        let calendar = NSCalendar.current
+        return !calendar.isDateInToday(lastTime)
+    }
+    
+    func doneHomeAd(){
+        guard let profile = profile else { return }
+        let key = "\(profile.id)-homeAD-LastTime"
+        let fm = DateFormatter()
+        fm.dateFormat = "yyyy-MM-dd"
+        
+        let last = fm.string(from: .now)
+        kUserDefault.set(last, forKey: key)
+        kUserDefault.synchronize()
+    }
     
     func reportPush() {
         guard  let _ = self.token, let pushId = self.registrationID else {
@@ -106,6 +126,7 @@ class AppManager {
         }
     }
     
+
     func saveUserInfo(_ data: LoginModel) {
         kUserDefault.set(data.id, forKey: UserDefaultKey.userID.rawValue)
         kUserDefault.set(data.mobile, forKey: UserDefaultKey.phoneNum.rawValue)
