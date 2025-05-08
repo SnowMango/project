@@ -23,6 +23,7 @@ extension UIColor {
     static let kAlert = #colorLiteral(red: 0.9882352941, green: 0.2941176471, blue: 0.2941176471, alpha: 1)
     /// 提示 #FD3A3A
     static let kAlert2 = #colorLiteral(red: 0.9921568627, green: 0.2274509804, blue: 0.2274509804, alpha: 1)
- 
+    /// 提示#EC3B34
+    static let kAlert3 = #colorLiteral(red: 0.9254901961, green: 0.231372549, blue: 0.2039215686, alpha: 1)
 }
 

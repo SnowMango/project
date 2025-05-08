@@ -114,7 +114,8 @@ class BuildStrategyVC: BaseViewController {
     private weak var fundsPasswordInput: UITextField?
     private weak var qmtPasswordInput: UITextField?
     private weak var boardBox: UIImageView?
-   
+    var canFree: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -337,20 +338,41 @@ extension BuildStrategyVC:UICollectionViewDataSource, UICollectionViewDelegate, 
                 cell.load(item: item, with: "")
             case .strategy:
                 if let value = product?.productName {
-                    cell.load(item: item, with: value)
+                    if self.canFree {
+                        cell.load(item: item, with: value, placeholder: item.placeholder, placeholderColor: .kAlert3)
+                    }else {
+                        cell.load(item: item, with: value)
+                    }
+                  
                 }else {
                     cell.load(item: item, with: "--")
                 }
             case .shichang:
                 if let month = order?.carryTime {
-                    let value = month/12
-                    cell.load(item: item, with: "\(value)")
+                    var value = month/12
+                    var placeholder = item.placeholder
+                    if month < 12 {
+                        value = month*30
+                        placeholder = "天"
+                    }
+                    if self.canFree {
+                        cell.load(item: item, with: "\(value)", placeholder: placeholder, placeholderColor: .kAlert3)
+                    }else {
+                        cell.load(item: item, with: "\(value)")
+                    }
                 }else {
                     cell.load(item: item, with: "--")
                 }
             case .zijin:
-                if let value = order?.carryFund {
-                    cell.load(item: item, with: "\(Int(value))")
+              
+                if let order = order {
+                    let value = order.carryFund
+                    if self.canFree {
+                        cell.load(item: item, with: "\(Int(value))",placeholder: item.placeholder, placeholderColor: .kAlert3)
+                    }else{
+                        cell.load(item: item, with: "\(Int(value))")
+                    }
+                    
                 } else {
                     cell.load(item: item, with: "--")
                 }
@@ -365,7 +387,7 @@ extension BuildStrategyVC:UICollectionViewDataSource, UICollectionViewDelegate, 
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "BuildStrategyFooter", for: indexPath) as! BuildStrategyFooter
-        
+        footer.freeInfoView.isHidden = !self.canFree
         footer.buildBtn.addTarget(self, action: #selector(commitClick), for: .touchUpInside)
         return footer
     }
@@ -407,5 +429,11 @@ extension BuildStrategyVC: UITextFieldDelegate {
 
 protocol BuildStrategyCellProtocol {
     func load(item: BuildStrategyVC.SectionItem, with Value: String)
+    func load(item: BuildStrategyVC.SectionItem, with value: String, placeholder: String?)
+    func load(item: BuildStrategyVC.SectionItem, with value: String, placeholder: String?, placeholderColor: UIColor?)
 }
 
+extension BindAccountCellProtocol {
+    func load(item: BuildStrategyVC.SectionItem, with value: String, placeholder: String?) {}
+    func load(item: BuildStrategyVC.SectionItem, with value: String, placeholder: String?, placeholderColor: UIColor?) {}
+}

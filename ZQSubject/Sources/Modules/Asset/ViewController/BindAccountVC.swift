@@ -150,11 +150,12 @@ class BindAccountVC: BaseViewController {
         commit.securityName = self.dataModel.securityName
         commit.fundAccount = account
         
-        commit.carryTime = fundsYear * 12
+        commit.carryTime = self.dataModel.carryTime
+        commit.serviceTime = self.dataModel.serviceTime
+        
         commit.carryFund = funds
         commit.technicalServiceFee = self.dataModel.service(rule)
         
-        commit.serviceTime = severYear * 12
         commit.serviceFund = self.dataModel.server(rule)
         commit.totalFund = self.dataModel.total(rule)
         let vc = BindAccountPayVC()
@@ -164,13 +165,13 @@ class BindAccountVC: BaseViewController {
     func updateData() {
         guard let rule = self.rule else { return }
         
-        if let text = self.fundsTimeInput?.text, let fundsYear = Int(text) {
+        if self.canFree == false, let text = self.fundsTimeInput?.text, let fundsYear = Int(text) {
             self.dataModel.carryTime = fundsYear * 12
         }
         if let text = self.fundsInput?.text, let funds = Float(text), funds >= rule.minCarryFund {
             dataModel.carryFund = funds
         }
-        if let text = self.severTimeInput?.text, let severYear = Int(text) {
+        if self.canFree == false, let text = self.severTimeInput?.text, let severYear = Int(text) {
             dataModel.serviceTime = severYear * 12
         }
     }
@@ -296,10 +297,17 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
                     self.fundsTimeInput = cell.inputField
                     cell.inputField.delegate = self
                 }
+                
+                var value = dataModel.carryTime/12
+                var placeholder = item.placeholder
                 if dataModel.carryTime < 12 {
-                    cell.load(item: item, with:  "\(dataModel.carryTime*30)",placeholder: "天")
+                    value = dataModel.carryTime*30
+                    placeholder = "天"
+                }
+                if self.canFree {
+                    cell.load(item: item, with:  "\(value)",placeholder: placeholder)
                 }else{
-                    cell.load(item: item, with:  "\(dataModel.carryTime/12)")
+                    cell.load(item: item, with:  "\(value)")
                 }
                 
             case .dazaiziji:
@@ -314,7 +322,7 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
                 if let rule = rule {
                     if self.canFree {
                         value = "免费体验"
-                        cell.load(item: item, with: value, placeholder: nil, placeholderColor: UIColor("#EC3B34"))
+                        cell.load(item: item, with: value, placeholder: nil, placeholderColor: .kAlert3)
                     } else{
                         value = "\(Int(dataModel.service(rule, free: self.canFree)))"
                         cell.load(item: item, with: value)
@@ -329,17 +337,23 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
                     cell.inputField.delegate = self
                     cell.inputField.isUserInteractionEnabled = !self.canFree
                 }
+                var value = dataModel.serviceTime/12
+                var placeholder = item.placeholder
                 if dataModel.serviceTime < 12 {
-                    cell.load(item: item, with:  "\(dataModel.serviceTime*30)",placeholder: "天",placeholderColor: UIColor("#EC3B34"))
+                    value = dataModel.serviceTime*30
+                    placeholder = "天"
+                }
+                if self.canFree {
+                    cell.load(item: item, with: "\(value)",placeholder: placeholder,placeholderColor: .kAlert3)
                 }else{
-                    cell.load(item: item, with:  "\(dataModel.serviceTime/12)")
+                    cell.load(item: item, with: "\(value)")
                 }
             case .server:
                 var value: String = "--"
                 if let rule = rule {
                     if self.canFree {
                         value = "免费体验"
-                        cell.load(item: item, with: value, placeholder: nil, placeholderColor: UIColor("#EC3B34"))
+                        cell.load(item: item, with: value, placeholder: nil, placeholderColor: .kAlert3)
                     } else{
                         value = "\(Int(dataModel.server(rule, free: self.canFree)))"
                         cell.load(item: item, with: value)
@@ -354,7 +368,7 @@ extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UI
                     value = "\(Int(dataModel.total(rule, free: self.canFree)))"
                 }
                 if self.canFree {
-                    cell.load(item: item, with: value,placeholder: "", placeholderColor:  UIColor("#EC3B34"))
+                    cell.load(item: item, with: value,placeholder: item.placeholder, placeholderColor:  .kAlert3)
                 }else{
                     cell.load(item: item, with: value)
                 }

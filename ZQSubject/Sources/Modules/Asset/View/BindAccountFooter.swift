@@ -75,7 +75,7 @@ class BindAccountFooter: UICollectionReusableView {
     }()
     lazy var freeContentLb: UILabel = {
         UILabel().then {
-            $0.textColor = UIColor("#EC3B34")
+            $0.textColor = .kAlert3
             $0.textAlignment = .center
             $0.text = "体验活动专属福利"
             $0.font = .kScale(13,weight: .bold)

@@ -94,11 +94,24 @@ extension BindAccountNumberCell: BindAccountCellProtocol {
 }
 
 extension BindAccountNumberCell: BuildStrategyCellProtocol {
+    
     func load(item: BuildStrategyVC.SectionItem, with value: String) {
+        self.load(item: item, with: value, placeholder: item.placeholder)
+    }
+    
+    func load(item: BuildStrategyVC.SectionItem, with value: String, placeholder: String?) {
+        self.load(item: item, with: value, placeholder: placeholder, placeholderColor: nil)
+    }
+    
+    func load(item: BuildStrategyVC.SectionItem, with value: String, placeholder: String?, placeholderColor: UIColor?) {
         self.iconImageView.image = UIImage(named: item.icon)
         self.titleLb.text = item.title
         self.inputField.text = value
         self.descLb.text = item.placeholder
         self.inputField.isSecureTextEntry = item.secureText
+        if let color = placeholderColor {
+            self.inputField.textColor = color
+            self.descLb.textColor = color
+        }
     }
 }
