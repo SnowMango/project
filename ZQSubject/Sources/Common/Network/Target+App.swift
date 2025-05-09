@@ -74,6 +74,7 @@ extension NoAuthTarget: AppTargetProtocol {
             let idfv = UIDevice.current.identifierForVendor?.uuidString ?? "--"
             return .requestParameters(parameters: ["mobile":mobile,
                                                    "verificationCode":code,
+                                                   "channelCode":"mrqd",
                                                    "lastDeviceSign":idfv],
                                       encoding: JSONEncoding.default)
         case .realAuth(let name, let card):
@@ -125,7 +126,8 @@ enum AuthTarget {
     case messageList(current:Int, size:Int)
     /// 上报用户设备的推送id
     case reportPush(String)
-
+    /// 查询当前登录用户所在渠道对应的活动
+    case activity
 }
 
 extension AuthTarget: AppTargetProtocol {
@@ -169,12 +171,14 @@ extension AuthTarget: AppTargetProtocol {
             "/user/selectUserMessageListPage"
         case .reportPush(_):
             "/user/reportPushId"
+        case .activity:
+            "/activity/getActivityListByUser"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .userinfo, .logout, .funds, .fundRule(_), .bindTrading(_), .logoff, .unreadMsg, .changeMsgRead, .reportPush(_):
+        case .userinfo, .logout, .funds, .fundRule(_), .bindTrading(_), .logoff, .unreadMsg, .changeMsgRead, .reportPush(_),.activity:
             .get
         default:
             .post

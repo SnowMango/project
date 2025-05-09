@@ -101,22 +101,22 @@ class PopWindowManager {
     //MARK:--
     ///主页广告弹窗
     func showHomeADViewIfNeeded(_ finishCall: finishedCall) {
-        finishCall?()
-//        func callFunc() {
-//            finishCall?()
-//        }
-//        
-//        let alert = WindowAlert(url: "https://zhunqi-liangjie.oss-cn-shenzhen.aliyuncs.com/banner%E5%9B%BE/%E4%BB%80%E4%B9%88%E6%98%AF%E9%87%8F%E5%8C%96.png", actionTitle: "立即参与",alertType: .image)
-//        alert.closeCallBack = {
-//            callFunc()
-//        }
-//        alert.imageViewCallBack = {
-//            callFunc()
-//        }
-//        alert.doneCallBack = {
-//            callFunc()
-//        }
-//        alert.show()
-
+        func callFunc() {
+            finishCall?()
+        }
+        guard AppManager.shared.needHomeAd() else { return }
+        
+        guard let resource = AppManager.shared.resource(with: "home_page_pop_up_window"), let item = resource.data.first else { return }
+       
+        AppManager.shared.doneHomeAd()
+        let alert = WindowAlert(url: item.resourceUrl,alertType: .image)
+        alert.closeCallBack = {
+            callFunc()
+        }
+        alert.imageViewCallBack = {
+            callFunc()
+            JumpManager.jumpToWeb(item.linkAddress)
+        }
+        alert.show()
     }
 }

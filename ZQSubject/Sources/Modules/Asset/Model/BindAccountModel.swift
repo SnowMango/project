@@ -32,15 +32,22 @@ class BindAccountModel: Codable{
     /// 合计费用
     var totalFund: Float = 0
     
+    /// 活动订单
+    var activitySource: String?
 }
 
 extension BindAccountModel {
+    func isFree() -> Bool {
+        return activitySource != nil
+    }
     /// 技术服务费
     func service(_ rule: FundsRule) -> Float {
+        if isFree() { return 0 }
         return Float(rule.serviceCharge) * carryFund * Float(carryTime) / 12.0
     }
     /// 服务器费用
     func server(_ rule: FundsRule) -> Float {
+        if isFree() { return 0 }
         return Float(rule.serverFees) * Float(serviceTime)/12.0
     }
     

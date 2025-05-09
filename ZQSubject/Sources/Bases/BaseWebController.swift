@@ -324,20 +324,10 @@ extension BaseWebController: WKNavigationDelegate, WKUIDelegate, WKScriptMessage
         }
         if let url = navigationAction.request.url {
             Logger.debug("web link to \(url.absoluteString)")
-            if url.scheme == "liangjie" {
-                switch url.host {
-                case "real-name":
-                    AppManager.shared.refreshUserInfo()
-                    Router.shared.route("/commit/auth")
-                case "login":
-                    AppManager.shared.showLogin()
-                case "open-account":
-//                    Router.shared.route("/commit/auth")
-                    break
-                default:
-                    break
-                }
-            
+            if url.scheme == "liangjie", let host = url.host {
+                let locolPath = "/web/\(host)"
+                Router.shared.route(locolPath)
+                
                 decisionHandler(.cancel)
                 return
             }

@@ -130,7 +130,7 @@ class StrategyInfoView: UIView {
     lazy var yearRateLb: UILabel = {
         return UILabel().then {
             $0.font = .kScale(20, weight: .bold)
-            $0.textColor = UIColor("#EC3B34")
+            $0.textColor = .kAlert3
         }
     }()
     
@@ -145,7 +145,7 @@ class StrategyInfoView: UIView {
     lazy var dayRateLb: UILabel = {
         return UILabel().then {
             $0.font = .kScale(20, weight: .bold)
-            $0.textColor = UIColor("#EC3B34")
+            $0.textColor = .kAlert3
         }
     }()
 }

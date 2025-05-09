@@ -6,3 +6,4 @@ struct SecurityResponse: Decodable {
     let securitiesName: String
     let status: Int
 }
+

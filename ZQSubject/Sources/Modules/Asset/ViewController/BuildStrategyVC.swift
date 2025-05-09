@@ -114,7 +114,7 @@ class BuildStrategyVC: BaseViewController {
     private weak var fundsPasswordInput: UITextField?
     private weak var qmtPasswordInput: UITextField?
     private weak var boardBox: UIImageView?
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -178,11 +178,9 @@ class BuildStrategyVC: BaseViewController {
             self.view.hideHud()
             do {
                 let _ = try result.get()
-
                 StrategyAlert(title: "温馨提示", content: "搭载中", desc: "策略搭载中，请您耐心等待", alertType: .info) {
                     Router.shared.route(.backHome)
                 }.show()
-    
             } catch NetworkError.server(_,let message) {
                 self.view.showText(message)
             } catch {
@@ -286,7 +284,12 @@ extension BuildStrategyVC:UICollectionViewDataSource, UICollectionViewDelegate, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item = items[indexPath.section][indexPath.row]
         let cell =  collectionView.dequeueReusableCell(withReuseIdentifier:item.indetifier, for: indexPath)
-        if let cell = cell as? BuildStrategyCellProtocol {
+    
+        var canFree = false
+        if let order = self.order {
+            canFree = order.isFreeOrder()
+        }
+        if  let cell = cell as? BuildStrategyCellProtocol {
             switch item {
             case .quanshang:
                 if let order = order, let value = order.securityName {
@@ -294,7 +297,6 @@ extension BuildStrategyVC:UICollectionViewDataSource, UICollectionViewDelegate, 
                 }else {
                     cell.load(item: item, with: "--")
                 }
-                
             case .account:
                 if let cell = cell as? BindAccountInputCell {
                     cell.inputField.isUserInteractionEnabled = true
@@ -337,20 +339,40 @@ extension BuildStrategyVC:UICollectionViewDataSource, UICollectionViewDelegate, 
                 cell.load(item: item, with: "")
             case .strategy:
                 if let value = product?.productName {
-                    cell.load(item: item, with: value)
+                    if canFree {
+                        cell.load(item: item, with: value, placeholder: item.placeholder, placeholderColor: .kAlert3)
+                    }else {
+                        cell.load(item: item, with: value)
+                    }
+                  
                 }else {
                     cell.load(item: item, with: "--")
                 }
             case .shichang:
                 if let month = order?.carryTime {
-                    let value = month/12
-                    cell.load(item: item, with: "\(value)")
+                    var value = month/12
+                    var placeholder = item.placeholder
+                    if month < 12 {
+                        value = month*30
+                        placeholder = "天"
+                    }
+                    if canFree {
+                        cell.load(item: item, with: "\(value)", placeholder: placeholder, placeholderColor: .kAlert3)
+                    }else {
+                        cell.load(item: item, with: "\(value)")
+                    }
                 }else {
                     cell.load(item: item, with: "--")
                 }
             case .zijin:
-                if let value = order?.carryFund {
-                    cell.load(item: item, with: "\(Int(value))")
+              
+                if let order = order {
+                    let value = order.carryFund
+                    if canFree {
+                        cell.load(item: item, with: "\(Int(value))",placeholder: item.placeholder, placeholderColor: .kAlert3)
+                    }else{
+                        cell.load(item: item, with: "\(Int(value))")
+                    }
                 } else {
                     cell.load(item: item, with: "--")
                 }
@@ -365,7 +387,11 @@ extension BuildStrategyVC:UICollectionViewDataSource, UICollectionViewDelegate, 
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "BuildStrategyFooter", for: indexPath) as! BuildStrategyFooter
-        
+        var canFree = false
+        if let order = self.order {
+            canFree = order.isFreeOrder()
+        }
+        footer.freeInfoView.isHidden = !canFree
         footer.buildBtn.addTarget(self, action: #selector(commitClick), for: .touchUpInside)
         return footer
     }
@@ -407,5 +433,11 @@ extension BuildStrategyVC: UITextFieldDelegate {
 
 protocol BuildStrategyCellProtocol {
     func load(item: BuildStrategyVC.SectionItem, with Value: String)
+    func load(item: BuildStrategyVC.SectionItem, with value: String, placeholder: String?)
+    func load(item: BuildStrategyVC.SectionItem, with value: String, placeholder: String?, placeholderColor: UIColor?)
 }
 
+extension BindAccountCellProtocol {
+    func load(item: BuildStrategyVC.SectionItem, with value: String, placeholder: String?) {}
+    func load(item: BuildStrategyVC.SectionItem, with value: String, placeholder: String?, placeholderColor: UIColor?) {}
+}

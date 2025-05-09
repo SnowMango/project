@@ -18,7 +18,6 @@ class BindSystemAccountVC: BaseViewController {
         NetworkManager.shared.request(AuthTarget.bindTrading(account)) { (result:OptionalJSONResult) in
             do {
                 let _ = try result.get()
-                self.view.window?.showText("绑定成功")
                 AppManager.shared.profile?.tradingAccount = account
                 self.navigationController?.popViewController(animated: false)
                 Router.shared.route(AssetFlowView.FlowStep.strategy.path)

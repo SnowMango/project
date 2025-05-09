@@ -99,7 +99,6 @@ class PrivacyVC: BaseViewController {
         imgview.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-        
         setupUI()
     }
     

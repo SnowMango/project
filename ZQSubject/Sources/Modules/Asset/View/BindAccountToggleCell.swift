@@ -92,7 +92,6 @@ extension BindAccountToggleCell: BindAccountCellProtocol {
     func load(item: BindAccountVC.SectionItem, with value: String) {
         self.iconImageView.image = UIImage(named: item.icon)
         self.titleLb.text = item.title
-      
     }
 }
 

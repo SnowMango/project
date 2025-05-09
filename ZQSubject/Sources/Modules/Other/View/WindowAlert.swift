@@ -267,23 +267,9 @@ extension WindowAlert {
             imageView.layer.masksToBounds = true
             imageView.snp.makeConstraints { (make) in
                 make.top.equalTo(closeBtn.snp.bottom).offset(wScale(5))
-//                make.width.equalTo(wScale(280))
-                make.height.lessThanOrEqualTo(wScale(400))
                 make.centerX.equalToSuperview()
                 make.left.greaterThanOrEqualTo(0)
-            }
-            
-            contentView.addSubview(actionBtn)
-            actionBtn.backgroundColor = nil
-            actionBtn.titleLabel?.font = .kScale(22, weight: .medium)
-            actionBtn.setTitle(actionTitle ?? "确定", for: .normal)
-            actionBtn.setTitleColor(UIColor("#FFF1A9"), for: .normal)
-            actionBtn.setBackgroundImage(UIImage(named: "red.yellow.btn.bg"), for: .normal)
-            actionBtn.snp.makeConstraints { (make) in
-                make.top.equalTo(imageView.snp.bottom).offset(wScale(20))
-                make.centerX.equalToSuperview()
                 make.bottom.lessThanOrEqualTo(0)
-                make.left.greaterThanOrEqualTo(0)
             }
             
         case .join:
