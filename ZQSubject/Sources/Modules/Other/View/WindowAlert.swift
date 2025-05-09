@@ -268,7 +268,8 @@ extension WindowAlert {
             imageView.snp.makeConstraints { (make) in
                 make.top.equalTo(closeBtn.snp.bottom).offset(wScale(5))
                 make.centerX.equalToSuperview()
-                make.left.greaterThanOrEqualTo(0)
+                make.width.equalTo(wScale(307))
+                make.width.equalTo(wScale(470))
                 make.bottom.lessThanOrEqualTo(0)
             }
             
