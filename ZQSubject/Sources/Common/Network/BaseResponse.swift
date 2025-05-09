@@ -18,6 +18,7 @@ enum NetworkError: Error{
     case server(code:Int, message:String)
     case network(Error)
     case decoding(String)
+    case token(String)
     
     var localizedDescription: String {
         switch self {
@@ -27,6 +28,8 @@ enum NetworkError: Error{
             return "网络错误: \(error.localizedDescription)"
         case .decoding(let string):
             return "数据解析错误: \(string)"
+        case .token(let string):
+            return "登录错误: \(string)"
         }
     }
 }

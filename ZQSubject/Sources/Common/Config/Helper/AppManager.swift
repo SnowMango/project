@@ -20,10 +20,14 @@ class AppManager {
     var profile: UserProfile?
     var severLastVersion: VersionInfo?
     private var enableRefresh: Bool = true
+    
     func showLogin(reason: String? = nil, _ deleteAccount: Bool = false) {
         removeUserInfo(isDeleteAccount: deleteAccount)
         taskIndex = 0
         taskExecuting = false
+        self.enableRefresh = true
+        self.token = nil
+        self.profile = nil
         if let reason = reason {
             Router.shared.route(.login, parameters: [ShowLoginReasonKey: reason])
         }else{

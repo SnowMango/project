@@ -18,10 +18,9 @@ class NetworkManager {
             case .success(let response):
                 if let decoded = try? JSONDecoder().decode(BaseResponse<JSON?>.self, from: response.data) {
                     switch decoded.code {
-                    case 10051:
+                    case 10051,10052:
                         AppManager.shared.showLogin(reason: decoded.msg)
-                    case 10052:
-                        AppManager.shared.showLogin(reason: decoded.msg)
+                        completion(.failure(.token(decoded.msg ?? "")))
                     case 200:
                         if let response = try? JSONDecoder().decode(BaseResponse<Value>.self, from: response.data){
                             completion(.success(response.data))
