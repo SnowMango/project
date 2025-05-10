@@ -1,37 +1,42 @@
 import UIKit
 
 class BaseNavigationController: UINavigationController {
+   
+    var helper: NavigationHelper = NavigationHelper()
     override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
-        self.delegate = self.helper
+        self.delegate = self.helper.delegate
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    
 }
-extension UINavigationController {
-    var helper: NavigationHelper {
-        return NavigationHelper(base: self)
+
+
+class NavigationDelegate: NSObject { }
+
+struct NavigationHelper {
+    let delegate: NavigationDelegate
+    init(delegate: NavigationDelegate = NavigationDelegate()) {
+        self.delegate = delegate
     }
 }
 
-class NavigationHelper: NSObject {
-    deinit {
-        print("\(#function) helper")
-    }
-    let base: UINavigationController
-    init(base: UINavigationController) {
-        self.base = base
+extension UIViewController {
+    func hiddenNavigationBarWhenShow() -> Bool {
+        return false
     }
 }
 
-extension NavigationHelper: UINavigationControllerDelegate {
+extension NavigationDelegate: UINavigationControllerDelegate {
     @available(iOS 2.0, *)
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        
+        let barHidden = navigationController.isNavigationBarHidden
+        let next = viewController.hiddenNavigationBarWhenShow()
+        if barHidden != next {
+            navigationController.setNavigationBarHidden(next, animated: animated)
+        }
     }
 
     @available(iOS 2.0, *)
