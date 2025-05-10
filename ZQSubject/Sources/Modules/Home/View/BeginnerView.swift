@@ -88,6 +88,7 @@ class BeginnerView: UIView {
         return UICollectionView(frame: .zero, collectionViewLayout: layout).then {
             $0.delegate = self
             $0.dataSource = self
+            $0.backgroundColor = .clear
             $0.showsHorizontalScrollIndicator = false
             $0.registerCell(cls: BeginnerTitleItem.self)
         }

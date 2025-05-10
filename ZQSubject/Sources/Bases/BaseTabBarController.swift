@@ -60,13 +60,22 @@ enum TabBarURLTag: String {
     }
 }
 
-
 class BaseTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .clear
         tabBar.backgroundColor = .white
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let _back = tabBar.subviews.first  {
+            for sub in _back.subviews {
+                if sub is UIImageView {
+                    sub.isHidden = true
+                }
+            }
+        }
+    }
     ///快速创建控制器-imagename
     func customViewController<T: UIViewController>(_ viewController: T,  itemTitle: String, normalImage: String, selectedImage: String) -> UIViewController {
         
@@ -108,8 +117,6 @@ class BaseTabBarController: UITabBarController {
         // 设置tabBarItem的选中文字颜色
         barItem.setTitleTextAttributes([.foregroundColor: UIColor.kTheme,
                                         .font: UIFont.systemFont(ofSize: 11)], for: .selected)
-        
-        
         
         return barItem
     }
