@@ -124,9 +124,8 @@ class BaseWebController: BaseViewController {
     
     func startLoadUrl(url: String, originUrl: String? = nil) {
         firstLoadUrl = urlConfig(url)
-        
         if let url: URL = firstLoadUrl.validURL() {
-            webView.load(URLRequest(url: url))
+            webView.load(URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData))
         }
     }
 
@@ -326,8 +325,8 @@ extension BaseWebController: WKNavigationDelegate, WKUIDelegate, WKScriptMessage
             Logger.debug("web link to \(url.absoluteString)")
             if url.scheme == "liangjie", let host = url.host {
                 let locolPath = "/web/\(host)"
-                Router.shared.route(locolPath)
                 
+                Router.shared.route(locolPath)
                 decisionHandler(.cancel)
                 return
             }

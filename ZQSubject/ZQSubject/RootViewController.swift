@@ -34,7 +34,7 @@ class RootViewController: UIViewController {
     
     
     func requesUserInfo() {
-        guard let token = kUserDefault.value(forKey: UserDefaultKey.userToken.rawValue) as? String else { return }
+        guard let token = kUserDefault.string(forKey: UserDefaultKey.userToken.rawValue) else { return }
         AppManager.shared.token = token
         NetworkManager.shared.request(AuthTarget.userinfo) { (result: NetworkResult<UserProfile>) in
             switch result {

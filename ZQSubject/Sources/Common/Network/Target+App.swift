@@ -15,12 +15,9 @@ extension AppTargetProtocol {
     var baseURL: URL {
         env.baseURL()
     }
-    var tokenHeader: [String : String] {
-        guard let token = AppManager.shared.token else { return [:] }
-        return ["satoken":token]
-    }
+    
     var headers: [String : String]? {
-        return tokenHeader
+        return [:]
     }
     // AccessTokenAuthorizable
 //    var authorizationType: AuthorizationType? {
@@ -178,7 +175,9 @@ extension AuthTarget: AppTargetProtocol {
     
     var method: Moya.Method {
         switch self {
-        case .userinfo, .logout, .funds, .fundRule(_), .bindTrading(_), .logoff, .unreadMsg, .changeMsgRead, .reportPush(_),.activity:
+        case .userinfo, .logout, .funds, .fundRule(_),
+                .bindTrading(_), .logoff, .unreadMsg,
+                .changeMsgRead, .reportPush(_),.activity:
             .get
         default:
             .post
@@ -236,13 +235,12 @@ extension AuthTarget: AppTargetProtocol {
         }
     }
     var headers: [String : String]? {
+        guard let token = AppManager.shared.token else { return [:] }
         switch self {
         case .upload(_):
-            var gobal = tokenHeader
-            gobal["Content-Type"] = "multipart/form-data"
-            return gobal
+            return ["satoken":token,"Content-Type":"multipart/form-data"]
         default:
-            return tokenHeader
+            return ["satoken":token]
         }
     }
     

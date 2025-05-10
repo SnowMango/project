@@ -9,6 +9,7 @@ class BindSystemAccountVC: BaseViewController {
         setupUI()
         titleName = "绑定交易系统账户"
     }
+    
     @objc func actionBind() {
         guard let account = inputField.text, account.count >= 6 && account.count <= 19 else {
             self.view.showText("请输入6-19位交易账户", isUserInteractionEnabled: true)

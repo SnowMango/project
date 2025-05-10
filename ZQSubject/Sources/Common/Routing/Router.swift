@@ -26,7 +26,6 @@ enum RouteTag  {
 
 class Router {
     let route = JLRoutes.global()
-    private var idempot: String = ""
     static let shared = Router()
     
     init() {
@@ -42,10 +41,7 @@ class Router {
     
     @discardableResult
     func route(_ path: String, parameters:[String: Any]? = nil) -> Bool {
-        if !idempotence(path) {
-            return route.routeURL(URL(string: path)!, withParameters: parameters)
-        }
-        return false
+        return route.routeURL(URL(string: path), withParameters: parameters)
     }
     
     @discardableResult
@@ -53,8 +49,5 @@ class Router {
         route(tag.routePath, parameters: parameters)
     }
     
-    func idempotence(_ i: String) -> Bool {
-        return i == idempot
-    }
 }
 

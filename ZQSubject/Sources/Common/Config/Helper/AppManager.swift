@@ -36,7 +36,7 @@ class AppManager {
     }
     
     func refreshUserInfo(){
-        guard let _ = kUserDefault.value(forKey: UserDefaultKey.userToken.rawValue) as? String else {
+        guard let _ = self.token else {
             NotificationCenter.default.post(name: UserProfileDidUpdateName, object: nil)
             return
         }

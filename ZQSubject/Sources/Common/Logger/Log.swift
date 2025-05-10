@@ -129,7 +129,7 @@ struct ZQ {
                           asynchronous: Bool = false,
                           ddlog: DDLog = .sharedInstance) {
             DDLogError(message(),
-                       level: .warning,
+                       level: .error,
                        context: context,
                        file: file,
                        function: function,

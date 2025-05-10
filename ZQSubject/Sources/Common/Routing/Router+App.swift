@@ -6,6 +6,9 @@ extension Router {
     func appRoutes() {
         route.addRoute("/home") { _ in
             guard let window = UIApplication.shared.keyWindow else { return false }
+            if let _ = window.rootViewController as? BaseTabBarController {
+                return false
+            }
             window.rootViewController = kAppManager.defaultRootViewController()
             return true
         }
@@ -29,6 +32,9 @@ extension Router {
         
         route.addRoute("/login") { params in
             guard let window = UIApplication.shared.keyWindow else { return false }
+            if let root = window.rootViewController as? BaseNaviController, let _ = root.viewControllers.first as? LoginVC {
+                return false
+            }
             let vc = LoginVC()
             if let reason = params[ShowLoginReasonKey] as? String {
                 vc.showReason = reason
@@ -39,6 +45,9 @@ extension Router {
         
         route.addRoute("/firstGuide") { _ in
             guard let window = UIApplication.shared.keyWindow else { return false }
+            if let _ = window.rootViewController as? AppGuideVC {
+                return false
+            }
             window.rootViewController = AppGuideVC()
             return true
         }

@@ -55,6 +55,9 @@ class Tools {
     
     /// 获取当前控制器
     class func getTopVC() -> UIViewController {
+        if let top = UIApplication.shared.topController {
+            return top
+        }
         let window = UIApplication.shared.keyWindow
         var vc: UIViewController = window!.rootViewController!
         
@@ -78,3 +81,30 @@ class Tools {
     
 }
 
+extension UIApplication {
+    var topController: UIViewController? {
+        guard let window = UIApplication.shared.keyWindow, let root = window.rootViewController else { return nil}
+        return findController(root)
+    }
+    private func findController(_ controller: UIViewController) -> UIViewController {
+        if let navi = controller as? UINavigationController, let top = navi.topViewController {
+            return self.findController(top)
+        } else if let tab = controller as? UITabBarController, let top = tab.selectedViewController {
+            return self.findController(top)
+        }
+        if let presented = controller.presentedViewController {
+            return self.findController(presented)
+        }
+        return controller.topController()
+    }
+}
+
+protocol TransformTopController {
+    func topController() -> UIViewController
+}
+
+extension UIViewController: TransformTopController{
+    func topController() -> UIViewController {
+        return self
+    }
+}
