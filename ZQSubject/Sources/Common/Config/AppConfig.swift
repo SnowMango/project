@@ -20,7 +20,6 @@ enum Environment: Int {
     func baseURL() -> URL {
         switch self {
         case .dev:
-//            return URL(string: "http://192.168.2.200:9091/userService")!
             return URL(string: "https://zqapi-test.zhunqikj.cn/userService")!
         case .test:
             return URL(string: "https://zqapi-test.zhunqikj.cn/userService")!
@@ -32,12 +31,22 @@ enum Environment: Int {
     var tokenWebHost: String {
         switch self {
         case .dev:
-//            "http://92.168.2.134"
             "https://zqapi-test.zhunqikj.cn/#"
         case .test:
             "https://zqapi-test.zhunqikj.cn/#"
         case .pro:
-            "https://h5.zhunqikj.cn/#"
+            "https://zqapi.zhunqikj.cn/#"
+        }
+    }
+    
+    var supportHost: String {
+        switch self {
+        case .dev:
+            "https://112.74.45.59"
+        case .test:
+            "https://112.74.45.59"
+        case .pro:
+            "https://8.135.10.144"
         }
     }
 }
@@ -74,7 +83,7 @@ extension AppLink {
     var path: String {
         switch self {
         case .support:
-            "http://112.74.45.59/chat.html"
+            "\(env.supportHost)/chat.html"
         case .serviceTerms:
             "\(env.tokenWebHost)/user-service"
         case .privacyTerms:
