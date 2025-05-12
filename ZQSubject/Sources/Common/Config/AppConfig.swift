@@ -42,11 +42,11 @@ enum Environment: Int {
     var supportHost: String {
         switch self {
         case .dev:
-            "https://112.74.45.59"
+            "https://zqapi-test.zhunqikj.cn"
         case .test:
-            "https://112.74.45.59"
+            "https://zqapi-test.zhunqikj.cn"
         case .pro:
-            "https://8.135.10.144"
+            "https://zqapi.zhunqikj.cn"
         }
     }
 }
