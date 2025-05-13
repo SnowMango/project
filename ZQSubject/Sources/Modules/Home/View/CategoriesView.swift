@@ -8,7 +8,8 @@ class CategoriesView: UIView {
         super.init(frame: frame)
         categories = [("新手指南","beginner.guide",  AppLink.beginner.path),
                       ("开户","kaihu", ""),
-                      ("搭载策略","build.strategy", "/build/strategy"),
+//                      ("搭载策略","build.strategy", "/build/strategy"),
+                      ("关于我们","home.about.us", AppLink.aboutUs.path),
                       ("风险测评","risk.assessment", AppLink.risk.path),
                       ]
         
