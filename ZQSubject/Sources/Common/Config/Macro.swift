@@ -88,4 +88,8 @@ public let kAppName: String = Bundle.main.infoDictionary!["CFBundleDisplayName"]
 /// App路由
 public let AppScheme: String = Bundle.main.object(forInfoDictionaryKey: "JLRoutesGlobalRoutesScheme") as! String
 
-public let AppBuildVersion: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
+//public let AppBuildVersion: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
+
+public var AppBuildVersion: String {
+    Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
+}

@@ -65,10 +65,11 @@ class HomeVC: BaseViewController {
     private func setupUI() {
         view.addSubview(scrollView)
 //        view.addSubview(noticeView)
-        view.addSubview(contactUsBtn)
+//        view.addSubview(contactUsBtn)
        
         scrollView.addSubview(contentView)
         contentView.addSubview(topView)
+        contentView.addSubview(contactUsBtn)
         contentView.addSubview(noticeView)
         contentView.addSubview(backgourdView)
         backgourdView.addSubview(sectionsStack)
@@ -97,7 +98,7 @@ class HomeVC: BaseViewController {
         
         contactUsBtn.snp.makeConstraints { (make) in
             make.right.equalTo(0)
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.top.equalTo(contentView.safeAreaLayoutGuide.snp.top)
             make.height.equalTo(44)
         }
         

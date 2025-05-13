@@ -55,7 +55,7 @@ enum TabBarURLTag: String {
         case .asset:
             AssetVC(hidesBtmBar: false, navTitle: "")
         case .me:
-            MeVC(hidesBtmBar: false, navTitle: "")
+            MineVC(hidesBtmBar: false, navTitle: "")
         }
     }
 }

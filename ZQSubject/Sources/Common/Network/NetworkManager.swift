@@ -6,18 +6,22 @@ typealias NetworkCompletion<Success> =  (_ result: NetworkResult<Success>) -> Vo
 
 class NetworkManager {
     static let shared = NetworkManager()
-    private var provider = MoyaProvider<MultiTarget>(plugins: [NetworkLoggerPlugin(configuration: .init(logOptions: .verbose))])
+    var provider: MoyaProvider<MultiTarget>
     private init() {
-        
+        #if DEBUG
+        let logger = NetworkLoggerPlugin.verbose
+        #else
+        let logger = NetworkLoggerPlugin.default
+        #endif
+        provider = MoyaProvider<MultiTarget>(plugins: [logger])
     }
-    
     @discardableResult
     func request<Value>(_ target: AppTargetProtocol, completion: @escaping NetworkCompletion<Value>) -> Cancellable where Value: Decodable {
         return provider.request(target.asMuti) { result in
             do {
                 let response = try result.get()
                 if !Array(200..<300).contains(response.statusCode) {
-                    completion(.failure(.decoding("response body not json")))
+                    completion(.failure(.network(MoyaError.statusCode(response))))
                     return
                 }
                 guard  let decoded = try? JSONDecoder().decode(BaseResponse<JSON?>.self, from: response.data) else {

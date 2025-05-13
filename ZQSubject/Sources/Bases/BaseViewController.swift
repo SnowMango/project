@@ -84,7 +84,7 @@ class BaseViewController: UIViewController {
         
         configNavBar()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(netState(notifi:)), name: ReachabilityNoticeName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(networkState), name: .reachabilityChanged, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -106,12 +106,8 @@ class BaseViewController: UIViewController {
     }
     
     ///网络状态监听
-    @objc func netState(notifi: Notification) {
-        
-        guard let st = notifi.userInfo?["state"] else {
-            return
-        }
-        let state = st as! Bool
+    @objc func networkState() {
+        let state = AppManager.shared.currentNetState
         showNetStatusView(!state)
     }
         

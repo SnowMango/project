@@ -44,8 +44,7 @@ extension String {
         if let ls = lineSpaceing {
             style.lineSpacing = ls
         }
-        
-        
+
         style.alignment = textAlign
         attStr.addAttribute(.paragraphStyle, value: style, range: NSRange(location: 0, length: self.count))
         

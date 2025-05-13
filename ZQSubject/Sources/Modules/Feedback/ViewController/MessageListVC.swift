@@ -20,6 +20,7 @@ class MessageListVC: BaseViewController {
 //        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btn)
         
         tableView.mj_header?.beginRefreshing()
+        self.tableBackgourd.isHidden = true
         self.reportRead()
     }
     
@@ -52,7 +53,7 @@ class MessageListVC: BaseViewController {
                 }else {
                     self.messages = response.records
                 }
-    
+                self.tableBackgourd.isHidden = self.messages.count != 0
                 self.tableView.reloadData()
             } catch NetworkError.server(_ ,let message){
                 self.view.showText(message)
@@ -70,7 +71,9 @@ class MessageListVC: BaseViewController {
     //MARK: setup
     private func setupUI() {
         view.addSubview(tableView)
-        
+        tableView.backgroundView = self.tableBackgourd
+        tableBackgourd.addSubview(emptyIV)
+        tableBackgourd.addSubview(emptyTitleLb)
         tableView.mj_header = RefreshHeader(refreshingBlock: { [weak self] in
             self?.requestNew()
         })
@@ -83,6 +86,15 @@ class MessageListVC: BaseViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets.zero)
         }
+        emptyIV.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(emptyTitleLb.snp.top).offset(-38)
+        }
+        emptyTitleLb.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.left.greaterThanOrEqualTo(10)
+        }
+        
     }
     
     lazy var tableView: UITableView = {
@@ -97,6 +109,24 @@ class MessageListVC: BaseViewController {
             $0.separatorInset = .init(top: 0, left: wScale(24), bottom: 0, right: wScale(24))
             $0.separatorStyle = .singleLine
             $0.separatorColor = .kBackGround
+        }
+    }()
+    
+    lazy var tableBackgourd: UIView = {
+        return UIView()
+    }()
+    
+    lazy var emptyIV:UIImageView = {
+        UIImageView().then {
+            $0.image = UIImage(named: "server.empty.data")
+        }
+    }()
+    lazy var emptyTitleLb: UILabel = {
+        UILabel().then {
+            $0.textAlignment = .center
+            $0.textColor = .kText2
+            $0.font = .kScale(14, weight: .medium)
+            $0.text = "暂无数据"
         }
     }()
 }

@@ -156,6 +156,10 @@ extension StrategyVC {
             vc.typeId = $0.resourceUrl
             return vc
         }
+        if titles.count <= 3 {
+            titleParam.wMenuTitleWidth = SCREEN_WIDTH/CGFloat(max(titles.count, 1))
+        }
+       
         titleParam.wTitleArr =  titles
         titleParam.wControllers = vcs
         

@@ -9,7 +9,7 @@ class MeVC: BaseViewController {
     
     private var mineData: MineModel?
     var sections: [Array<MineItemModel>] = []
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         hiddenBackBtn = true

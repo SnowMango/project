@@ -12,7 +12,9 @@ class AppManager {
         reachability.run()
     }
     ///当前网络状态
-    var currentNetState: Bool?
+    var currentNetState: Bool {
+        reachability.connection != .unavailable
+    }
     
     var token: String?
     var registrationID: String?

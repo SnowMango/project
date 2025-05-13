@@ -98,7 +98,7 @@ enum AuthTarget {
     /// 查询券商搭载规则
     case fundRule(Int)
     /// 绑定券商账户
-    case bindFund(BindAccountModel)
+    case bindFund(Encodable)
     /// 上传JPEG图片
     case upload(Data)
     /// 修改用户头像
@@ -108,13 +108,13 @@ enum AuthTarget {
     /// 查询量化策略产品列表
     case strategyList
     /// 用户搭载策略产品
-    case buildStrategy(StrategyModel)
+    case buildStrategy(Encodable)
     /// 查询订单列表
     case orderList(Int)
     /// 资讯列表
     case articleList(current:Int, size:Int, type:Int)
     /// 意见反馈
-    case feedback(FeedbackReq)
+    case feedback(Encodable)
     /// 查询用户消息已读未读数
     case unreadMsg
     /// 让用户消息的已读
@@ -185,7 +185,7 @@ extension AuthTarget: AppTargetProtocol {
     }
     var task: Moya.Task {
         switch self {
-        case .bindFund(let model):
+        case .bindFund(let model), .buildStrategy(let model), .feedback(let model):
             return .requestJSONEncodable(model)
         case .fundRule(let id):
             return .requestParameters(parameters: ["id":id], encoding: URLEncoding.default)
@@ -212,10 +212,6 @@ extension AuthTarget: AppTargetProtocol {
             return .requestParameters(parameters: ["userId":userId,
                                                    "size":-1],
                                       encoding: JSONEncoding.default)
-        case .buildStrategy(let model):
-            return .requestJSONEncodable(model)
-        case .feedback(let model):
-            return .requestJSONEncodable(model)
         case .strategyList:
             return .requestParameters(parameters: ["current":0,
                                                    "size":10],
