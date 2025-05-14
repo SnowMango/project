@@ -113,7 +113,7 @@ struct JumpManager {
             toFirstLevelPage(cla: AssetVC.self)
             
         case TabBarURLTag.me.rawValue:
-            toFirstLevelPage(cla: MeVC.self)
+            toFirstLevelPage(cla: MineVC.self)
             
         default:
             break
