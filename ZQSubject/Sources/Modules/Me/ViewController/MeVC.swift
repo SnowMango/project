@@ -47,7 +47,6 @@ class MeVC: BaseViewController {
     
     @objc private func gotoMessageCenter() {
         Router.shared.route("/message")
-//        Tools.getTopVC().navigationController?.show(BuildStrategyVC(), sender: nil)
     }
     
     func reloadData() {
