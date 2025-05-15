@@ -32,14 +32,13 @@ class ApplyTransactionStatusView: UIView {
             Router.shared.route("/commit/auth")
             return
         }
-        
+        if currentStep == .account {
+            Router.shared.route("/open/account")
+            return
+        }
         if let url = profile.salesStaffInfo?.salespersonQrCode {
-            var title = "截图微信扫码开户"
-            var content = "添加客服，进行一对一开户指导"
-            if currentStep == .system {
-                title = "截图微信扫码"
-                content = "添加客服，咨询交易账户相关"
-            }
+            let title = "截图微信扫码"
+            let content = "添加客服，咨询交易账户相关"
             let alert = WindowAlert(title: title, content: content, url: url, actionTitle: "在线客服", alertType: .join)
             alert.doneCallBack = {
                 JumpManager.jumpToWeb(AppLink.support.path)

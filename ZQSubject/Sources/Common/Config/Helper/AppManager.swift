@@ -97,12 +97,12 @@ class AppManager {
             }
         }
     }
-    func needHomeAd() -> Bool {
+    func needHomeAd(_ step: Int) -> Bool {
         guard let profile = profile else { return false }
         if profile.strategySuccess() {
             return false
         }
-        let key = "\(profile.id)-homeAD-LastTime"
+        let key = "\(profile.id)-s\(step)-homeAD-LastTime"
         let fm = DateFormatter()
         fm.dateFormat = "yyyy-MM-dd"
        
@@ -111,9 +111,9 @@ class AppManager {
         return !calendar.isDateInToday(lastTime)
     }
     
-    func doneHomeAd(){
+    func doneHomeAd(_ step: Int){
         guard let profile = profile else { return }
-        let key = "\(profile.id)-homeAD-LastTime"
+        let key = "\(profile.id)-s\(step)-homeAD-LastTime"
         let fm = DateFormatter()
         fm.dateFormat = "yyyy-MM-dd"
         
@@ -161,13 +161,19 @@ class AppManager {
     var taskExecuting = false
     let queue = DispatchQueue(label: "taskQueue")
     
+    func reloadTask() {
+        if taskExecuting { return }
+        if taskIndex > 3 {
+            taskIndex = 2
+        }
+        self.startTask()
+    }
     /// 顺序执行弹窗任务
     /// - Parameter index: 指定从第几个任务开始做
     func startTask(targetIndex: Int? = nil) {
         //如果有目标index,那就会覆盖当前的进度
         if let targetIndex = targetIndex { taskIndex = targetIndex }
         if currentNetState != true && taskIndex != 0 { return }
-        if !(UIApplication.shared.keyWindow?.rootViewController is BaseTabBarController) {return}
         if taskExecuting { return }
         taskExecuting = true
         taskIndex += 1

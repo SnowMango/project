@@ -3,15 +3,61 @@ import UIKit
 import Then
 
 class CategoriesView: UIView {
-    var categories: [(title:String, icon:String, path: String)] = []
+    enum Category {
+        case beginner
+        case daily
+        case account
+        case assessment
+        case about
+        var title: String {
+            switch self {
+            case .beginner:
+                "新手指南"
+            case .daily:
+                "每日打卡"
+            case .account:
+                "开户"
+            case .assessment:
+                "风险测评"
+            case .about:
+                "关于我们"
+            }
+        }
+        var icon: String {
+            switch self {
+            case .beginner:
+                "beginner.guide"
+            case .daily:
+                "beginner.guide"
+            case .account:
+                "kaihu"
+            case .assessment:
+                "risk.assessment"
+            case .about:
+                "home.about.us"
+            }
+        }
+        
+        var path: String {
+            switch self {
+            case .beginner:
+                AppLink.beginner.path
+            case .daily:
+                AppLink.beginner.path
+            case .account:
+                ""
+            case .assessment:
+                AppLink.risk.path
+            case .about:
+                AppLink.aboutUs.path
+            }
+        }
+        
+    }
+    var categories: [CategoriesView.Category] = []
     override init(frame: CGRect) {
         super.init(frame: frame)
-        categories = [("新手指南","beginner.guide",  AppLink.beginner.path),
-                      ("开户","kaihu", ""),
-//                      ("搭载策略","build.strategy", "/build/strategy"),
-                      ("关于我们","home.about.us", AppLink.aboutUs.path),
-                      ("风险测评","risk.assessment", AppLink.risk.path),
-                      ]
+        categories = [.daily,.account, .assessment, .about]
         
         setupUI()
     }
@@ -83,7 +129,7 @@ extension CategoriesView:UICollectionViewDataSource, UICollectionViewDelegate, U
         let item = self.categories[indexPath.row]
         guard let profile = AppManager.shared.profile else { return }
         
-        if item.title == "开户" {
+        if item == .account {
             if profile.needRisk() {
                 JumpManager.jumpToWeb(AppLink.risk.path)
                 return
@@ -92,33 +138,11 @@ extension CategoriesView:UICollectionViewDataSource, UICollectionViewDelegate, U
                 Router.shared.route("/commit/auth")
                 return
             }
-            guard let profile = AppManager.shared.profile else { return }
-            if let url = profile.salesStaffInfo?.salespersonQrCode {
-                let alert = WindowAlert(title: "截图微信扫码开户", content: "添加客服，进行一对一开户指导", url: url, actionTitle: "在线客服", alertType: .join)
-                alert.doneCallBack = {
-                    JumpManager.jumpToWeb(AppLink.support.path)
-                }
-                alert.show()
-                
-            }
-        }else if item.title == "搭载策略" {
-            if profile.needRisk() {
-                JumpManager.jumpToWeb(AppLink.risk.path)
-                return
-            }
-            if profile.needRealName() {
-                Router.shared.route("/commit/auth")
-                return
-            }
-           
-            self.window?.showLoading()
-            AppManager.shared.refreshUserInfo()
-            NotificationCenter.default.addObserver(self, selector: #selector(noticeRoute), name: UserProfileDidUpdateName, object: nil)
+            Router.shared.route("/open/account")
             return
         }
-        if item.path.hasPrefix("http") {
-            JumpManager.jumpToWeb(item.path)
-        }else if let link = URL(string: item.path){
+        
+        if let link = URL(string: item.path){
             Router.route(url: link)
         }
     }

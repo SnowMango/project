@@ -32,8 +32,15 @@ class Router {
         #if DEBUG
         JLRoutes.setVerboseLoggingEnabled(true)
         #endif
+        httpsRouter()
     }
-    
+    private func httpsRouter() {
+        JLRoutes(forScheme: "https").addRoute("*") { req in
+            guard let url = req[JLRouteURLKey] as? URL else { return false}
+            JumpManager.jumpToWeb(url.absoluteString)
+            return false
+        }
+    }
     @discardableResult
     static func route(url:URL, parameters:[String: Any]? = nil) -> Bool {
         JLRoutes.routeURL(url, withParameters: parameters)
@@ -41,7 +48,7 @@ class Router {
     
     @discardableResult
     func route(_ path: String, parameters:[String: Any]? = nil) -> Bool {
-        return route.routeURL(URL(string: path), withParameters: parameters)
+        return JLRoutes.routeURL(URL(string: path), withParameters: parameters)
     }
     
     @discardableResult

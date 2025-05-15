@@ -20,6 +20,10 @@ struct Activity: Decodable {
     let startTime: String?
     /// 状态 1生效 2失效
     let status: Int?
+    /// 步骤 1.体验用户未领取权益 2.体验用户已领取权益未风测 3.体验用户已领取权益已风测未实名 4.体验用户已实名未绑定券商账户 5.体验用户已绑定券商账户
+    var step: Int?
+    /// 弹窗图片的oss地址
+    var imageUrl: String?
     
     enum CodingKeys: String, CodingKey {
         case activityCode
@@ -30,5 +34,7 @@ struct Activity: Decodable {
         case rights
         case startTime
         case status
+        case step
+        case imageUrl
     }
 }

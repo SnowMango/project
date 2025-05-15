@@ -76,6 +76,7 @@ enum AppLink {
     case aboutUs
     /// 策略详情
 //    case strategy(id: Int)
+    case freeExperience
 }
 
 
@@ -106,6 +107,8 @@ extension AppLink {
             "\(env.tokenWebHost)/abuout-us"
 //        case .strategy(let id):
 //            "http://192.168.2.134/news-detail?news_id=\(id)"
+        case .freeExperience:
+            "\(env.tokenWebHost)/free-experience"
         }
     }
     

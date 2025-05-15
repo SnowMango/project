@@ -21,6 +21,7 @@ class HomeVC: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        kAppManager.reloadTask()
         AppManager.shared.refreshUserInfo()
         reloadData()
     }
@@ -58,12 +59,22 @@ class HomeVC: BaseViewController {
         }else{
             beginnerView.isHidden = true
         }
+        // 悬浮窗
+        if let model = AppManager.shared.resource(with: "home_page_suspended_window"), let item = model.data.first {
+            levitate.isHidden = false
+            levitate.load(item)
+        }else{
+            levitate.isHidden = true
+        }
+        
+        
         
         transactionStatusView.reloadData()
     }
     
     private func setupUI() {
         view.addSubview(scrollView)
+        view.addSubview(levitate)
 //        view.addSubview(noticeView)
 //        view.addSubview(contactUsBtn)
        
@@ -90,11 +101,17 @@ class HomeVC: BaseViewController {
         bestStrategyView.isHidden = true
         rankingsView.isHidden = true
        
+        levitate.snp.makeConstraints { (make) in
+            make.right.equalTo(-10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-40)
+        }
+        
         noticeView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
             make.top.equalTo(contentView.safeAreaLayoutGuide.snp.top).offset(40)
             make.height.equalTo(wScale(22))
         }
+        
         
         contactUsBtn.snp.makeConstraints { (make) in
             make.right.equalTo(0)
@@ -237,6 +254,7 @@ class HomeVC: BaseViewController {
     lazy var  transactionStatusView: ApplyTransactionStatusView = {
         return ApplyTransactionStatusView()
     }()
+    
     lazy var  beginnerView: BeginnerView = {
         return BeginnerView()
     }()
@@ -253,7 +271,9 @@ class HomeVC: BaseViewController {
         return UserMessageView()
     }()
     
-    
+    lazy var  levitate:LevitateView  = {
+        return LevitateView().then { $0.isHidden = true }
+    }()
 }
 
 extension HomeVC {

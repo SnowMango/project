@@ -30,11 +30,7 @@ class RealAuthResultVC: BaseViewController {
     //MARK: action
     @objc func doneClick() {
         if needOpen, let profile = AppManager.shared.profile, let url = profile.salesStaffInfo?.salespersonQrCode {
-            let alert = WindowAlert(title: "截图微信扫码开户", content: "添加客服，进行一对一开户指导", url: url, actionTitle: "在线客服", alertType: .join)
-            alert.doneCallBack = {
-                JumpManager.jumpToWeb(AppLink.support.path)
-            }
-            alert.show()
+            Router.shared.route("/open/account")
             return
         }
         Router.shared.route(.backHome)

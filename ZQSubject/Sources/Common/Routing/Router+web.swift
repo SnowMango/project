@@ -17,15 +17,7 @@ extension Router {
         
         /// 去开户
         route.addRoute("/web/open-account") { _ in
-            guard let profile = AppManager.shared.profile, let qrUrl = profile.salesStaffInfo?.salespersonQrCode else { return false }
-            let title = "截图微信扫码开户"
-            let content = "添加客服，进行一对一开户指导"
-            let alert = WindowAlert(title: title, content: content, url: qrUrl, actionTitle: "在线客服", alertType: .join)
-            alert.doneCallBack = {
-                JumpManager.jumpToWeb(AppLink.support.path)
-            }
-            alert.show()
-            return false
+            return Router.shared.route("/open/account")
         }
         
         /// 绑定券商账户
