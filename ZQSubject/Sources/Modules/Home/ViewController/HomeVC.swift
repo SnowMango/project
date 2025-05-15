@@ -4,12 +4,14 @@ import MJRefresh
 import Then
 
 class HomeVC: BaseViewController {
-
+//    func hiddenNavigationBarWhenShow() -> Bool {
+//        return true
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //隐藏导航栏
-        fd_prefersNavigationBarHidden = true
+//        fd_prefersNavigationBarHidden = true
         hiddenBackBtn = true
         //取消table的自动适配偏移
         setupUI()

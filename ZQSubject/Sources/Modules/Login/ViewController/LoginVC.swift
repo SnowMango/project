@@ -67,6 +67,7 @@ class LoginVC: BaseViewController {
         super.viewDidLoad()
         backBtn.isHidden = true
         fd_prefersNavigationBarHidden = true
+       
         initUI()
 //        if let _ = kUserDefault.value(forKey: UserDefaultKey.isAgreeProtocol.rawValue) {
 //            checkBtn.isSelected = true
@@ -131,7 +132,6 @@ class LoginVC: BaseViewController {
             make.height.equalTo(checkBtn)
             make.centerY.equalTo(checkBtn)
         }
-        
     }
     
     private func fieldEditChanged() {
@@ -159,7 +159,14 @@ class LoginVC: BaseViewController {
         if AppManager.shared.appResources == nil  {
             AppManager.shared.loginInit()
         }
-       
+        self.view.endEditing(true)
+        HumanAlert(action: { [weak self] in
+            self?.requsetSms(phoneNum)
+        }, close: nil).show(to: self.view)
+        
+    }
+    
+    func requsetSms(_ phoneNum: String) {
         view.showLoading()
         NetworkManager.shared.request(NoAuthTarget.sendSms(mobile: phoneNum)) { (result:NetworkResult<JSON?>) in
             self.view.hideHud()
@@ -176,7 +183,6 @@ class LoginVC: BaseViewController {
                 }
             }
         }
- 
     }
     
     @objc private func login() {

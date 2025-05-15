@@ -45,7 +45,7 @@ extension UIColor {
     /// 数值初始化颜色
     /// - Parameter valueRGB: 可传入16进制数字或10进制数字
     /// - Parameter alpha: alpha description
-    convenience init(valueRGB: UInt, alpha: CGFloat = 1.0) {
+    convenience init(_ valueRGB: UInt, alpha: CGFloat = 1.0) {
         self.init(red: CGFloat((valueRGB & 0xFF0000) >> 16) / 255.0,
                   green: CGFloat((valueRGB & 0x00FF00) >> 8) / 255.0,
                   blue: CGFloat(valueRGB & 0x0000FF) / 255.0,

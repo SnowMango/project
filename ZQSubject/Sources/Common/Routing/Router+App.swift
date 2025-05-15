@@ -26,20 +26,20 @@ extension Router {
         }
         route.addRoute("/terms") { _ in
             guard let window = UIApplication.shared.keyWindow else { return false }
-            window.rootViewController = BaseNaviController(rootViewController:PrivacyVC())
+            window.rootViewController = BaseNavigationController(rootViewController:PrivacyVC())
             return true
         }
         
         route.addRoute("/login") { params in
             guard let window = UIApplication.shared.keyWindow else { return false }
-            if let root = window.rootViewController as? BaseNaviController, let _ = root.viewControllers.first as? LoginVC {
+            if let root = window.rootViewController as? BaseNavigationController, let _ = root.viewControllers.first as? LoginVC {
                 return false
             }
             let vc = LoginVC()
             if let reason = params[ShowLoginReasonKey] as? String {
                 vc.showReason = reason
             }
-            window.rootViewController = BaseNaviController(rootViewController: vc)
+            window.rootViewController = BaseNavigationController(rootViewController: vc)
             return true
         }
         
@@ -146,7 +146,7 @@ extension Router {
         /// 问答
         route.addRoute("/qa") { _ in
             guard let window = UIApplication.shared.keyWindow else { return false }
-            window.rootViewController = BaseNaviController(rootViewController:UserQA1VC())
+            window.rootViewController = BaseNavigationController(rootViewController:UserQA1VC())
             return true
         }
         
