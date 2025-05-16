@@ -2,6 +2,16 @@ import UIKit
 
 class BaseViewController: UIViewController {
     
+    init(_ hidesBottomBar: Bool = true){
+        super.init(nibName: nil, bundle: nil)
+        self.hidesBottomBarWhenPushed = hidesBottomBar
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.hidesBottomBarWhenPushed = true
+    }
+    
     // MARK: - properties
     lazy var noNetView: NoNetTips = {
         let x = NoNetTips()
@@ -53,7 +63,7 @@ class BaseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         self.view.backgroundColor = .kBackGround
         
         configNavBar()

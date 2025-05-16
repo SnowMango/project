@@ -49,13 +49,13 @@ enum TabBarURLTag: String {
     func viewController() -> UIViewController {
         switch self {
         case .home:
-            HomeVC()
+            HomeVC(false)
         case .strategy:
             StrategyVC()
         case .asset:
-            AssetVC()
+            AssetVC(false)
         case .me:
-            MineVC()
+            MineVC(false)
         }
     }
 }

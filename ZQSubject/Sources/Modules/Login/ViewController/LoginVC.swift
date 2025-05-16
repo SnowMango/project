@@ -75,6 +75,7 @@ class LoginVC: BaseViewController {
         if let phone = kUserDefault.string(forKey:  UserDefaultKey.phoneNum.rawValue) {
             accoutField.textField.text = phone
         }
+        fieldEditChanged()
         if let reason = showReason {
             self.view.showText(reason)
         }

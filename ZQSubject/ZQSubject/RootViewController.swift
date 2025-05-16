@@ -47,7 +47,8 @@ class RootViewController: UIViewController {
                 }
                 AppManager.shared.reportPush()
             case .failure(_):
-                Router.shared.route(.login)
+//                Router.shared.route(.login)
+                Router.shared.route(.home)
             }
         }
     }
