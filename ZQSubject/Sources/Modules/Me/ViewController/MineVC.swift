@@ -10,7 +10,7 @@ class MineVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hiddenBackBtn = true
-        fd_prefersNavigationBarHidden = true
+        hiddenNavigationBarWhenShow = true
 
         normals = [.Setting,
                    .Feedback,
@@ -24,7 +24,7 @@ class MineVC: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updataUserProfile), name: UserProfileDidUpdateName, object: nil)
         reloadData()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         AppManager.shared.refreshUserInfo()

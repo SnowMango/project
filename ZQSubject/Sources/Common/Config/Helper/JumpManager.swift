@@ -70,7 +70,7 @@ struct JumpManager {
         
         let adWeb = BaseWebController()
         if let disabled = interactivePopDisabled {
-            adWeb.fd_interactivePopDisabled = disabled
+            adWeb.hiddenNavigationBarWhenShow = disabled
         }
         adWeb.dismissedBlock = dismissedBlock
         
@@ -83,7 +83,7 @@ struct JumpManager {
         
         ///获取到当前的底部导航的ViewController列表
         guard let tabBar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController,
-              let navVCList = tabBar.viewControllers as? [BaseNaviController] else {
+              let navVCList = tabBar.viewControllers as? [BaseNavigationController] else {
             return
         }
         
@@ -91,7 +91,7 @@ struct JumpManager {
             for (index, navVC) in navVCList.enumerated() {
                 guard let vc = navVC.viewControllers.first, vc.isKind(of: cla) else {continue}
                 navVC.popToRootViewController(animated: false)
-                if let topNav = tabBar.selectedViewController as? BaseNaviController {
+                if let topNav = tabBar.selectedViewController as? BaseNavigationController {
                     topNav.popToRootViewController(animated: false)
                 }
                 tabBar.selectedIndex = index

@@ -51,7 +51,7 @@ class StrategyVC: WMZPageController {
         
         view.backgroundColor = .kBackGround
        
-        fd_prefersNavigationBarHidden = true
+        hiddenNavigationBarWhenShow = true
         downSc?.backgroundColor = .clear
         downSc?.mj_header = RefreshHeader(refreshingTarget: self, refreshingAction: #selector(initData))
         
@@ -64,6 +64,7 @@ class StrategyVC: WMZPageController {
         }
         initData()
     }
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if let bgImgv = self.bgImgv {

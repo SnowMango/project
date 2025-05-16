@@ -7,7 +7,7 @@ class AssetVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hiddenBackBtn = true
-        fd_prefersNavigationBarHidden = true
+        hiddenNavigationBarWhenShow = true
         initUI()
    
         NotificationCenter.default.addObserver(self, selector: #selector(updataUserProfile), name: UserProfileDidUpdateName, object: nil)
@@ -17,7 +17,7 @@ class AssetVC: BaseViewController {
         reloadData()
         AppManager.shared.refreshUserInfo()
     }
-    
+   
     @objc func updataUserProfile() {
         self.reloadData()
     }

@@ -91,7 +91,7 @@ class PrivacyVC: BaseViewController {
         super.viewDidLoad()
         
         //隐藏导航栏
-        fd_prefersNavigationBarHidden = true
+        hiddenNavigationBarWhenShow = true
         
         let imgview = UIImageView(image: UIImage(named: "launch"))
         imgview.contentMode = .scaleAspectFill
@@ -172,14 +172,6 @@ class PrivacyVC: BaseViewController {
         } else if sender.didTapAttributedTextInLabel(label: protocolLabel, inRange: NSRange(location: 99, length: 6)) {
             JumpManager.jumpToWeb(AppLink.privacyTerms.path)
         }
-    }
-    
-    override init() {
-        super.init(hidesBtmBar: true, navTitle: "")
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

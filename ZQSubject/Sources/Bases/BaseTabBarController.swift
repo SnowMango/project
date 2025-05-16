@@ -49,13 +49,13 @@ enum TabBarURLTag: String {
     func viewController() -> UIViewController {
         switch self {
         case .home:
-            HomeVC(hidesBtmBar: false,navTitle: "")
+            HomeVC()
         case .strategy:
             StrategyVC()
         case .asset:
-            AssetVC(hidesBtmBar: false, navTitle: "")
+            AssetVC()
         case .me:
-            MineVC(hidesBtmBar: false, navTitle: "")
+            MineVC()
         }
     }
 }
@@ -79,7 +79,7 @@ class BaseTabBarController: UITabBarController {
     ///快速创建控制器-imagename
     func customViewController<T: UIViewController>(_ viewController: T,  itemTitle: String, normalImage: String, selectedImage: String) -> UIViewController {
         
-        let navController: BaseNaviController = BaseNaviController(rootViewController: viewController)
+        let navController: BaseNavigationController = BaseNavigationController(rootViewController: viewController)
         
         let barItem = func_customBarItem(itemTitle: itemTitle,
                                     normalImage: UIImage(named: normalImage)?.withRenderingMode(.alwaysOriginal),
@@ -92,7 +92,7 @@ class BaseTabBarController: UITabBarController {
     ///快速创建控制器-imageurl
     func customViewController<T: UIViewController>(_ viewController: T,  itemTitle: String?, normalImageURL: String?, selectedImageURL: String?) -> UIViewController {
         
-        let navController: BaseNaviController = BaseNaviController(rootViewController: viewController)
+        let navController: BaseNavigationController = BaseNavigationController(rootViewController: viewController)
      
         let barItem = func_customBarItem(itemTitle: itemTitle,
                                     normalImage: nil,

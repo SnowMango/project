@@ -66,7 +66,7 @@ class LoginVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         backBtn.isHidden = true
-        fd_prefersNavigationBarHidden = true
+        hiddenNavigationBarWhenShow = true
        
         initUI()
 //        if let _ = kUserDefault.value(forKey: UserDefaultKey.isAgreeProtocol.rawValue) {
@@ -74,8 +74,6 @@ class LoginVC: BaseViewController {
 //        }
         if let phone = kUserDefault.string(forKey:  UserDefaultKey.phoneNum.rawValue) {
             accoutField.textField.text = phone
-            accoutField.textField.becomeFirstResponder()
-            fieldEditChanged()
         }
         if let reason = showReason {
             self.view.showText(reason)

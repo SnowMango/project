@@ -304,8 +304,9 @@ class BindAccountVC: BaseViewController {
             
         }
     }()
-   
 }
+
+
 
 extension BindAccountVC:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {

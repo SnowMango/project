@@ -1,5 +1,4 @@
 import UIKit
-import FDFullscreenPopGesture
 
 class BaseViewController: UIViewController {
     
@@ -51,32 +50,7 @@ class BaseViewController: UIViewController {
             }
         }
     }
-    
-    init() {
-        super.init(nibName: nil, bundle: nil)
-        setup()
-    }
-    
-    // MARK: - life
-    init(hidesBtmBar: Bool, navTitle: String) {
-        super.init(nibName: nil, bundle: nil)
-        
-//        self.fd_interactivePopDisabled = false
-        setup(hidesBtmBar: hidesBtmBar, navTitle: navTitle)
-    }
-    
-    private func setup(hidesBtmBar: Bool = true,navTitle: String = "") {
-        self.hidesBottomBarWhenPushed = hidesBtmBar
-        if !(navTitle.isEmpty) {
-            self.navigationItem.title = navTitle
-        }
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

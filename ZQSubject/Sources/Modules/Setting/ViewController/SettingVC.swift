@@ -29,8 +29,7 @@ class SettingVC: BaseViewController {
     
     private func initUI() {
         title = "设置"
-        fd_prefersNavigationBarHidden = false
-        
+
         let lb1 = UILabel()
         lb1.font = .kFontScale(13)
         lb1.textColor = .kText1

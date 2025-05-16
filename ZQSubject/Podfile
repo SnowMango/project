@@ -28,7 +28,7 @@ target 'ZQSubject' do
  
   # Objective-C
   pod 'MJRefresh'                     #上下拉刷新
-  pod 'FDFullscreenPopGesture'        #侧滑返回
+
   #MBProgressHUD的PrivacyInfo
   pod 'MBProgressHUD', :git => 'https://github.com/jdg/MBProgressHUD.git'
   # 分页控制器

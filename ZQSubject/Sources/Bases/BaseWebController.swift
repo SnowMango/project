@@ -60,20 +60,11 @@ class BaseWebController: BaseViewController {
     
     //页面关闭的回调
     var dismissedBlock: (() -> ())?
-    
-    override init(hidesBtmBar: Bool = true, navTitle: String = "") {
-        super.init(hidesBtmBar: hidesBtmBar, navTitle: navTitle)
-        setupUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .kBackGround
-        
+        setupUI()
         //取消webView的自动适配偏移
         if #available(iOS 11, *) {
             webView.scrollView.contentInsetAdjustmentBehavior = .never
