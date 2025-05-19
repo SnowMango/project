@@ -14,7 +14,7 @@ class UserQA3VC: BaseViewController {
         view.backgroundColor = UIColor("#E4EAF6")
         setupUI()
         setupLayout()
-        answers = ["使用平台量化策略","学习量化投资","浏览财经内容","随便逛逛"]
+        answers = ["使用平台AI选策略","学习量化投资","浏览财经内容","随便逛逛"]
         
         quesionInfoLb.text = "可多选，希望我们能够不负期望"
         quesionTitleLb.text = "你希望在量界做什么？"
