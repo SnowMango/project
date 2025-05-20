@@ -33,9 +33,10 @@ enum NoAuthTarget {
     case login(mobile: String, code: String)
     /// 实名认证
     case realAuth(name: String, card: String)
-
     /// 获得最新版本
     case version
+    /// 查询手机号状态 0-禁用 1-正常 2-未激活 3-锁定 4-已注销 5-注销中 9无此用户
+    case checkPhone(mobile: String)
 }
 
 extension NoAuthTarget: AppTargetProtocol {
@@ -50,12 +51,14 @@ extension NoAuthTarget: AppTargetProtocol {
 
         case  .version:
             "/app/getLastVersion"
+        case .checkPhone(_):
+            "/user/selectUserStatus"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .sendSms(_), .version:
+        case .sendSms(_), .version, .checkPhone:
             .get
         default:
             .post
@@ -76,6 +79,8 @@ extension NoAuthTarget: AppTargetProtocol {
             return .requestParameters(parameters: ["userName":name,"idCard":card], encoding: JSONEncoding.default)
         case .version:
             return .requestParameters(parameters: ["type":1], encoding: URLEncoding.default)
+        case .checkPhone(let mobile):
+            return .requestParameters(parameters: ["mobile":mobile], encoding: URLEncoding.default)
 //        default:
 //            return .requestPlain
         }

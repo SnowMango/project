@@ -94,22 +94,27 @@ class SettingVC: BaseViewController {
     }
     
     @objc private func deleteAccount() {
-        let alert = WindowAlert(title: "注销账户", content: "注销账号会清空所有信息和数据，您是否确认注销？", actionTitle: "注销", closeTitle: "取消", alertType: .double)
+        let alert = WindowAlert(title: "注销账户", content: "我们将在15天内处理您的注销申请，申请通过后将无法登录此账号。", actionTitle: "取消", closeTitle: "申请注销", alertType: .double)
+       
         alert.show()
-        alert.doneCallBack = { [weak self] in
-            self?.view.showLoading()
-            NetworkManager.shared.request(AuthTarget.logoff) { (result: OptionalJSONResult) in
-                self?.view.hideHud()
-                do {
-                    let _ = try result.get()
-                    kAppManager.showLogin(true)
-                    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                } catch NetworkError.server(_,let message) {
-                    self?.view.showText(message)
-                } catch {
-                    self?.view.showText("网络错误，请求失败")
-                }
+        alert.closeCallBack = { [weak self] in
+            self?.applyLogoff()
+        }
+    }
+    
+    func applyLogoff(){
+        self.view.showLoading()
+        NetworkManager.shared.request(AuthTarget.logoff) { (result: OptionalJSONResult) in
+            self.view.hideHud()
+            do {
+                let _ = try result.get()
+                kAppManager.showLogin(true)
+                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+            } catch NetworkError.server(_,let message) {
+                self.view.showText(message)
+            } catch {
+                self.view.showText("网络错误，请求失败")
             }
         }
     }

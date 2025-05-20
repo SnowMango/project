@@ -13,11 +13,14 @@ class HomeVC: BaseViewController {
         hiddenBackBtn = true
         //取消table的自动适配偏移
         setupUI()
-        self.reloadData()
+       
         AppManager.shared.startTask()
+        AppManager.shared.refreshKingkong()
         AppManager.shared.reloadKingkong()
-        NotificationCenter.default.addObserver(self, selector: #selector(updataUserProfile), name: UserProfileDidUpdateName, object: nil)
         
+        reloadData()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updataUserProfile), name: UserProfileDidUpdateName, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,7 +75,7 @@ class HomeVC: BaseViewController {
             levitate.isHidden = true
         }
         
-        if let items = AppManager.shared.kingKongItems {
+        if let items = AppManager.shared.kingkong(with: 0) {
             self.categoriesView.isHidden = false
             self.categoriesView.categories = items
             let rows = items.count/4 + 1
@@ -85,19 +88,19 @@ class HomeVC: BaseViewController {
             self.categoriesView.isHidden = true
         }
         
-        if let _ = AppManager.shared.resource(with: "service_status_dashboard_switch") {
+        if let item = AppManager.shared.resource(with: "service_status_dashboard_switch"), item.status == 0  {
             self.transactionStatusView.isHidden = false
         }else {
             self.transactionStatusView.isHidden = true
         }
+        transactionStatusView.reloadData()
         
-        if let _ = AppManager.shared.resource(with: "user_story_switch") {
+        if let item = AppManager.shared.resource(with: "user_story_switch"), item.status == 0 {
             self.userMessageView.isHidden = false
         }else {
             self.userMessageView.isHidden = true
         }
         
-        transactionStatusView.reloadData()
     }
     
     private func setupUI() {
@@ -123,7 +126,7 @@ class HomeVC: BaseViewController {
         sectionsStack.addArrangedSubview(beginnerView)
         sectionsStack.addArrangedSubview(bestStrategyView)
         sectionsStack.addArrangedSubview(rankingsView)
-//        sectionsStack.addArrangedSubview(userMessageView)
+        sectionsStack.addArrangedSubview(userMessageView)
        
         bestStrategyView.isHidden = true
         rankingsView.isHidden = true
@@ -206,9 +209,9 @@ class HomeVC: BaseViewController {
             make.left.equalTo(wScale(14))
         }
         
-//        userMessageView.snp.makeConstraints { make in
-//            make.left.equalTo(0)
-//        }
+        userMessageView.snp.makeConstraints { make in
+            make.left.equalTo(0)
+        }
         
     }
     

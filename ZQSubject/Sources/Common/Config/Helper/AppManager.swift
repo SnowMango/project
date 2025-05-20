@@ -98,6 +98,13 @@ class AppManager {
         }
     }
     
+    func kingkong(with position: Int) -> [AppIconItem]? {
+        guard let resources = self.kingKongItems else {
+            return nil
+        }
+        return resources.filter { $0.position == position }
+    }
+    
     func kingkongFilePath() -> URL? {
         guard let cache = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {
             return nil

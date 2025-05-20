@@ -196,8 +196,35 @@ class LoginVC: BaseViewController {
         }
         
         view.endEditing(true)
+        requestCheckLogin(phoneNum, code: code)
+    }
+    func requestCheckLogin(_ phone: String, code: String) {
         view.showLoading()
-        NetworkManager.shared.request(NoAuthTarget.login(mobile: phoneNum, code: code)) {[weak self] (result:NetworkResult<LoginResponse>) in
+        NetworkManager.shared.request(NoAuthTarget.checkPhone(mobile: phone)) { (result: NetworkResult<Int>) in
+            self.view.hideHud()
+            do {
+                let response = try result.get()
+                if response == 5 {
+                    let alert = WindowAlert(title: "登录提醒", content: "您正在申请注销中，若继续登录将撤销注销申请。", actionTitle: "继续", closeTitle: "取消", alertType: .double)
+                    alert.show()
+                    alert.doneCallBack = { [weak self] in
+                        self?.requestLogin(phone, code: code)
+                    }
+                    return
+                }
+                self.requestLogin(phone, code: code)
+            } catch NetworkError.server(_, let message) {
+                self.view.showText(message)
+            } catch {
+                self.view.showText("请求失败")
+            }
+        }
+    }
+
+    func requestLogin(_ phone: String, code: String) {
+        
+        view.showLoading()
+        NetworkManager.shared.request(NoAuthTarget.login(mobile: phone, code: code)) {[weak self] (result:NetworkResult<LoginResponse>) in
             self?.view.hideHud()
             do {
                 let response = try result.get()
@@ -207,11 +234,8 @@ class LoginVC: BaseViewController {
                 
                 self?.requestUserInfo()
             } catch NetworkError.server(let code, let message) {
-                if code == 10006 {
-                    WindowAlert(title: "登录提醒", content: "您的账户已注销，如有需要请联系客服恢复。客服电话0731-88975658， 在线时间9：00-21:00。", actionTitle: "我知道了", closeTitle: "", alertType: .sigle).show()
-                }else{
-                    self?.view.showText(message)
-                }
+                self?.view.showText(message)
+                
             } catch {
                 self?.view.showText("请求失败")
             }
