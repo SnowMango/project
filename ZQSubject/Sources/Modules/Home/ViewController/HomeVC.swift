@@ -5,6 +5,7 @@ import Then
 
 class HomeVC: BaseViewController {
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //隐藏导航栏
@@ -12,16 +13,21 @@ class HomeVC: BaseViewController {
         hiddenBackBtn = true
         //取消table的自动适配偏移
         setupUI()
-//        getData()
         self.reloadData()
-        kAppManager.startTask()
+        AppManager.shared.startTask()
+        AppManager.shared.reloadKingkong()
         NotificationCenter.default.addObserver(self, selector: #selector(updataUserProfile), name: UserProfileDidUpdateName, object: nil)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        kAppManager.reloadTask()
         AppManager.shared.refreshUserInfo()
+        if AppManager.shared.kingKongItems == nil {
+            AppManager.shared.refreshKingkong {[weak self] in
+                self?.reloadData()
+            }
+        }
         reloadData()
     }
     
@@ -66,7 +72,30 @@ class HomeVC: BaseViewController {
             levitate.isHidden = true
         }
         
+        if let items = AppManager.shared.kingKongItems {
+            self.categoriesView.isHidden = false
+            self.categoriesView.categories = items
+            let rows = items.count/4 + 1
+            
+            self.categoriesView.snp.updateConstraints { make in
+                make.height.equalTo(rows*85)
+            }
+            self.categoriesView.collectionView.reloadData()
+        } else {
+            self.categoriesView.isHidden = true
+        }
         
+        if let _ = AppManager.shared.resource(with: "service_status_dashboard_switch") {
+            self.transactionStatusView.isHidden = false
+        }else {
+            self.transactionStatusView.isHidden = true
+        }
+        
+        if let _ = AppManager.shared.resource(with: "user_story_switch") {
+            self.userMessageView.isHidden = false
+        }else {
+            self.userMessageView.isHidden = true
+        }
         
         transactionStatusView.reloadData()
     }
@@ -94,9 +123,8 @@ class HomeVC: BaseViewController {
         sectionsStack.addArrangedSubview(beginnerView)
         sectionsStack.addArrangedSubview(bestStrategyView)
         sectionsStack.addArrangedSubview(rankingsView)
-        sectionsStack.addArrangedSubview(userMessageView)
+//        sectionsStack.addArrangedSubview(userMessageView)
        
-    
         bestStrategyView.isHidden = true
         rankingsView.isHidden = true
        
@@ -142,7 +170,7 @@ class HomeVC: BaseViewController {
             make.top.equalTo(topBannerView.snp.bottom).offset(wScale(12))
             make.left.equalTo(wScale(14))
             make.right.equalTo(wScale(-14))
-            make.height.equalTo(wScale(80))
+            make.height.equalTo(80)
             make.bottom.lessThanOrEqualTo(0)
         }
         
@@ -153,7 +181,7 @@ class HomeVC: BaseViewController {
         }
         
         sectionsStack.snp.makeConstraints { make in
-            make.left.right.top.equalToSuperview()
+            make.left.right.top.equalTo(0)
             make.bottom.lessThanOrEqualTo(-30)
         }
         
@@ -178,9 +206,9 @@ class HomeVC: BaseViewController {
             make.left.equalTo(wScale(14))
         }
         
-        userMessageView.snp.makeConstraints { make in
-            make.left.equalTo(0)
-        }
+//        userMessageView.snp.makeConstraints { make in
+//            make.left.equalTo(0)
+//        }
         
     }
     
@@ -209,7 +237,7 @@ class HomeVC: BaseViewController {
                 self.getData()
             })
             $0.mj_header?.mj_h += kStatusBarH()
-            $0.mj_header?.ignoredScrollViewContentInsetTop -= kStatusBarH()*0.5
+//            $0.mj_header?.ignoredScrollViewContentInsetTop -= kStatusBarH()*0.5
         }
     }()
     
@@ -297,8 +325,26 @@ extension HomeVC {
 //        }
         
         
+//        self.scrollView.mj_header?.endRefreshing()
+//        NetworkManager.shared.request(AuthTarget.kingKong) { (result: NetworkResult<[AppIconItem]>) in
+//            self.scrollView.mj_header?.endRefreshing()
+//            do {
+//                let response = try result.get()
+//                self.categoriesView.categories = response
+//                
+//                self.categoriesView.snp.updateConstraints { make in
+//                    make.height.equalTo(wScale(80))
+//                }
+//                self.categoriesView.collectionView.reloadData()
+//                
+//                
+//            } catch {
+//                
+//            }
+//            
+//        }
     
-        self.scrollView.mj_header?.endRefreshing()
+        
         
     }
     

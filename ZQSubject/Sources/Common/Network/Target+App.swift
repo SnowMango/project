@@ -33,8 +33,7 @@ enum NoAuthTarget {
     case login(mobile: String, code: String)
     /// 实名认证
     case realAuth(name: String, card: String)
-    /// 查询资源位
-    case appResources
+
     /// 获得最新版本
     case version
 }
@@ -48,8 +47,7 @@ extension NoAuthTarget: AppTargetProtocol {
             "/user/loginByVerificationCode"
         case .realAuth(_,_):
             "/user/sendId2MetaVerify"
-        case .appResources:
-            "/app/selectResourcePosition"
+
         case  .version:
             "/app/getLastVersion"
         }
@@ -57,7 +55,7 @@ extension NoAuthTarget: AppTargetProtocol {
     
     var method: Moya.Method {
         switch self {
-        case .sendSms(_), .appResources, .version:
+        case .sendSms(_), .version:
             .get
         default:
             .post
@@ -78,8 +76,8 @@ extension NoAuthTarget: AppTargetProtocol {
             return .requestParameters(parameters: ["userName":name,"idCard":card], encoding: JSONEncoding.default)
         case .version:
             return .requestParameters(parameters: ["type":1], encoding: URLEncoding.default)
-        default:
-            return .requestPlain
+//        default:
+//            return .requestPlain
         }
     }
 }
@@ -125,6 +123,11 @@ enum AuthTarget {
     case reportPush(String)
     /// 查询当前登录用户所在渠道对应的活动
     case activity
+    /// 查询首页金刚区配置
+    case kingKong
+    
+    /// 查询资源位
+    case appResources
 }
 
 extension AuthTarget: AppTargetProtocol {
@@ -170,6 +173,10 @@ extension AuthTarget: AppTargetProtocol {
             "/user/reportPushId"
         case .activity:
             "/activity/getActivityListByUser"
+        case .kingKong:
+            "/app/listHomeKingKongDistrict"
+        case .appResources:
+            "/app/selectResourcePosition"
         }
     }
     
@@ -177,7 +184,7 @@ extension AuthTarget: AppTargetProtocol {
         switch self {
         case .userinfo, .logout, .funds, .fundRule(_),
                 .bindTrading(_), .logoff, .unreadMsg,
-                .changeMsgRead, .reportPush(_),.activity:
+                .changeMsgRead, .reportPush(_),.activity, .kingKong, .appResources:
             .get
         default:
             .post

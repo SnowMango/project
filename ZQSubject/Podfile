@@ -25,7 +25,11 @@ target 'ZQSubject' do
 #  pod 'RealmSwift'
   #加密
   pod 'CryptoSwift'
- 
+  
+  #响应式编程
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  
   # Objective-C
   pod 'MJRefresh'                     #上下拉刷新
 

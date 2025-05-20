@@ -82,119 +82,157 @@ class ApplyTransactionStatusView: UIView {
     }
 
     func reloadData() {
-        if let profile = AppManager.shared.profile {
-            if let _ = profile.tradingAccount  {
-                currentStep = .strategy
-            } else if let _ = profile.fundAccount {
-                currentStep = .system
-            }else {
-                currentStep = .account
-            }
-            if profile.strategySuccess() {
-                self.isHidden = true
-            }else{
-                self.isHidden = false
+        guard let profile = AppManager.shared.profile else { return }
+        var progress: CGFloat = 0.0
+        if let _ = profile.fundAccount {
+            progress = 0.5
+        }
+        if let item = profile.quantitativeStrategyCarryInfoList?.first {
+            progress = 0.9
+            if item.verificationResult == 1 {
+                progress = 1
             }
         }
+        update(progress: max(min(1, progress), 0))
+        
+    }
     
-        switch currentStep {
-        case .account:
-            bindBtn.isHidden = false
-            stepAccount.stepStaus = .running
-            stepApply.stepStaus = .pending
-            stepStrategy.stepStaus = .pending
-            signupBtn.setTitle("去开户", for: .normal)
-            bindBtn.setTitle("我已开户，去绑定", for: .normal)
-            break
-        case .system:
-            stepAccount.stepStaus = .resolved
-            stepApply.stepStaus = .pending
-            stepStrategy.stepStaus = .pending
-            bindBtn.isHidden = false
-            signupBtn.setTitle("去申请", for: .normal)
-            bindBtn.setTitle("我已开户，去绑定", for: .normal)
-            break
-        case .strategy:
-            bindBtn.isHidden = true
-            stepAccount.stepStaus = .resolved
-            stepApply.stepStaus = .resolved
-            stepStrategy.stepStaus = .pending
-            signupBtn.setTitle("去搭载", for: .normal)
-            break
-        }
+    func update(progress: CGFloat) {
+        progressLb.text = "\(Int(progress*100))"
+        slider.progress = progress
+        point1View.backgroundColor = abs(progress) > 0.01 ? UIColor("#FFCF0F"):.white
+        point2View.backgroundColor = progress > 0.49 ? UIColor("#FFCF0F"):.white
+        point3View.backgroundColor = abs(progress - 1) < 0.01 ? UIColor("#FFCF0F"):.white
     }
     
     //MARK: setup
     func setupUI() {
-        self.titleLb.text = "4步搞定交易策略"
+        self.titleLb.text = "搭载进度"
         
         addSubview(titleLb)
         addSubview(cardView)
-        cardView.addSubview(stepStack)
-        stepStack.addArrangedSubview(stepLogin)
-        stepStack.addArrangedSubview(makeStepSeparator())
-        stepStack.addArrangedSubview(stepAccount)
-        stepStack.addArrangedSubview(makeStepSeparator())
-        stepStack.addArrangedSubview(stepApply)
-        stepStack.addArrangedSubview(makeStepSeparator())
-        stepStack.addArrangedSubview(stepStrategy)
+       
+        cardView.addSubview(bgIV)
+        cardView.addSubview(progressView)
+        cardView.addSubview(stepsStack)
         
-        cardView.addSubview(btnStack)
-    
-        btnStack.addArrangedSubview(signupBtn)
-        btnStack.addArrangedSubview(bindBtn)
+        progressView.addSubview(progressBGIV)
+        progressView.addSubview(progressLb)
+        progressView.addSubview(persentLb)
+        progressView.addSubview(doneLb)
+        progressView.addSubview(slider)
+        
+        progressView.addSubview(point1View)
+        progressView.addSubview(point2View)
+        progressView.addSubview(point3View)
+        
+        progressView.addSubview(step1Lb)
+        progressView.addSubview(step2Lb)
+        progressView.addSubview(step3Lb)
+        
+        cardView.addSubview(stepsStack)
+        stepsStack.addArrangedSubview(accountView)
+        stepsStack.addArrangedSubview(strategyStatusView)
         
         titleLb.snp.makeConstraints { make in
             make.left.equalTo(wScale(10))
             make.top.equalTo(12)
-            make.right.greaterThanOrEqualTo(0)
+            make.right.lessThanOrEqualTo(0)
         }
+        
         cardView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(titleLb.snp.bottom).offset(12)
-            make.height.equalTo(wScale(120))
             make.bottom.lessThanOrEqualTo(0)
         }
-        stepStack.snp.makeConstraints { make in
-            make.left.equalTo(wScale(20))
-            make.top.equalTo(wScale(18))
-            make.right.equalTo(wScale(-18))
+        
+        progressView.snp.makeConstraints { make in
+            make.left.right.top.equalToSuperview()
+            make.height.equalTo(wScale(94))
+            make.bottom.lessThanOrEqualTo(0)
         }
         
-        btnStack.snp.makeConstraints { make in
-            make.left.greaterThanOrEqualTo(wScale(16))
-            make.top.equalTo(stepStack.snp.bottom).offset(wScale(18))
-
+        stepsStack.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(progressView.snp.bottom)
+            make.bottom.lessThanOrEqualTo(0)
+        }
+        
+        progressBGIV.snp.makeConstraints { make in
+            make.edges.equalTo(UIEdgeInsets.zero)
+        }
+        
+        progressLb.snp.makeConstraints { make in
+            make.left.equalTo(wScale(16))
+            make.top.equalTo(wScale(10))
+        }
+        
+        persentLb.snp.makeConstraints { make in
+            make.left.equalTo(progressLb.snp.right)
+            make.lastBaseline.equalTo(progressLb)
+        }
+        
+        doneLb.snp.makeConstraints { make in
+            make.left.equalTo(persentLb.snp.right).offset(6)
+            make.centerY.equalTo(progressLb)
+            make.width.equalTo(wScale(42))
+            make.height.equalTo(wScale(16))
+        }
+        
+        slider.snp.makeConstraints { make in
+            make.top.equalTo(progressLb.snp.bottom).offset(wScale(12))
+            make.left.equalTo(wScale(16))
+            make.right.equalTo(wScale(-16))
+            make.height.equalTo(2)
+        }
+        
+        point1View.snp.makeConstraints { make in
+            make.left.equalTo(wScale(16))
+            make.centerY.equalTo(slider)
+            make.height.width.equalTo(wScale(6))
+        }
+        
+        point2View.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.lessThanOrEqualTo(wScale(-18))
+            make.centerY.equalTo(slider)
+            make.height.width.equalTo(wScale(6))
         }
         
-        signupBtn.snp.makeConstraints { make in
-            make.width.equalTo(wScale(152))
-            make.height.equalTo(wScale(34))
+        point3View.snp.makeConstraints { make in
+            make.right.equalTo(wScale(-16))
+            make.centerY.equalTo(slider)
+            make.height.width.equalTo(wScale(6))
         }
         
-        bindBtn.snp.makeConstraints { make in
-            make.width.equalTo(wScale(152))
-            make.height.equalTo(wScale(34))
+        step1Lb.snp.makeConstraints { make in
+            make.left.equalTo(wScale(16))
+            make.top.equalTo(slider.snp.bottom).offset(wScale(12))
+        }
+        
+        step2Lb.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(step1Lb)
+        }
+        
+        step3Lb.snp.makeConstraints { make in
+            make.right.equalTo(wScale(-16))
+            make.centerY.equalTo(step1Lb)
+        }
+        
+        accountView.snp.makeConstraints { make in
+            make.left.equalTo(0)
+        }
+        strategyStatusView.snp.makeConstraints { make in
+            make.left.equalTo(0)
         }
     }
     
-    func makeStepSeparator() -> UIView {
-        UIView().then {
-            let iv = UIImageView()
-            iv.image = UIImage(named: "step.next.arrow")
-            $0.addSubview(iv)
-            iv.snp.makeConstraints { make in
-                make.edges.equalTo(UIEdgeInsets(top: wScale(3), left: 0, bottom: wScale(3), right: 0))
-            }
-        }
-    }
     //MARK: lazy
     lazy var titleLb: UILabel = {
         return UILabel().then {
             $0.textColor = .kText2
             $0.font = .kScale(17, weight: .heavy)
+            $0.setContentCompressionResistancePriority(.required, for: .vertical)
         }
     }()
     /// 整个背景卡片
@@ -202,73 +240,124 @@ class ApplyTransactionStatusView: UIView {
         return  UIView().then {
             $0.backgroundColor = .white
             $0.layer.cornerRadius = wScale(10)
+            $0.clipsToBounds = true
         }
     }()
     
-    lazy var stepStack: UIStackView = {
+    lazy var progressView: UIView = {
+        UIView()
+    }()
+    
+    lazy var progressBGIV: UIImageView = {
+        UIImageView().then {
+            $0.image = UIImage(named: "home.strategy.bg1")
+        }
+    }()
+    
+    lazy var progressLb: UILabel = {
+        return UILabel().then {
+            $0.textColor = .white
+            $0.font = .kScale(27, weight: .bold)
+        }
+    }()
+    
+    lazy var persentLb: UILabel = {
+        return UILabel().then {
+            $0.textColor = .white
+            $0.font = .kScale(18, weight: .bold)
+            $0.text = "%"
+        }
+    }()
+    
+    lazy var doneLb: UILabel = {
+        return UILabel().then {
+            $0.textColor = .kTheme
+            $0.font = .kScale(9, weight: .bold)
+            $0.backgroundColor = .white
+            $0.layer.cornerRadius = wScale(8)
+            $0.textAlignment = .center
+            $0.text = "已完成"
+            $0.clipsToBounds = true
+        }
+    }()
+    
+    lazy var slider: StrategySlider = {
+        StrategySlider()
+    }()
+    
+    lazy var point1View: UIView = {
+        UIView().then {
+            $0.backgroundColor = UIColor("#FFCF0F")
+            $0.layer.cornerRadius = wScale(3)
+        }
+    }()
+    
+    lazy var point2View: UIView = {
+        UIView().then {
+            $0.backgroundColor = UIColor("#FFCF0F")
+            $0.layer.cornerRadius = wScale(3)
+        }
+    }()
+    
+    lazy var point3View: UIView = {
+        UIView().then {
+            $0.backgroundColor = UIColor("#FFCF0F")
+            $0.layer.cornerRadius = wScale(3)
+        }
+    }()
+    
+    lazy var step1Lb: UILabel = {
+        return UILabel().then {
+            $0.textColor = .white
+            $0.font = .kScale(13, weight: .medium)
+            $0.text = "开户"
+        }
+    }()
+    
+    lazy var step2Lb: UILabel = {
+        return UILabel().then {
+            $0.textColor = .white
+            $0.font = .kScale(13, weight: .medium)
+            $0.text = "开通交易系统"
+        }
+    }()
+    
+    lazy var step3Lb: UILabel = {
+        return UILabel().then {
+            $0.textColor = .white
+            $0.font = .kScale(13, weight: .medium)
+            $0.text = "搭载策略"
+        }
+    }()
+    
+    lazy var bgIV: UIImageView = {
+        UIImageView().then {
+            $0.image = UIImage(named: "home.strategy.bg2")
+        }
+    }()
+     
+    lazy var stepsStack: UIStackView = {
         return UIStackView(frame: .zero).then {
-            $0.spacing = 12
-            $0.distribution = .equalSpacing
-            $0.alignment = .top
-            $0.axis = .horizontal
-        }
-    }()
-    lazy var stepLogin: StepStautsItemView = {
-        return StepStautsItemView().then {
-            $0.titleLb.text = "登录"
-            $0.stepStaus = .resolved
-        }
-    }()
-    
-    lazy var stepAccount: StepStautsItemView = {
-        return StepStautsItemView().then {
-            $0.titleLb.text = "证券开户"
-            $0.add(runing: "开户中")
-            $0.stepStaus = .running
-        }
-    }()
-    
-    lazy var stepApply: StepStautsItemView = {
-        return StepStautsItemView().then {
-            $0.titleLb.text = "申请交易系统"
-        }
-    }()
-    
-    lazy var stepStrategy: StepStautsItemView = {
-        return StepStautsItemView().then {
-            $0.titleLb.text = "策略搭建"
-        }
-    }()
-    
-    lazy var btnStack: UIStackView = {
-        return UIStackView(frame: .zero).then {
-            $0.spacing = 14
-            $0.distribution = .fillEqually
+            $0.spacing = 0
+            $0.distribution = .fillProportionally
             $0.alignment = .center
-            $0.axis = .horizontal
+            $0.axis = .vertical
         }
     }()
     
-    lazy var signupBtn: UIButton = {
-        return UIButton(type: .custom).then {
-            $0.setTitle("去开户", for: .normal)
-            $0.setTitleColor(.white, for: .normal)
-            $0.backgroundColor = .kTheme
-            $0.layer.cornerRadius = wScale(6)
-            $0.titleLabel?.font = .kScale(12, weight: .medium)
-            $0.addTarget(self, action: #selector(signupClick), for: .touchUpInside)
+    lazy var accountView: HomeAccountView = {
+        HomeAccountView().then {
+            $0.advView.isHidden = true
+//            $0.isHidden = true
         }
     }()
     
-    lazy var bindBtn: UIButton = {
-        return UIButton(type: .custom).then {
-            $0.setTitle("我已开户，去绑定", for: .normal)
-            $0.setTitleColor(.white, for: .normal)
-            $0.backgroundColor = .kAlert
-            $0.layer.cornerRadius = wScale(6)
-            $0.titleLabel?.font = .kScale(12, weight: .medium)
-            $0.addTarget(self, action: #selector(bindClick), for: .touchUpInside)
+    lazy var strategyStatusView: HomeStrategyView = {
+        HomeStrategyView().then {
+            $0.isHidden = true
         }
     }()
+
+    
 }
 

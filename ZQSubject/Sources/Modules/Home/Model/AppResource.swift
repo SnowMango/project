@@ -12,4 +12,7 @@ struct AppResource: Decodable {
     var resourceName: String?
     var type: Int?
     var data: [ResourceData]
+    var status: Int?
 }
+
+

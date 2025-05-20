@@ -88,11 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UITableView.appearance().sectionHeaderTopPadding = 0
         }
         
-        ///配置初始化接口
-        kAppManager.initAppAPIBlock = {
-            AppManager.shared.loginInit()
-        }
-        kAppManager.initAppAPIBlock?()
+
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {

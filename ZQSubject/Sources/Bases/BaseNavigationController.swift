@@ -77,9 +77,11 @@ extension NavigationDelegate: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         let s = navigationController.navigationBar.isHidden
         let next = viewController.hiddenNavigationBarWhenShow
+        
         if next != s {
             navigationController.setNavigationBarHidden(next, animated: animated)
         }
+        
     }
 
     @available(iOS 2.0, *)

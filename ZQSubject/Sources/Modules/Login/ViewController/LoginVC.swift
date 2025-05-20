@@ -155,9 +155,7 @@ class LoginVC: BaseViewController {
             view.showText("请重新输入正确手机号")
             return
         }
-        if AppManager.shared.appResources == nil  {
-            AppManager.shared.loginInit()
-        }
+        
         self.view.endEditing(true)
         HumanAlert(action: { [weak self] in
             self?.requsetSms(phoneNum)
@@ -196,15 +194,8 @@ class LoginVC: BaseViewController {
             view.showText("请勾选同意协议")
             return
         }
-        if AppManager.shared.appResources == nil  {
-            AppManager.shared.loginInit()
-        }
-        if codeField.textField.isFirstResponder {
-            codeField.textField.resignFirstResponder()
-        }
-        if accoutField.textField.isFirstResponder {
-            accoutField.textField.resignFirstResponder()
-        }
+        
+        view.endEditing(true)
         view.showLoading()
         NetworkManager.shared.request(NoAuthTarget.login(mobile: phoneNum, code: code)) {[weak self] (result:NetworkResult<LoginResponse>) in
             self?.view.hideHud()
@@ -231,26 +222,22 @@ class LoginVC: BaseViewController {
         view.showLoading()
         NetworkManager.shared.request(AuthTarget.userinfo) { (result: NetworkResult<UserProfile>) in
             self.view.hideHud()
-            switch result {
-            case .success(let response):
+            do {
+                let response = try result.get()
                 AppManager.shared.profile = response
+                AppManager.shared.loginInit()
+                AppManager.shared.reportPush()
                 if response.needDoQA() {
                     Router.shared.route("/qa")
                 }else {
                     Router.shared.route(.home)
                 }
-                AppManager.shared.reportPush()
-            case .failure(let error):
-                AppManager.shared.token = nil
-                switch error {
-                case .server(_, let message):
-                    self.view.showText(message)
-                default:
-                    self.view.showText("请求失败")
-                }
+            } catch NetworkError.server(_, let message) {
+                self.view.showText(message)
+            } catch {
+                self.view.showText("请求失败")
             }
         }
-        
     }
     
     @objc private func checkBox() {

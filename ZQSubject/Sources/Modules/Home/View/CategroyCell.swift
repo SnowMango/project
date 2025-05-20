@@ -1,5 +1,6 @@
 import UIKit
 import Then
+import Kingfisher
 
 class CategroyCell: UICollectionViewCell {
     
@@ -12,9 +13,9 @@ class CategroyCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func show(_ iconName: String?,  with tilte: String) {
+    func show(_ iconName: String?,  with tilte: String?) {
         if let iconName = iconName {
-            self.iconImageView.image = UIImage(named: iconName)
+            self.iconImageView.kf.setImage(with: URL(string: iconName))
         }
         self.titleLb.text = tilte
     }

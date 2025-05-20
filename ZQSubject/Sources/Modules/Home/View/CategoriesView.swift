@@ -54,10 +54,10 @@ class CategoriesView: UIView {
         }
         
     }
-    var categories: [CategoriesView.Category] = []
+    var categories: [AppIconItem] = []
     override init(frame: CGRect) {
         super.init(frame: frame)
-        categories = [.daily,.account, .assessment, .about]
+//        categories = [.daily,.account, .assessment, .about]
         
         setupUI()
     }
@@ -83,31 +83,12 @@ class CategoriesView: UIView {
             $0.backgroundColor = .clear
             $0.delegate = self
             $0.dataSource = self
-            $0.showsHorizontalScrollIndicator = false
+            $0.showsVerticalScrollIndicator = false
             $0.contentInset = UIEdgeInsets(top: 0, left: wScale(14), bottom: 0, right: wScale(14))
             $0.register(CategroyCell.self, forCellWithReuseIdentifier: "CategroyCell")
         }
     }()
-    
-    @objc func noticeRoute() {
-        self.window?.hideHud()
-        NotificationCenter.default.removeObserver(self)
-       
-        guard let profile = AppManager.shared.profile else { return }
-        if !profile.bindFundsAccount() {
-            Router.shared.route(AssetFlowView.FlowStep.account.path)
-            return
-        }
-        if !profile.bindQMTAccount() {
-            Router.shared.route(AssetFlowView.FlowStep.system.path)
-            return
-        }
-        if profile.strategySuccess() {
-            JumpManager.jumpToWeb(AppLink.assetDetail.path)
-            return
-        }
-        Router.shared.route(AssetFlowView.FlowStep.strategy.path)
-    }
+
 }
 extension CategoriesView:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -117,7 +98,7 @@ extension CategoriesView:UICollectionViewDataSource, UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item = self.categories[indexPath.row]
         let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "CategroyCell", for: indexPath) as! CategroyCell
-        cell.show(item.icon, with: item.title)
+        cell.show(item.iconUrl, with: item.iconName)
         return cell
     }
     
@@ -127,22 +108,21 @@ extension CategoriesView:UICollectionViewDataSource, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = self.categories[indexPath.row]
-        guard let profile = AppManager.shared.profile else { return }
-        
-        if item == .account {
-            if profile.needRisk() {
-                JumpManager.jumpToWeb(AppLink.risk.path)
-                return
-            }
-            if profile.needRealName() {
-                Router.shared.route("/commit/auth")
-                return
-            }
-            Router.shared.route("/open/account")
-            return
-        }
-        
-        if let link = URL(string: item.path){
+//        guard let profile = AppManager.shared.profile else { return }
+//        if item == .account {
+//            if profile.needRisk() {
+//                JumpManager.jumpToWeb(AppLink.risk.path)
+//                return
+//            }
+//            if profile.needRealName() {
+//                Router.shared.route("/commit/auth")
+//                return
+//            }
+//            Router.shared.route("/open/account")
+//            return
+//        }
+//        
+        if let url = item.iconLinkUrl, let link = URL(string: url){
             Router.route(url: link)
         }
     }

@@ -29,7 +29,7 @@ class RealAuthResultVC: BaseViewController {
     
     //MARK: action
     @objc func doneClick() {
-        if needOpen, let profile = AppManager.shared.profile, let url = profile.salesStaffInfo?.salespersonQrCode {
+        if needOpen {
             Router.shared.route("/open/account")
             return
         }

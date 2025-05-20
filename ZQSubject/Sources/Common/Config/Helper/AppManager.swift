@@ -64,6 +64,7 @@ class AppManager {
         return cache.appendingPathComponent("AppInit.json")
     }
     
+    
     func reloadAppResource() {
         guard let path = initSaveFilePath() else { return }
         guard let jsonData: Data = try? .init(contentsOf: path) else { return }
@@ -73,18 +74,17 @@ class AppManager {
     }
     var appResources:[AppResource]?
     
+    var kingKongItems:[AppIconItem]?
+    
     func resource(with key: String) -> AppResource? {
         guard let resources = self.appResources else {
             return nil
         }
         return resources.first(where: {  $0.resourceKey == key })
     }
-    ///登录初始化接口
+    /// 资源位获取
     func loginInit(_ sucess: (() -> Void)? = nil) {
-
-        NetworkManager.shared.request(NoAuthTarget.appResources) { [self] (result:JSONResult) in
-            self.initAppAPIBlock = nil
-            sucess?()
+        NetworkManager.shared.request(AuthTarget.appResources) { [self] (result:JSONResult) in
             do {
                 let json = try result.get()
                 if let data = try? json.rawData(), let saveFile = initSaveFilePath() {
@@ -93,10 +93,43 @@ class AppManager {
                 }
             } catch {
                 self.reloadAppResource()
-                sucess?()
             }
+            sucess?()
         }
     }
+    
+    func kingkongFilePath() -> URL? {
+        guard let cache = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {
+            return nil
+        }
+        return cache.appendingPathComponent("kingkong.json")
+    }
+    
+    func refreshKingkong(_ sucess: (() -> Void)? = nil) {
+        NetworkManager.shared.request(AuthTarget.kingKong) { [self] (result:JSONResult) in
+            do {
+                let json = try result.get()
+                if let data = try? json.rawData(), let saveFile = kingkongFilePath() {
+                    try? data.write(to: saveFile)
+                    self.reloadKingkong()
+                }
+                sucess?()
+            } catch {
+                self.reloadKingkong()
+                sucess?()
+            }
+            
+        }
+    }
+    
+    func reloadKingkong() {
+        guard let path = kingkongFilePath() else { return }
+        guard let jsonData: Data = try? .init(contentsOf: path) else { return }
+        if let response = try? JSONDecoder().decode( [AppIconItem].self, from: jsonData) {
+            self.kingKongItems = response
+        }
+    }
+    
     func needHomeAd(_ step: Int) -> Bool {
         guard let profile = profile else { return false }
         if profile.strategySuccess() {
@@ -204,9 +237,6 @@ class AppManager {
             break
         }
     }
-    
-    ///app的初始化接口配置信息
-    var initAppAPIBlock: (()->())?
 }
 
 extension AppManager {

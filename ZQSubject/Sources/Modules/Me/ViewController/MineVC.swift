@@ -50,6 +50,7 @@ class MineVC: BaseViewController {
     }
     @objc private func gotoMessageCenter() {
         Router.shared.route("/message")
+    
     }
     
     @objc private func tapNormalItem(_ tap: UITapGestureRecognizer) {
@@ -58,11 +59,8 @@ class MineVC: BaseViewController {
         }
         let item = self.normals[itemView.index]
         if let path = item.link {
-            if path.hasPrefix("http") {
-                JumpManager.jumpToWeb(path)
-            }else if let link = URL(string: path){
-                Router.route(url: link)
-            }
+
+            Router.shared.route(path)
         }
     }
     

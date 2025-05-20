@@ -40,6 +40,11 @@ class Router {
             JumpManager.jumpToWeb(url.absoluteString)
             return false
         }
+        JLRoutes(forScheme: "liangjie").addRoute("*") { req in
+            guard let url = req[JLRouteURLKey] as? URL else { return false}
+            let appURL = url.absoluteString.replacingOccurrences(of: "liangjie://", with: "/web/")
+            return self.route(appURL)
+        }
     }
     @discardableResult
     static func route(url:URL, parameters:[String: Any]? = nil) -> Bool {
