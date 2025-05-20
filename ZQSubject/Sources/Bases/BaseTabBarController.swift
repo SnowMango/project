@@ -14,7 +14,7 @@ enum TabBarURLTag: String {
         case .strategy:
             "量化策略"
         case .asset:
-            "资产"
+            "AI选策略"
         case .me:
             "我的"
         }
@@ -53,7 +53,8 @@ enum TabBarURLTag: String {
         case .strategy:
             StrategyVC()
         case .asset:
-            AssetVC(false)
+//            AssetVC(false)
+            AIStrategyVC(false)
         case .me:
             MineVC(false)
         }
