@@ -82,6 +82,19 @@ extension Router {
             return true
         }
         
+        ///
+        route.addRoute("/strategy") { _ in
+            guard let window = UIApplication.shared.keyWindow else { return false }
+            guard let rootTab = window.rootViewController as? BaseTabBarController else { return false }
+            if let navi = rootTab.selectedViewController as? UINavigationController {
+                navi.popToRootViewController(animated: true)
+            }else {
+                rootTab.selectedViewController?.navigationController?.popToRootViewController(animated: true)
+            }
+            rootTab.selectedIndex = 1
+            return true
+        }
+        
         /// 设置
         route.addRoute("/app/setting") { _ in
             Tools.getTopVC().navigationController?.show(SettingVC(), sender: nil)
@@ -156,6 +169,10 @@ extension Router {
             return true
         }
         
+        route.addRoute("/search/stock") { _ in
+            Tools.getTopVC().navigationController?.show(StockSearchVC(), sender: nil)
+            return true
+        }
         
     }
 }

@@ -133,6 +133,8 @@ enum AuthTarget {
     
     /// 查询资源位
     case appResources
+    
+    case stroy
 }
 
 extension AuthTarget: AppTargetProtocol {
@@ -182,6 +184,8 @@ extension AuthTarget: AppTargetProtocol {
             "/app/listHomeKingKongDistrict"
         case .appResources:
             "/app/selectResourcePosition"
+        case .stroy:
+            "/app/getAllUserStoryInfos"
         }
     }
     
@@ -189,7 +193,7 @@ extension AuthTarget: AppTargetProtocol {
         switch self {
         case .userinfo, .logout, .funds, .fundRule(_),
                 .bindTrading(_), .logoff, .unreadMsg,
-                .changeMsgRead, .reportPush(_),.activity, .kingKong, .appResources:
+                .changeMsgRead, .reportPush(_),.activity, .kingKong, .appResources, .stroy:
             .get
         default:
             .post

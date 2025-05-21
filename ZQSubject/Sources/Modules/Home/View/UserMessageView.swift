@@ -6,9 +6,9 @@ import Kingfisher
 struct UserMessageModel: Decodable {
     let avater: String?
     let nickname: String?
-    let time: String?
+    let createTime: String?
     let content: String?
-    let contentURL: String?
+    let contentUrl: String?
     let likes: Int
 }
 
@@ -17,26 +17,19 @@ class UserMessageView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        loadMock()
+    
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     var messages: [UserMessageModel] = []
+
     
-    func loadMock() {
-        guard let path = Bundle.main.url(forResource: "message.mock", withExtension: "json") else {
-            return
-        }
-        guard let jsonData = try? Data(contentsOf: path) else {
-            return
-        }
-        guard let items = try? JSONDecoder().decode([UserMessageModel].self, from: jsonData) else {
-            return
-        }
-        
-        messages = items
+    func reloadData() {
+        self.isHidden = self.messages.count == 0
+        self.collectionView.reloadData()
     }
     
     private func setupUI() {

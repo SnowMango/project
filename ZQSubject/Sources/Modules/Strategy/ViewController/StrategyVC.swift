@@ -1,9 +1,11 @@
 
 import UIKit
 import WMZPageController
+import RxCocoa
+import RxSwift
 
 class StrategyVC: WMZPageController {
-    
+    var disposeBag = DisposeBag()
     lazy var header: StrategyTableViewHeader = StrategyTableViewHeader()
     var bgImgv:UIImageView?
     lazy var titleParam: WMZPageParam = {
@@ -25,7 +27,7 @@ class StrategyVC: WMZPageController {
         pageParam.wMenuBgColor = .kBackGround
         pageParam.wMenuInsets = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
         pageParam.wCustomNaviBarY = { old in
-            return wScale(124) + kSafeTopH()
+            return wScale(144) + kSafeTopH()
         }
         //开始切换
         pageParam.wEventBeganTransferController = { (oldVC,newVC,oldIndex,newIndex) in
@@ -86,24 +88,61 @@ class StrategyVC: WMZPageController {
         addSubview(bgImgv)
         bgImgv.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
-            make.height.equalTo(bgImgv.snp.width).multipliedBy(354.5/375.0)
+            make.height.equalTo(wScale(354))
         }
        
         let titleImgv = UIImageView(image: UIImage(named: "strategy_title"))
         addSubview(titleImgv)
         titleImgv.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(wScale(33)+kSafeTopH())
+            make.top.equalTo(wScale(64))
             make.centerX.equalToSuperview()
         }
         
         let descLb = UILabel()
         descLb.text = "智选投资决策，收益更可期"
-        descLb.font = .kFontScale(16)
+        descLb.font = .kScale(16)
         descLb.textColor = UIColor("475165")
         addSubview(descLb)
         descLb.snp.makeConstraints { make in
-            make.top.equalTo(titleImgv.snp.bottom)
+            make.top.equalTo(titleImgv.snp.bottom).offset(wScale(8))
             make.centerX.equalToSuperview()
+        }
+    
+        let searchBar: UIView = UIView().then {
+            $0.backgroundColor = .white
+            $0.layer.cornerRadius = wScale(17)
+        }
+        let tapBackground = UITapGestureRecognizer()
+        tapBackground.rx.event
+            .subscribe(onNext: { _ in
+                Router.shared.route("/search/stock")
+            })
+            .disposed(by: disposeBag)
+        searchBar.addGestureRecognizer(tapBackground)
+        
+        addSubview(searchBar)
+        searchBar.snp.makeConstraints { make in
+            make.top.equalTo(descLb.snp.bottom).offset(wScale(15))
+            make.centerX.equalToSuperview()
+            make.left.equalTo(wScale(14))
+            make.height.equalTo(wScale(34))
+        }
+        
+        let searchLogo = UIImageView(image: UIImage(named: "search.logo"))
+        searchBar.addSubview(searchLogo)
+        searchLogo.snp.makeConstraints { make in
+            make.left.equalTo(wScale(18))
+            make.centerY.equalToSuperview()
+        }
+        
+        let placehoder = UILabel()
+        placehoder.text = "输入查询内容"
+        placehoder.font = .kScale(14)
+        placehoder.textColor = UIColor("#CBCBCB")
+        searchBar.addSubview(placehoder)
+        placehoder.snp.makeConstraints { make in
+            make.left.equalTo(searchLogo.snp.right).offset(wScale(8))
+            make.centerY.equalToSuperview()
         }
     }
     

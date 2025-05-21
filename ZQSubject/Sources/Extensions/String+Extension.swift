@@ -318,4 +318,13 @@ extension String {
         }
         return mutableAttributedString
     }
+    
+    func highlightKeyword(_ keyword: String, color: UIColor) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString(string: self)
+        let keywordRange = (self as NSString).range(of: keyword)
+        if keywordRange.location != NSNotFound {
+            attributedString.addAttribute(.foregroundColor, value: color, range: keywordRange)
+        }
+        return attributedString
+    }
 }

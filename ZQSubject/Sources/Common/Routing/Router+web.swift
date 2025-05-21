@@ -47,5 +47,26 @@ extension Router {
             AppManager.shared.refreshUserInfo()
             return Router.shared.route(AssetFlowView.FlowStep.strategy.path)
         }
+        
+        route.addRoute("/web/quantitative-strategy") { _ in
+            return Router.shared.route("/strategy")
+        }
+        
+        route.addRoute("/web/feedback") { _ in
+            return Router.shared.route("/feedback")
+        }
+        
+        route.addRoute("/web/sales-bullet-frame") { _ in
+            guard let profile = AppManager.shared.profile, let qrUrl = profile.salesStaffInfo?.salespersonQrCode else { return false }
+            let alert = WindowAlert(title: "截图微信扫码进群", content: "添加客服，加入投资者交流群", url: qrUrl, actionTitle: "在线客服", alertType: .join)
+            alert.doneCallBack = {
+                JumpManager.jumpToWeb(AppLink.support.path)
+            }
+            alert.show()
+            return false
+        }
+        route.addRoute("/web/ai-chat") { _ in
+            return Router.shared.route("/ai/chat")
+        }
     }
 }

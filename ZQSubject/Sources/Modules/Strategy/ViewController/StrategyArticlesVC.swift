@@ -24,38 +24,6 @@ class StrategyArticlesVC: UIViewController {
         return tab
     }()
     
-    lazy var tabFooterView = {
-        let v = UIView()
-        v.addSubview(footerContentv)
-        footerContentv.snp.makeConstraints { make in
-            make.top.left.right.height.equalToSuperview()
-        }
-        return v
-    }()
-    
-    lazy var footerContentv = {
-        let v = UIView()
-        let descLb = UILabel()
-        descLb.numberOfLines = 0
-        descLb.attributedText = "市场有风险，投资需谨慎。产品过往业绩并不代表其未来表现，投资前需要仔细阅读产品合同、产品说明书、风险揭示书等法律文件。".attributedString(font: .kFontScale(10), textColor: UIColor("C3C3C3"), lineSpaceing: 5, wordSpaceing: 0, textAlign: .center)
-        v.addSubview(descLb)
-        descLb.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(wScale(12.5))
-            make.width.equalTo(wScale(310))
-            make.centerX.equalToSuperview()
-        }
-        
-        let btLb = UILabel()
-        btLb.font = .kFontScale(12)
-        btLb.textColor = .kText1
-        btLb.text = "——   已经到底了   ——"
-        v.addSubview(btLb)
-        btLb.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(wScale(12.5))
-        }
-        return v
-    }()
     
     ///当前页码
     var currentPage: Int = 1
@@ -81,9 +49,7 @@ class StrategyArticlesVC: UIViewController {
     
     // 让footerView紧贴tableView的底部
     private func updateFooterView() {
-        let footerH: CGFloat = wScale(87)
-        tabFooterView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: footerH)
-//        tableView.tableFooterView = tabFooterView
+
         tableView.mj_footer = RefreshFooter(refreshingBlock: {[weak self] in
             self?.requestMore()
         })
@@ -95,9 +61,7 @@ class StrategyArticlesVC: UIViewController {
         if tableH > contentH {
             topConstrain = tableH - contentH
         }
-        footerContentv.snp.updateConstraints { make in
-            make.top.equalToSuperview().offset(topConstrain)
-        }
+        
     }
 }
 

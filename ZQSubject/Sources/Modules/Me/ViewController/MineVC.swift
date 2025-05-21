@@ -49,8 +49,8 @@ class MineVC: BaseViewController {
         reloadData()
     }
     @objc private func gotoMessageCenter() {
-        Router.shared.route("/message")
-    
+//        Router.shared.route("/message")
+      
     }
     
     @objc private func tapNormalItem(_ tap: UITapGestureRecognizer) {

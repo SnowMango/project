@@ -23,12 +23,30 @@ class AIStrategyVC: BaseViewController {
         
         let gifIV = UIImageView()
         view.addSubview(gifIV)
-        if let path = Bundle.main.url(forResource: "ai.logo", withExtension: "gif") {
-            gifIV.kf.setImage(with: path)
+        if let path = Bundle.main.url(forResource: "aibot.logo", withExtension: "gif") {
+            gifIV.kf.setImage(with: path,options: [.forceRefresh])
         }
         gifIV.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(wScale(-70))
+            make.centerY.equalToSuperview().offset(wScale(-100))
+        }
+        
+        let strategyIV = UIImageView(image: UIImage(named:"ai.strategy"))
+        view.addSubview(strategyIV)
+        strategyIV.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(wScale(40))
+        }
+        
+        let descLb: UILabel = UILabel().then {
+            $0.text = "你的线上AI量化专家"
+            $0.textColor = UIColor("#298BFF")
+            $0.font = .kScale(15)
+        }
+        view.addSubview(descLb)
+        descLb.snp.makeConstraints { make in
+            make.top.equalTo(strategyIV.snp.bottom).offset(wScale(10))
+            make.centerX.equalToSuperview()
         }
         
         let chakanBtn = UIButton()
@@ -44,27 +62,9 @@ class AIStrategyVC: BaseViewController {
        
         view.addSubview(chakanBtn)
         chakanBtn.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-wScale(155))
+            make.top.equalTo(descLb.snp.bottom).offset(wScale(38))
             make.left.right.equalToSuperview().inset(wScale(28))
             make.height.equalTo(wScale(48))
-        }
-    
-        let descLb: UILabel = UILabel().then {
-            $0.text = "你的线上AI量化专家"
-            $0.textColor = UIColor("#298BFF")
-            $0.font = .kScale(15)
-        }
-        view.addSubview(descLb)
-        descLb.snp.makeConstraints { make in
-            make.bottom.equalTo(chakanBtn.snp.top).offset(-wScale(38))
-            make.centerX.equalToSuperview()
-        }
-        
-        let strategyIV = UIImageView(image: UIImage(named:"ai.strategy"))
-        view.addSubview(strategyIV)
-        strategyIV.snp.makeConstraints { make in
-            make.bottom.equalTo(descLb.snp.top).offset(-wScale(10))
-            make.centerX.equalToSuperview()
         }
     }
     

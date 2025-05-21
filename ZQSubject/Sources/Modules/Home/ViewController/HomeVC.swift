@@ -15,22 +15,20 @@ class HomeVC: BaseViewController {
         setupUI()
        
         AppManager.shared.startTask()
-        AppManager.shared.refreshKingkong()
+       
+        AppManager.shared.refreshKingkong {[weak self] in
+            self?.reloadData()
+        }
         AppManager.shared.reloadKingkong()
         
         reloadData()
-        
         NotificationCenter.default.addObserver(self, selector: #selector(updataUserProfile), name: UserProfileDidUpdateName, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         AppManager.shared.refreshUserInfo()
-        if AppManager.shared.kingKongItems == nil {
-            AppManager.shared.refreshKingkong {[weak self] in
-                self?.reloadData()
-            }
-        }
+        requestStroy()
         reloadData()
     }
     
@@ -298,7 +296,7 @@ class HomeVC: BaseViewController {
     }()
     
     lazy var  userMessageView: UserMessageView = {
-        return UserMessageView()
+        return UserMessageView().then { $0.isHidden = true }
     }()
     
     lazy var  levitate:LevitateView  = {
@@ -329,26 +327,23 @@ extension HomeVC {
         
         
 //        self.scrollView.mj_header?.endRefreshing()
-//        NetworkManager.shared.request(AuthTarget.kingKong) { (result: NetworkResult<[AppIconItem]>) in
-//            self.scrollView.mj_header?.endRefreshing()
-//            do {
-//                let response = try result.get()
-//                self.categoriesView.categories = response
-//                
-//                self.categoriesView.snp.updateConstraints { make in
-//                    make.height.equalTo(wScale(80))
-//                }
-//                self.categoriesView.collectionView.reloadData()
-//                
-//                
-//            } catch {
-//                
-//            }
-//            
-//        }
+       
     
         
         
+    }
+    
+    func requestStroy() {
+        NetworkManager.shared.request(AuthTarget.stroy) { (result: NetworkResult<[UserMessageModel]>) in
+            do {
+                let response = try result.get()
+                self.userMessageView.messages = response
+                self.userMessageView.reloadData()
+            
+            } catch {
+                
+            }
+        }
     }
     
     func reloadUI() {

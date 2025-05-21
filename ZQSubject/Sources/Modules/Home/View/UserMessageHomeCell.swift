@@ -20,7 +20,7 @@ class UserMessageHomeCell: UICollectionViewCell {
         self.itemModel = model
         let fm = DateFormatter()
         fm.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        if let time = model.time, let da = fm.date(from: time) {
+        if let time = model.createTime, let da = fm.date(from: time) {
             fm.dateFormat = "yyyy年MM月dd日"
             timeLb.text = fm.string(from: da)
         }else {
@@ -33,7 +33,7 @@ class UserMessageHomeCell: UICollectionViewCell {
             headIV.kf.setImage(with: URL(string: path), placeholder: nil)
         }
         
-        if let path = model.contentURL {
+        if let path = model.contentUrl {
             msgPictureIV.isHidden = false
             msgPictureIV.kf.setImage(with: URL(string: path), placeholder: nil)
         }else{
@@ -42,7 +42,7 @@ class UserMessageHomeCell: UICollectionViewCell {
     }
     
     @objc func showBigTap() {
-        if let path = self.itemModel?.contentURL {
+        if let path = self.itemModel?.contentUrl {
             BrowseImageView.show(path)
         }
     }
