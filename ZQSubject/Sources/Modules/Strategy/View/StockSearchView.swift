@@ -2,11 +2,7 @@
 import UIKit
 import Then
 
-import RxSwift
-import RxCocoa
-
 class StockSearchView: UIView {
-    var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,10 +19,6 @@ class StockSearchView: UIView {
         addSubview(searchBtn)
         backgroundColor = UIColor(0xF5F5F5)
         layer.cornerRadius = 17
-
-//        searchBtn.rx.tap.subscribe(onNext: { [weak self] _ in
-//            self?.searchTextFild.resignFirstResponder()
-//        }).disposed(by: disposeBag)
     }
     
     override func layoutSubviews() {

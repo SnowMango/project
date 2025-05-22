@@ -76,8 +76,10 @@ class HomeVC: BaseViewController {
         if let items = AppManager.shared.kingkong(with: 0) {
             self.categoriesView.isHidden = false
             self.categoriesView.categories = items
-            let rows = items.count/4 + 1
-            
+            var rows = items.count/4
+            if items.count%4 != 0 {
+                rows += 1
+            }
             self.categoriesView.snp.updateConstraints { make in
                 make.height.equalTo(rows*85)
             }
@@ -92,13 +94,7 @@ class HomeVC: BaseViewController {
             self.transactionStatusView.isHidden = true
         }
         transactionStatusView.reloadData()
-        
-        if let item = AppManager.shared.resource(with: "user_story_switch"), item.status == 0 {
-            self.userMessageView.isHidden = false
-        }else {
-            self.userMessageView.isHidden = true
-        }
-        
+    
     }
     
     private func setupUI() {

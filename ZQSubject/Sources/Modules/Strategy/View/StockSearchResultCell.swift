@@ -13,16 +13,16 @@ class StockSearchResultCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func reload(with model: MessageModel ){
-        self.titleLb.text = model.messageTitle
-        self.codeLb.text = model.messageContent
+    func reload(_ model: SearchStockModel, with keyword: String?){
+        if let keyword = keyword {
+            self.titleLb.attributedText = model.name.highlightKeyword(keyword, color: .kTheme)
+        } else {
+            self.titleLb.attributedText = NSAttributedString(string: model.name)
+        }
+        self.codeLb.text = model.code
     }
     
-    func highlightText(_ text: String, with keyword: String) -> NSAttributedString {
-        var attr = NSMutableAttributedString(string: text, attributes: [.foregroundColor: UIColor.kText2])
-       
-        return attr
-    }
+    
     
     func setupUI() {
         contentView.addSubview(self.titleLb)
@@ -52,5 +52,4 @@ class StockSearchResultCell: UITableViewCell {
         }
     }()
     
-   
 }

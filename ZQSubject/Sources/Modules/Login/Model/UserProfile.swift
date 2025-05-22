@@ -31,6 +31,8 @@ class UserProfile: Decodable {
     /// 用户的对接销售
     var salesStaffInfo:SalesStaffInfo?
     
+    var userServerStatusBoard:SalesStaffInfo?
+    
     func needDoQA() -> Bool {
         return self.isUserQa != 2
     }
@@ -138,6 +140,40 @@ struct OrderVerification: Decodable {
     let verificationResult: Int
     let verificationTime: String?
     let verificationUserId: Int?
+}
+
+
+struct StatusBoard: Decodable {
+    
+    /// 搭载进度
+    let loadingProgress: String?
+    /// 搭载步骤 开户|开通交易系统|搭载策略
+    let loadingStep: String?
+   
+    /// 注意事项
+    let precautions: String?
+    /// 步骤对应的图片，多张图片|分割
+    let stepPicture:String?
+    /// 跳转地址描述
+    let jumpLinkDescribe: String?
+    /// 跳转实际地址
+    let jumpLinkAddress: String?
+    /// 按钮文案
+    let buttonText: String?
+    /// 描述图标
+    let describeIcon: String?
+    /// 描述
+    let describeMessage: String?
+    
+    func steps() -> [String]? {
+        guard let loadingStep = loadingStep else { return nil }
+        return loadingStep.components(separatedBy: "|")
+    }
+
+    func pictures() -> [String]? {
+        guard let stepPicture = stepPicture else { return nil }
+        return stepPicture.components(separatedBy: "|")
+    }
 }
 
 

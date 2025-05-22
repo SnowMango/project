@@ -103,9 +103,7 @@ extension Router {
         
         /// 反馈
         route.addRoute("/feedback") { _ in
-           
             Tools.getTopVC().navigationController?.show(FeedbackCV(), sender: nil)
-    
             return true
         }
         
@@ -173,6 +171,18 @@ extension Router {
             Tools.getTopVC().navigationController?.show(StockSearchVC(), sender: nil)
             return true
         }
+        
+        route.addRoute("/stock/detail") {
+            guard let code = $0["code"] as? String else { return false }
+            let vc = StockDetailVC()
+            vc.stockCode = code
+            if let name = $0["name"] as? String {
+                vc.stockName = name
+            }
+            Tools.getTopVC().navigationController?.show(vc, sender: nil)
+            return true
+        }
+        
         
     }
 }

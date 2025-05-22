@@ -14,9 +14,13 @@ class InsetLabel: UILabel {
     }
     
     override var intrinsicContentSize: CGSize {
-        super.intrinsicContentSize.with {
-            $0.width += contentInsets.left + contentInsets.right
-            $0.height += contentInsets.top + contentInsets.bottom
-        }
+        var size = super.intrinsicContentSize
+        size.width += contentInsets.left + contentInsets.right
+        size.height += contentInsets.top + contentInsets.bottom
+        return size
+    }
+    
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return self.intrinsicContentSize
     }
 }

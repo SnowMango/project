@@ -5,22 +5,27 @@ import RxCocoa
 import RxSwift
 
 class StockSearchVC: BaseViewController {
-    
-    
+
     let textFieldText = BehaviorRelay(value: "")
     
-    var hots: [String] = ["aa"]
+    private var historyItems: [SearchStockModel] = []
+
     
     let resultVC = StockSearchResultVC()
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
-        // 将UITextField的文本变化绑定到BehaviorRelay中，以便可以在其他地方访问最新的文本值
+        if let items = loadAllHistory() {
+            self.historyItems = items
+        }
+        reloadData()
+        requestHot()
+        
         searchBar.searchTextFild.rx.text.orEmpty
             .bind(to: textFieldText)
             .disposed(by: disposeBag)
-               
-        // 应用防抖操作符，例如在用户停止输入0.5秒后打印文本值
+       
+        
         searchBar.searchTextFild.rx.text.orEmpty
             .filter({ $0.count > 0 })
             .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
@@ -30,24 +35,77 @@ class StockSearchVC: BaseViewController {
             .disposed(by: disposeBag)
         
         searchBar.searchBtn.rx.tap.subscribe { [weak self] _ in
-            self?.view.endEditing(true)
-            self?.resultVC.dismiss()
+            if let text = self?.searchBar.searchTextFild.text, text.count > 0 {
+                self?.requestSearch(text)
+            }
+        }.disposed(by: disposeBag)
+        
+        cleanBtn.rx.tap.subscribe { [weak self] _ in
+            self?.showClean()
         }.disposed(by: disposeBag)
     }
+    
 
-    func requestSearch(_ text:String) {
-        Logger.debug("search = \(text)")
-        resultVC.results.append(text)
-        resultVC.show()
-        resultVC.tableView.reloadData()
+    func showClean() {
+        let alert = UIAlertController(title: "提示", message: "确定要删除历史记录吗？", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel))
+        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
+            self.cleanHistroy()
+            self.historyItems = []
+            self.reloadData()
+        }))
+        
+        self.present(alert, animated: true)
+    }
+    
+    func reloadData() {
+        historyStack.cleanAllSubs()
+        for (index, item) in historyItems.enumerated() {
+            let tag = makeTag(with: item.name)
+            tag.tag = index
+            historyStack.addArrangedSubview(tag)
+            tag.isUserInteractionEnabled = true
+            tag.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapTag)))
+        }
+    }
+    
+    @objc func tapTag(_ tap: UITapGestureRecognizer) {
+        guard let v = tap.view else { return }
+        let item = historyItems[v.tag]
+        Router.shared.route("/stock/detail",parameters: ["code": item.code,
+                                                         "name": item.name])
     }
     
     func makeUI() {
         navigationItem.titleView = searchBar
         view.addSubview(resultVC.view)
         resultVC.dismiss(false)
+        resultVC.tableView.delegate = self
         resultVC.view.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets.zero)
+        }
+       
+        view.addSubview(historyTitleLb)
+        historyTitleLb.snp.makeConstraints { make in
+            make.left.equalTo(wScale(15))
+            make.top.equalTo(wScale(20))
+        }
+        view.addSubview(cleanBtn)
+        
+        cleanBtn.snp.makeConstraints { make in
+            make.right.equalTo(wScale(-5))
+            make.width.height.equalTo(35)
+            make.centerY.equalTo(historyTitleLb)
+        }
+        historyStack.frame = CGRect(x: 0, y: wScale(42), width: SCREEN_WIDTH, height: 0)
+        view.addSubview(historyStack)
+        
+        view.addSubview(hotStockView)
+        hotStockView.snp.makeConstraints { make in
+            make.left.equalTo(wScale(14))
+            make.right.equalTo(wScale(-14))
+            make.top.equalTo(historyStack.snp.bottom).offset(12)
         }
     }
     
@@ -58,12 +116,133 @@ class StockSearchVC: BaseViewController {
         }
     }()
     
+    lazy var historyTitleLb: UILabel = {
+        UILabel().then {
+            $0.text = "搜索历史"
+            $0.textColor = .kText2
+            $0.font = .kScale(16, weight: .bold)
+        }
+    }()
+    
+    lazy var cleanBtn: UIButton = {
+        UIButton().then {
+            $0.setImage(UIImage(named: "delete.grey"), for: .normal)
+            $0.setImage(UIImage(named: "delete.grey"), for: .highlighted)
+        }
+    }()
+    
+    func makeTag(with tag: String) -> InsetLabel {
+        InsetLabel().then {
+            $0.textColor = .kText2
+            $0.text = tag
+            $0.font = .systemFont(ofSize: 14, weight: .medium)
+            $0.contentInsets = .init(top: 10, left: 12, bottom: 10, right: 12)
+            $0.backgroundColor = .white
+            $0.layer.cornerRadius = 5
+            $0.clipsToBounds = true
+       }
+    }
+    
+    lazy var historyStack: TagStackView = {
+        TagStackView().then {
+            $0.contentInset = .init(top: 12, left: wScale(14), bottom: 12, right: wScale(14))
+        }
+    }()
+    
+    lazy var hotStockView: HotStockView = {
+        HotStockView().then {
+            $0.backgroundColor = UIColor("#FCFAED")
+        }.gradient {
+            $0.colors = [UIColor(0xFFFFFF).cgColor,UIColor(0xFCFAED).cgColor]
+            $0.startPoint = CGPoint(x: 0.5, y: 1)
+            $0.endPoint = CGPoint(x: 0.5, y: 0)
+            $0.locations = [0, 1]
+        }
+    }()
 }
 
+extension StockSearchVC {
+    
 
+    func loadAllHistory() -> [SearchStockModel]?  {
+        guard let profile = AppManager.shared.profile else { return nil }
+        let key = "key-histroy-\(profile.id)"
+        guard let jsonData = UserDefaults.standard.data(forKey: key) else {
+            return nil
+        }
+        guard let response = try? JSONDecoder().decode([SearchStockModel].self, from: jsonData) else { return nil}
+        return response
+    }
+    
+    func save(history: SearchStockModel) {
+        if let index = self.historyItems.firstIndex(of: history) {
+            self.historyItems.remove(at: index)
+        }
+        self.historyItems.append(history)
+        guard let profile = AppManager.shared.profile else { return  }
+        let key = "key-histroy-\(profile.id)"
+        
+        guard let data = try? JSONEncoder().encode(self.historyItems) else { return }
+        UserDefaults.standard.set(data, forKey: key)
+    }
+    
+    func cleanHistroy() {
+        guard let profile = AppManager.shared.profile else { return  }
+        let key = "key-histroy-\(profile.id)"
+        kUserDefault.removeObject(forKey: key)
+    }
+}
+
+extension StockSearchVC: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.searchBar.searchTextFild.resignFirstResponder()
+        self.resultVC.dismiss()
+        let stock = self.resultVC.results[indexPath.row]
+        self.save(history: stock)
+        reloadData()
+        Router.shared.route("/stock/detail",parameters: ["code": stock.code,
+                                                         "name": stock.name])
+    }
+}
+extension StockSearchVC {
+    
+    func requestSearch(_ text:String) {
+        if self.resultVC.keyword == text {
+            return
+        }
+        NetworkManager.shared.request(AuthTarget.stockSearch(keyword: text)) { (result: NetworkResult<[SearchStockModel]>) in
+            do {
+                let response = try result.get()
+                self.resultVC.results = response
+                self.resultVC.keyword = text
+                self.resultVC.tableView.reloadData()
+                self.resultVC.show()
+            } catch {
+                
+            }
+        }
+    }
+    
+    func requestHot() {
+        NetworkManager.shared.request(AuthTarget.stockHot) { (result:NetworkResult<[HotStockModel]>) in
+            do {
+                let response = try result.get()
+                self.hotStockView.items = response
+                self.hotStockView.reloadData()
+            } catch {
+                
+            }
+        }
+    }
+}
+
+//MARK: StockSearchResultVC
 class StockSearchResultVC: UITableViewController {
-    var results: [String] = ["Apple", "Banana", "Orange", "Grape"]
+    
+    var results: [SearchStockModel] = []
     var keyword: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -85,6 +264,10 @@ class StockSearchResultVC: UITableViewController {
     }
     
     func show(_ animated: Bool = true) {
+        self.view.superview?.bringSubviewToFront(self.view)
+        if !self.view.isHidden {
+            return
+        }
         self.view.isHidden = false
         if !animated {
             self.view.alpha = 1;
@@ -116,8 +299,8 @@ class StockSearchResultVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "StockSearchResultCell", for: indexPath) as! StockSearchResultCell
         cell.selectionStyle = .none
-        cell.titleLb.text = results[indexPath.row]
-        cell.codeLb.text = results[indexPath.row]
+        let item = results[indexPath.row]
+        cell.reload(item, with: self.keyword)
         return cell
     }
     

@@ -133,8 +133,14 @@ enum AuthTarget {
     
     /// 查询资源位
     case appResources
-    
+    /// 用户故事
     case stroy
+    /// 搜索股票
+    case stockSearch(keyword: String)
+    /// 热门股票
+    case stockHot
+    /// 获取股票详情
+    case stockDetail(String)
 }
 
 extension AuthTarget: AppTargetProtocol {
@@ -186,6 +192,12 @@ extension AuthTarget: AppTargetProtocol {
             "/app/selectResourcePosition"
         case .stroy:
             "/app/getAllUserStoryInfos"
+        case .stockSearch(_):
+            "stock/search"
+        case .stockHot:
+            "stock/hot"
+        case .stockDetail(let code):
+            "stock/detail/\(code)"
         }
     }
     
@@ -193,7 +205,8 @@ extension AuthTarget: AppTargetProtocol {
         switch self {
         case .userinfo, .logout, .funds, .fundRule(_),
                 .bindTrading(_), .logoff, .unreadMsg,
-                .changeMsgRead, .reportPush(_),.activity, .kingKong, .appResources, .stroy:
+                .changeMsgRead, .reportPush(_),.activity,
+                .kingKong, .appResources, .stroy, .stockSearch(_), .stockHot, .stockDetail(_):
             .get
         default:
             .post
@@ -214,6 +227,12 @@ extension AuthTarget: AppTargetProtocol {
                                       encoding: URLEncoding.default)
         case .reportPush(let pushId):
             return .requestParameters(parameters: ["pushId":pushId],
+                                      encoding: URLEncoding.default)
+            
+        case .stockSearch(let keyword):
+            /// limit 最大返回条数，默认20条,示例值(20)
+            return .requestParameters(parameters: ["keyword":keyword,
+                                                   "limit":20],
                                       encoding: URLEncoding.default)
         case .upload(let data):
             return .uploadMultipart([

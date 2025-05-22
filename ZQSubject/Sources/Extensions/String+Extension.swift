@@ -327,4 +327,37 @@ extension String {
         }
         return attributedString
     }
+    
+    /// 高亮字符串中的数字及百分号
+       /// - Parameters:
+       ///   - color: 高亮颜色（默认红色）
+       ///   - font: 高亮字体（默认保持原字体）
+       /// - Returns: 带高亮效果的 NSAttributedString
+       func highlightNumbers(color: UIColor = .red, font: UIFont? = nil) -> NSAttributedString {
+           let attributedString = NSMutableAttributedString(string: self)
+           
+           // 正则匹配规则：整数、小数、百分数
+           let pattern = "\\d+\\.?\\d*%?"
+           guard let regex = try? NSRegularExpression(pattern: pattern) else {
+               return attributedString
+           }
+
+           // 遍历所有匹配结果
+           let matches = regex.matches(
+               in: self,
+               options: [],
+               range: NSRange(location: 0, length: self.utf16.count)
+           )
+           
+           // 应用高亮样式
+           for match in matches {
+               var attributes: [NSAttributedString.Key: Any] = [.foregroundColor: color]
+               if let font = font {
+                   attributes[.font] = font
+               }
+               attributedString.addAttributes(attributes, range: match.range)
+           }
+           
+           return attributedString
+       }
 }
