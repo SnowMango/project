@@ -9,6 +9,10 @@ class BaseWebController: BaseViewController {
     fileprivate var observerProgress: NSKeyValueObservation?
     fileprivate var observerTitle: NSKeyValueObservation?
     
+    override func stashInNavigationStack() -> Bool {
+        return false
+    }
+    
     /// web页面
     lazy var webView: WKWebView = {
         

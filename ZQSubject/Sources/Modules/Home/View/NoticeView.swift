@@ -20,7 +20,6 @@ class NoticeView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addTapGesture(self, sel: #selector(tap))
         setupUI()
     }
     
