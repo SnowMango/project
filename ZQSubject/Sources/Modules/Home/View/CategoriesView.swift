@@ -107,21 +107,7 @@ extension CategoriesView:UICollectionViewDataSource, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = self.categories[indexPath.row]
-//        guard let profile = AppManager.shared.profile else { return }
-//        if item == .account {
-//            if profile.needRisk() {
-//                JumpManager.jumpToWeb(AppLink.risk.path)
-//                return
-//            }
-//            if profile.needRealName() {
-//                Router.shared.route("/commit/auth")
-//                return
-//            }
-//            Router.shared.route("/open/account")
-//            return
-//        }
-//        
+        let item = self.categories[indexPath.row]    
         if let url = item.iconLinkUrl, let link = URL(string: url){
             Router.route(url: link)
         }

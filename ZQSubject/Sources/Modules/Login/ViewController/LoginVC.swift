@@ -271,9 +271,9 @@ class LoginVC: BaseViewController {
     @objc func tapProtocolAction(_ sender: UITapGestureRecognizer) {
 
         if sender.didTapAttributedTextInLabel(label: protocolLabel, inRange: NSRange(location: 10, length: 8)) {
-            JumpManager.jumpToWeb(AppLink.serviceTerms.path)
+            AppLink.serviceTerms.routing()
         } else if sender.didTapAttributedTextInLabel(label: protocolLabel, inRange: NSRange(location: 19, length: 6)) {
-            JumpManager.jumpToWeb(AppLink.privacyTerms.path)
+            AppLink.privacyTerms.routing()
         }
     }
 }

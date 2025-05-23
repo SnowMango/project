@@ -113,6 +113,10 @@ extension AppLink {
         }
     }
     
+    func routing() {
+        Router.shared.route(self.path)
+    }
+    
 }
 /// 环境配置
 #if DEBUG

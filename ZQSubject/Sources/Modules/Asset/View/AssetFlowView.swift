@@ -70,7 +70,7 @@ class AssetFlowView: UIView {
     @objc private func showApply() {
         guard let profile = AppManager.shared.profile else { return}
         if profile.needRisk() {
-            JumpManager.jumpToWeb(AppLink.risk.path)
+            AppLink.risk.routing()
             return
         }
         if profile.needRealName() {
@@ -86,7 +86,7 @@ class AssetFlowView: UIView {
             let content = "添加客服，咨询交易账户相关"
             let alert = WindowAlert(title: title, content: content, url: url, actionTitle: "在线客服", alertType: .join)
             alert.doneCallBack = {
-                JumpManager.jumpToWeb(AppLink.support.path)
+                AppLink.support.routing()
             }
             alert.show()
         }
@@ -95,7 +95,7 @@ class AssetFlowView: UIView {
     @objc private func showBind() {
         guard let profile = AppManager.shared.profile else { return}
         if profile.needRisk() {
-            JumpManager.jumpToWeb(AppLink.risk.path)
+            AppLink.risk.routing()
             return
         }
         if profile.needRealName() {
@@ -120,7 +120,7 @@ class AssetFlowView: UIView {
             return
         }
         if profile.strategySuccess() {
-            JumpManager.jumpToWeb(AppLink.assetDetail.path)
+            AppLink.assetDetail.routing()
             return
         }
         Router.shared.route(AssetFlowView.FlowStep.strategy.path)

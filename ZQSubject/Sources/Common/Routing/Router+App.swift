@@ -59,7 +59,7 @@ extension Router {
             let content = "添加客服，进行一对一开户指导"
             let alert = WindowAlert(title: title, content: content, url: qrUrl, actionTitle: "在线客服", alertType: .join)
             alert.doneCallBack = {
-                JumpManager.jumpToWeb(AppLink.support.path)
+                AppLink.support.routing()
             }
             alert.show()
             return false
@@ -67,18 +67,20 @@ extension Router {
         
         /// 绑定券商账号
         route.addRoute("/bind/account") { _ in
-            Tools.getTopVC().navigationController?.show(BindAccountVC(), sender: nil)
+            
+            UIApplication.shared.open(BindAccountVC(), animated: true)
             return true
         }
         
         /// 交易系统账号
         route.addRoute("/bind/system/account") { _ in
-            Tools.getTopVC().navigationController?.show(BindSystemAccountVC(), sender: nil)
+
+            UIApplication.shared.open(BindSystemAccountVC(), animated: true)
             return true
         }
         /// 搭载量化策略
         route.addRoute("/build/strategy") { _ in
-            Tools.getTopVC().navigationController?.show(BuildStrategyVC(), sender: nil)
+            UIApplication.shared.open(BuildStrategyVC(), animated: true)
             return true
         }
         
@@ -97,13 +99,13 @@ extension Router {
         
         /// 设置
         route.addRoute("/app/setting") { _ in
-            Tools.getTopVC().navigationController?.show(SettingVC(), sender: nil)
+            UIApplication.shared.open(SettingVC(), animated: true)
             return true
         }
         
         /// 反馈
         route.addRoute("/feedback") { _ in
-            Tools.getTopVC().navigationController?.show(FeedbackCV(), sender: nil)
+            UIApplication.shared.open(FeedbackCV(), animated: true)
             return true
         }
         
@@ -117,7 +119,7 @@ extension Router {
                     if let _ = $0["needOpen"]{
                         vc.needOpen = false
                     }
-                    Tools.getTopVC().navigationController?.show(vc, sender: nil)
+                    UIApplication.shared.open(vc, animated: true)
                     return true
                 }
             }
@@ -125,7 +127,7 @@ extension Router {
             if let _ = $0["needOpen"]{
                 vc.needOpen = false
             }
-            Tools.getTopVC().navigationController?.show(vc, sender: nil)
+            UIApplication.shared.open(vc, animated: true)
             return true
         }
         route.addRoute("/auth/result") {
@@ -138,19 +140,19 @@ extension Router {
             if let _ = $0["needOpen"]{
                 vc.needOpen = false
             }
-            Tools.getTopVC().navigationController?.show(vc, sender: nil)
+            UIApplication.shared.open(vc, animated: true)
             return true
         }
         
         /// 服务器管理
         route.addRoute("/servers") { _ in
-            Tools.getTopVC().navigationController?.show(SeverListVC(), sender: nil)
+            UIApplication.shared.open(SeverListVC(), animated: true)
             return true
         }
         
         /// 我的订单
         route.addRoute("/orders") { _ in
-            Tools.getTopVC().navigationController?.show(OrderListVC(), sender: nil)
+            UIApplication.shared.open(OrderListVC(), animated: true)
             return true
         }
         
@@ -163,12 +165,12 @@ extension Router {
         
         /// 问答
         route.addRoute("/message") { _ in
-            Tools.getTopVC().navigationController?.show(MessageListVC(), sender: nil)
+            UIApplication.shared.open(MessageListVC(), animated: true)
             return true
         }
         
         route.addRoute("/search/stock") { _ in
-            Tools.getTopVC().navigationController?.show(StockSearchVC(), sender: nil)
+            UIApplication.shared.open(StockSearchVC(), animated: true)
             return true
         }
         
@@ -179,10 +181,14 @@ extension Router {
             if let name = $0["name"] as? String {
                 vc.stockName = name
             }
-            Tools.getTopVC().navigationController?.show(vc, sender: nil)
+            UIApplication.shared.open(vc, animated: true)
             return true
         }
         
+        route.addRoute("/ai/chat") { _ in
+            UIApplication.shared.open(StockSearchVC(), animated: true)
+            return true
+        }
         
     }
 }

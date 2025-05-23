@@ -106,7 +106,9 @@ class BeginnerView: UIView {
 extension BeginnerView {
     @objc func tapImg() -> Void {
         let item = self.items[selectedItem]
-        JumpManager.jumpToWeb(item.linkAddress?.validURL(), superVC: Tools.getTopVC(), interactivePopDisabled: false)
+        if let path = item.linkAddress {
+            Router.shared.route(path)
+        }
     }
 }
 

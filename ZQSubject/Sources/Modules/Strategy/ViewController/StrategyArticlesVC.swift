@@ -117,7 +117,7 @@ extension StrategyArticlesVC: UITableViewDelegate,UITableViewDataSource,WMZPageP
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = articleDatas[indexPath.row]
-        JumpManager.jumpToWeb(AppLink.news(id: item.id).path)
+        AppLink.news(id: item.id).routing()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

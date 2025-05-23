@@ -58,31 +58,6 @@ class PopWindowManager {
     ///展示闪屏广告
     func showLaunchADViewIfNeeded(_ finishCall: finishedCall) {
         finishCall?()
-//        getSplashAD()
-//        
-//        func callFunc() {
-//            finishCall?()
-//        }
-//        
-//        guard let adStr = kUserDefault.value(forKey: UserDefaultKey.splashAD.rawValue),
-//              let adModel = BaseADModel.deserialize(from: adStr as? String),
-//              let imgURL = adModel.highPhoto
-//        else {
-//            callFunc()
-//            return
-//        }
-//        
-//        let splashView = SplashAD(imageUrl: imgURL, adUrl: adModel.linkUrl) { (didTap) in
-//            
-//            //有广告链接才跳转
-//            guard let url = adModel.linkUrl, url.count > 0, didTap else {
-//                callFunc()
-//                return
-//            }
-//            
-//            JumpManager.jumpToWeb(url, superVC: Tools.getTopVC(), dismissedBlock: callFunc)
-//        }
-//        splashView.show()
     }
     
     ///请求闪屏广告,用于下次打开app时显示

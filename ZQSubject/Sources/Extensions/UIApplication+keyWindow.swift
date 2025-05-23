@@ -13,3 +13,36 @@ extension UIApplication {
         return window
     }
 }
+
+extension UIApplication {
+    var topController: UIViewController? {
+        guard let window = UIApplication.shared.keyWindow, let root = window.rootViewController else { return nil}
+        return findController(root)
+    }
+    private func findController(_ controller: UIViewController) -> UIViewController {
+        if let navi = controller as? UINavigationController, let top = navi.topViewController {
+            return self.findController(top)
+        } else if let tab = controller as? UITabBarController, let top = tab.selectedViewController {
+            return self.findController(top)
+        }
+        if let presented = controller.presentedViewController {
+            return self.findController(presented)
+        }
+        return controller.topController()
+    }
+    
+    func open(_ viewController: UIViewController, animated: Bool) {
+        guard let top = self.topController else { return }
+        top.navigationController?.push(viewController, animated: animated)
+    }
+}
+
+protocol TransformTopController {
+    func topController() -> UIViewController
+}
+
+extension UIViewController: TransformTopController{
+    @objc func topController() -> UIViewController {
+        return self
+    }
+}

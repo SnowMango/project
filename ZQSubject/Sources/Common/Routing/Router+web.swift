@@ -22,7 +22,7 @@ extension Router {
         
         /// 绑定券商账户
         route.addRoute("/web/bind-fundAccount") { _ in
-            return Router.shared.route(AssetFlowView.FlowStep.account.path)
+            return Router.shared.route("/bind/account")
         }
         
         /// 申请交易系统
@@ -32,7 +32,7 @@ extension Router {
             let content = "添加客服，咨询交易账户相关"
             let alert = WindowAlert(title: title, content: content, url: qrUrl, actionTitle: "在线客服", alertType: .join)
             alert.doneCallBack = {
-                JumpManager.jumpToWeb(AppLink.support.path)
+                AppLink.support.routing()
             }
             alert.show()
             return false
@@ -40,12 +40,12 @@ extension Router {
         /// 绑定交易账户
         route.addRoute("/web/bind-tradingAccount") { _ in
             AppManager.shared.refreshUserInfo()
-            return Router.shared.route(AssetFlowView.FlowStep.system.path)
+            return Router.shared.route("/bind/system/account")
         }
         /// 搭载
         route.addRoute("/web/account-carry") { _ in
             AppManager.shared.refreshUserInfo()
-            return Router.shared.route(AssetFlowView.FlowStep.strategy.path)
+            return Router.shared.route("/build/strategy")
         }
         
         route.addRoute("/web/quantitative-strategy") { _ in
@@ -60,7 +60,7 @@ extension Router {
             guard let profile = AppManager.shared.profile, let qrUrl = profile.salesStaffInfo?.salespersonQrCode else { return false }
             let alert = WindowAlert(title: "截图微信扫码进群", content: "添加客服，加入投资者交流群", url: qrUrl, actionTitle: "在线客服", alertType: .join)
             alert.doneCallBack = {
-                JumpManager.jumpToWeb(AppLink.support.path)
+                AppLink.support.routing()
             }
             alert.show()
             return false

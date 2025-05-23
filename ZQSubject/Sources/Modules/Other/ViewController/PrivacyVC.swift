@@ -167,10 +167,10 @@ class PrivacyVC: BaseViewController {
         guard let protocolLabel = sender.view as? UILabel else { return }
         
         if sender.didTapAttributedTextInLabel(label: protocolLabel, inRange: NSRange(location: 90, length: 8)) {
-            JumpManager.jumpToWeb(AppLink.serviceTerms.path)
+            AppLink.serviceTerms.routing()
             
         } else if sender.didTapAttributedTextInLabel(label: protocolLabel, inRange: NSRange(location: 99, length: 6)) {
-            JumpManager.jumpToWeb(AppLink.privacyTerms.path)
+            AppLink.privacyTerms.routing()
         }
     }
     

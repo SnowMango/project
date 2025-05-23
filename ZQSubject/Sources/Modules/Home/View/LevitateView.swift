@@ -18,10 +18,10 @@ class LevitateView: UIView {
     private var item: AppResource.ResourceData?
     private var insets: UIEdgeInsets = UIEdgeInsets(top: 40, left: 10, bottom: 20, right: 10)
     @objc func showLink() {
-        guard let item = self.item else {
+        guard let item = self.item,let path = item.linkAddress else {
             return
         }
-        JumpManager.jumpToWeb(item.linkAddress)
+        Router.shared.route(path)
     }
 
     @objc func panAction(_ pan: UIPanGestureRecognizer) {

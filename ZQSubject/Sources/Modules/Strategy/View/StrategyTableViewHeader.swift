@@ -104,7 +104,9 @@ extension StrategyTableViewHeader: FSPagerViewDelegate, FSPagerViewDataSource {
     
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         let model = ads_L03[index]
-        JumpManager.jumpToWeb(model.linkAddress)
+        if let path = model.linkAddress {
+            Router.shared.route()
+        }
         pagerView.deselectItem(at: index, animated: false)
     }
     

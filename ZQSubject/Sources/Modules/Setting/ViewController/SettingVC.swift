@@ -140,11 +140,11 @@ extension SettingVC: UITableViewDataSource, UITableViewDelegate {
         let title = datas[indexPath.row]
         switch title {
         case "关于我们":
-            JumpManager.jumpToWeb(AppLink.aboutUs.path)
+            AppLink.aboutUs.routing()
         case "服务协议":
-            JumpManager.jumpToWeb(AppLink.serviceTerms.path)
+            AppLink.serviceTerms.routing()
         case "隐私政策":
-            JumpManager.jumpToWeb(AppLink.privacyTerms.path)
+            AppLink.privacyTerms.routing()
         case "注销账号":
             deleteAccount()
             return

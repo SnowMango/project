@@ -37,7 +37,7 @@ class HomeVC: BaseViewController {
     }
     
     @objc func contactUsClick() {
-        JumpManager.jumpToWeb(AppLink.support.path)
+        AppLink.support.routing()
     }
     
     func reloadData() {

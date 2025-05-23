@@ -18,7 +18,7 @@ class MineGroupView: RadiusView {
         if let url = profile.salesStaffInfo?.salespersonQrCode {
             let alert = WindowAlert(title: "截图微信扫码进群", content: "添加客服，加入投资者交流群", url: url, actionTitle: "在线客服", alertType: .join)
             alert.doneCallBack = {
-                JumpManager.jumpToWeb(AppLink.support.path)
+                AppLink.support.routing()
             }
             alert.show()
         }

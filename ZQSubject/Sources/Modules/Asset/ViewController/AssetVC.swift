@@ -23,7 +23,7 @@ class AssetVC: BaseViewController {
     }
 
     @objc func checkBtnClick() {
-        JumpManager.jumpToWeb(AppLink.assetDetail.path)
+        AppLink.assetDetail.routing()
     }
     
     func reloadData(){

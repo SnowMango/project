@@ -18,7 +18,7 @@ class BindAccountFooter: UICollectionReusableView {
     }
     
     @objc func showAgreement() {
-        JumpManager.jumpToWeb(AppLink.cooperationTerms.path)
+        AppLink.cooperationTerms.routing()
     }
     
     func setupUI() {

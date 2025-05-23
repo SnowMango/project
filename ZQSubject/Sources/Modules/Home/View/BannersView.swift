@@ -74,7 +74,9 @@ extension BannersView: FSPagerViewDelegate, FSPagerViewDataSource {
     
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         let model = banners[index]
-        JumpManager.jumpToWeb(model.linkAddress)
+        if let path = model.linkAddress {
+            Router.shared.route(path)
+        }
         pagerView.deselectItem(at: index, animated: false)
     }
     

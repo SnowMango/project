@@ -47,17 +47,6 @@ class NoticeView: UIView {
         }
     }
     
-//    var model: NoticeModel? = nil {
-//        didSet {
-//            if let summary = model?.summary {
-//                isHidden = false
-//                marquee.text = summary + "   "//加几个空格，避免无线轮播的时候头尾紧挨在一起
-//            } else {
-//                isHidden = true
-//            }
-//        }
-//    }
-    
     var model: AppResource.ResourceData? = nil {
         didSet {
             if let summary = model?.message {
@@ -69,9 +58,4 @@ class NoticeView: UIView {
         }
     }
     
-    @objc func tap() {
-//        if let url = model?.resourceUrl{
-//            JumpManager.jumpToWeb(WebURL.notice.url + id, superVC: Tools.getTopVC())
-//        }
-    }
 }

@@ -16,7 +16,7 @@ class MineAccountView: RadiusView {
     @objc func linkBtnClick() {
         guard let profile = AppManager.shared.profile else { return}
         if profile.needRisk() {
-            JumpManager.jumpToWeb(AppLink.risk.path)
+            AppLink.risk.routing()
             return
         }
         if profile.needRealName() {
