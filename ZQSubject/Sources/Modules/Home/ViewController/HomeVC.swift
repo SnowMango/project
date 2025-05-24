@@ -2,42 +2,49 @@ import UIKit
 import MarqueeLabel
 import MJRefresh
 import Then
+import RxCocoa
 
 class HomeVC: BaseViewController {
     
+    var hasUnread: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //隐藏导航栏
         hiddenNavigationBarWhenShow = true
-        hiddenBackBtn = true
-        //取消table的自动适配偏移
         setupUI()
+        
+        msgBtn.rx.tap.subscribe { _ in
+//            Router.shared.route("/message")
+            Router.shared.route("https://demo-test.cn/demo.html")
+        }.disposed(by: disposeBag)
+        
+        contactUsBtn.rx.tap.subscribe { _ in
+            AppLink.support.routing()
+        }.disposed(by: disposeBag)
        
+        NotificationCenter.default.rx.notification(UserProfileDidUpdateName).subscribe {[weak self] _ in
+            self?.reloadData()
+        }.disposed(by: disposeBag)
+        
+        
         AppManager.shared.startTask()
-       
+        AppManager.shared.loginInit()
         AppManager.shared.refreshKingkong {[weak self] in
             self?.reloadData()
         }
         AppManager.shared.reloadKingkong()
-        
+        updateUnread()
         reloadData()
-        NotificationCenter.default.addObserver(self, selector: #selector(updataUserProfile), name: UserProfileDidUpdateName, object: nil)
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         AppManager.shared.refreshUserInfo()
         requestStroy()
+        checkUnread()
         reloadData()
-    }
-    
-    @objc func updataUserProfile() {
-        self.reloadData()
-    }
-    
-    @objc func contactUsClick() {
-        AppLink.support.routing()
     }
     
     func reloadData() {
@@ -74,44 +81,33 @@ class HomeVC: BaseViewController {
         }
         
         if let items = AppManager.shared.kingkong(with: 0) {
-            self.categoriesView.isHidden = false
             self.categoriesView.categories = items
-            var rows = items.count/4
-            if items.count%4 != 0 {
-                rows += 1
-            }
-            self.categoriesView.snp.updateConstraints { make in
-                make.height.equalTo(rows*85)
-            }
-            self.categoriesView.collectionView.reloadData()
+            self.categoriesView.isHidden = false
+    
         } else {
+            self.categoriesView.categories = []
             self.categoriesView.isHidden = true
         }
-        
-        if let item = AppManager.shared.resource(with: "service_status_dashboard_switch"), item.status == 0  {
-            self.transactionStatusView.isHidden = false
-        }else {
-            self.transactionStatusView.isHidden = true
-        }
         transactionStatusView.reloadData()
-    
+
     }
     
     private func setupUI() {
         view.addSubview(scrollView)
         view.addSubview(levitate)
-//        view.addSubview(noticeView)
-//        view.addSubview(contactUsBtn)
        
         scrollView.addSubview(contentView)
         contentView.addSubview(topView)
         contentView.addSubview(contactUsBtn)
+        contentView.addSubview(msgBtn)
+        contentView.addSubview(redPoint)
+        
         contentView.addSubview(noticeView)
         contentView.addSubview(backgourdView)
         backgourdView.addSubview(sectionsStack)
+    
         scrollView.contentInsetAdjustmentBehavior = .never
-        
-
+    
         topView.addSubview(topBannerView)
         topView.addSubview(categoriesView)
         
@@ -136,11 +132,24 @@ class HomeVC: BaseViewController {
             make.height.equalTo(wScale(22))
         }
         
-        
         contactUsBtn.snp.makeConstraints { (make) in
-            make.right.equalTo(0)
+            make.right.equalTo(-8)
             make.top.equalTo(contentView.safeAreaLayoutGuide.snp.top)
             make.height.equalTo(44)
+            make.width.equalTo(30)
+        }
+        
+        msgBtn.snp.makeConstraints { make in
+            make.height.equalTo(44)
+            make.width.equalTo(30)
+            make.top.equalTo(contentView.safeAreaLayoutGuide.snp.top)
+            make.right.equalTo(contactUsBtn.snp.left).offset(2)
+        }
+        
+        redPoint.snp.makeConstraints { make in
+            make.left.equalTo(msgBtn.snp.centerX).offset(1)
+            make.top.equalTo(msgBtn).offset(15)
+            make.width.height.equalTo(6)
         }
         
         scrollView.snp.makeConstraints { (make) in
@@ -167,8 +176,7 @@ class HomeVC: BaseViewController {
             make.top.equalTo(topBannerView.snp.bottom).offset(wScale(12))
             make.left.equalTo(wScale(14))
             make.right.equalTo(wScale(-14))
-            make.height.equalTo(80)
-            make.bottom.lessThanOrEqualTo(0)
+            make.bottom.lessThanOrEqualTo(wScale(-12))
         }
         
         backgourdView.snp.makeConstraints { make in
@@ -206,7 +214,6 @@ class HomeVC: BaseViewController {
         userMessageView.snp.makeConstraints { make in
             make.left.equalTo(0)
         }
-        
     }
     
     lazy var noticeView: NoticeView = {
@@ -217,23 +224,17 @@ class HomeVC: BaseViewController {
     
     lazy var contactUsBtn: UIButton = {
         return UIButton(type: .custom).then {
-            $0.setTitle("客服", for: .normal)
-            $0.setTitleColor(.kText2, for: .normal)
             $0.setImage(UIImage(named: "contact"), for: .normal)
-            $0.titleLabel?.font = .kFontScale(14)
-            $0.configuration = .plain()
-            $0.configuration?.imagePadding = 6.0
-            $0.addTarget(self, action: #selector(contactUsClick), for: .touchDown)
         }
     }()
     
     lazy var scrollView: UIScrollView = {
         return UIScrollView(frame: .zero).then {
             $0.showsVerticalScrollIndicator = false
-            $0.mj_header = RefreshHeader(refreshingBlock: {
-                self.getData()
+            $0.mj_header = RefreshHeader(refreshingBlock: {[weak self] in
+                self?.getData()
             })
-            $0.mj_header?.mj_h += kStatusBarH()
+//            $0.mj_header?.mj_h += kStatusBarH()
 //            $0.mj_header?.ignoredScrollViewContentInsetTop -= kStatusBarH()*0.5
         }
     }()
@@ -244,11 +245,25 @@ class HomeVC: BaseViewController {
         }
     }()
     
+    lazy var msgBtn: UIButton = {
+        UIButton().then {
+            $0.setImage(UIImage(named: "message"), for: .normal)
+        }
+    }()
+    
+    private lazy var redPoint: UIView = {
+        UIView().then {
+            $0.backgroundColor = .red
+            $0.layer.cornerRadius = 3
+        }
+    }()
+    
     lazy var topView: UIView = {
         return UIView().then {
             $0.backgroundColor = .clear
         }
     }()
+    
     
     lazy var topBannerView: TopBannerView = {
         return TopBannerView()
@@ -346,5 +361,26 @@ extension HomeVC {
 //        mainTable.mj_header?.endRefreshing()
 //        mainTable.reloadData()
 //        noticeView.model = homeData?.notice
+    }
+}
+
+extension HomeVC {
+    
+    private func checkUnread() {
+        NetworkManager.shared.request(AuthTarget.unreadMsg) { (result: JSONResult) in
+            do {
+                let response = try result.get()
+                let unreadCount = response["unreadCount"].intValue
+                let _ = response["readCount"].intValue
+                self.hasUnread = unreadCount > 0
+                self.updateUnread()
+            } catch {
+                
+            }
+        }
+    }
+    
+    func updateUnread() {
+        self.redPoint.isHidden = !self.hasUnread
     }
 }

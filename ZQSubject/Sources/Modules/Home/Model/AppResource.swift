@@ -14,5 +14,10 @@ struct AppResource: Decodable {
     var data: [ResourceData]
     var status: Int?
 }
-
-
+ 
+extension AppResource.ResourceData {
+    func routing() {
+        guard let path = self.linkAddress else { return }
+        Router.shared.route(path)
+    }
+}

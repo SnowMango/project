@@ -64,26 +64,7 @@ extension Router {
             alert.show()
             return false
         }
-        
-        /// 绑定券商账号
-        route.addRoute("/bind/account") { _ in
-            
-            UIApplication.shared.open(BindAccountVC(), animated: true)
-            return true
-        }
-        
-        /// 交易系统账号
-        route.addRoute("/bind/system/account") { _ in
-
-            UIApplication.shared.open(BindSystemAccountVC(), animated: true)
-            return true
-        }
-        /// 搭载量化策略
-        route.addRoute("/build/strategy") { _ in
-            UIApplication.shared.open(BuildStrategyVC(), animated: true)
-            return true
-        }
-        
+          
         ///
         route.addRoute("/strategy") { _ in
             guard let window = UIApplication.shared.keyWindow else { return false }
@@ -189,6 +170,14 @@ extension Router {
             UIApplication.shared.open(StockSearchVC(), animated: true)
             return true
         }
+        
+        route.addRoute("/coupons") { _ in
+            let vc = CouponsVC()
+            vc.hidesBottomBarWhenPushed = true
+            UIApplication.shared.open(vc, animated: true)
+            return true
+        }
+        
         
     }
 }

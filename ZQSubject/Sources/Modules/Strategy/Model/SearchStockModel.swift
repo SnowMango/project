@@ -86,9 +86,9 @@ struct StockBase: Decodable {
     
     // MARK: - 股本数据
     /// 流通股本 (单位: 万股，示例: 123456.78)
-    let fv: Float?
+    let fv: Double?
     /// 总股本 (单位: 万股，示例: 456789.01)
-    let tv: Float?
+    let tv: Double?
     
     // MARK: - 其他信息
     /// 上市日期 (格式: yyyy-MM-dd，示例: "2001-08-27")

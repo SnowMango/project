@@ -3,7 +3,7 @@ import UIKit
 extension UIColor {
     
     /// 随机色
-    class var randomColor: UIColor {
+    class var random: UIColor {
         return UIColor(r: arc4random() % 256,
                        g: arc4random() % 256,
                        b: arc4random() % 256)

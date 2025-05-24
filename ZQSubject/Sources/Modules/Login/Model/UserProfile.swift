@@ -31,7 +31,7 @@ class UserProfile: Decodable {
     /// 用户的对接销售
     var salesStaffInfo:SalesStaffInfo?
     
-    var userServerStatusBoard:SalesStaffInfo?
+    var userServerStatusBoard: StatusBoard?
     
     func needDoQA() -> Bool {
         return self.isUserQa != 2
@@ -160,6 +160,8 @@ struct StatusBoard: Decodable {
     let jumpLinkAddress: String?
     /// 按钮文案
     let buttonText: String?
+    let buttonLinkAddress: String?
+    
     /// 描述图标
     let describeIcon: String?
     /// 描述
@@ -174,6 +176,12 @@ struct StatusBoard: Decodable {
         guard let stepPicture = stepPicture else { return nil }
         return stepPicture.components(separatedBy: "|")
     }
+    
+    func mapPrecautions() -> String? {
+        guard let precautions = precautions else { return nil }
+        return precautions.components(separatedBy: "|").joined(separator: "\n")
+    }
+   
 }
 
 

@@ -16,7 +16,6 @@ class TagStackView: UIView {
     }
     func addArrangedSubview(_ view: UIView) {
         addSubview(view)
-        self.upadateContenSize(view.intrinsicContentSize)
     }
     
     func upadateContenSize(_ itemSize: CGSize) {
@@ -32,9 +31,9 @@ class TagStackView: UIView {
                 itemFrame.origin.y = last.frame.maxY + lineSpacing
             }
         }
-        let contentSize = CGSize(width: self.bounds.width , height: itemFrame.maxY + contentInset.bottom)
-        if self.frame.size != contentSize {
-            self.frame = CGRect(origin: self.frame.origin, size: contentSize)
+        let mh = itemFrame.maxY + contentInset.bottom
+        if abs(self.bounds.maxY - mh) > 0.01 {
+            self.frame.size.height = mh
         }
     }
 
@@ -60,6 +59,13 @@ class TagStackView: UIView {
             }
             sub.frame = itemFrame
         }
+        if let last = self.subviews.last {
+            let mh = last.frame.maxY + contentInset.bottom
+            if abs(self.bounds.maxY - mh) > 0.01 {
+                self.frame.size.height = mh
+            }
+        }
+       
     }
 }
 

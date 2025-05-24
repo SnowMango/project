@@ -20,11 +20,6 @@ extension Router {
             return Router.shared.route("/open/account")
         }
         
-        /// 绑定券商账户
-        route.addRoute("/web/bind-fundAccount") { _ in
-            return Router.shared.route("/bind/account")
-        }
-        
         /// 申请交易系统
         route.addRoute("/web/service") { _ in
             guard let profile = AppManager.shared.profile, let qrUrl = profile.salesStaffInfo?.salespersonQrCode else { return false }
@@ -36,16 +31,6 @@ extension Router {
             }
             alert.show()
             return false
-        }
-        /// 绑定交易账户
-        route.addRoute("/web/bind-tradingAccount") { _ in
-            AppManager.shared.refreshUserInfo()
-            return Router.shared.route("/bind/system/account")
-        }
-        /// 搭载
-        route.addRoute("/web/account-carry") { _ in
-            AppManager.shared.refreshUserInfo()
-            return Router.shared.route("/build/strategy")
         }
         
         route.addRoute("/web/quantitative-strategy") { _ in
@@ -65,6 +50,7 @@ extension Router {
             alert.show()
             return false
         }
+        
         route.addRoute("/web/ai-chat") { _ in
             return Router.shared.route("/ai/chat")
         }

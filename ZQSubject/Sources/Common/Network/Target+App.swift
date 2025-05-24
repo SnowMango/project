@@ -141,6 +141,8 @@ enum AuthTarget {
     case stockHot
     /// 获取股票详情
     case stockDetail(String)
+    /// 0-未使用 1-已使用 2-已过期
+    case coupons(current:Int, size:Int, stauts:Int)
 }
 
 extension AuthTarget: AppTargetProtocol {
@@ -198,6 +200,9 @@ extension AuthTarget: AppTargetProtocol {
             "stock/hot"
         case .stockDetail(let code):
             "stock/detail/\(code)"
+        case .coupons(_, _, _):
+            "coupons/user"
+            
         }
     }
     
@@ -260,6 +265,12 @@ extension AuthTarget: AppTargetProtocol {
         case .messageList(let current, let size):
             return .requestParameters(parameters: ["current":current,
                                                    "size":size],
+                                      encoding: JSONEncoding.default)
+            
+        case .coupons(let current, let size,let status):
+            return .requestParameters(parameters: ["current":current,
+                                                   "size":size,
+                                                   "status":status],
                                       encoding: JSONEncoding.default)
         default:
             return .requestPlain

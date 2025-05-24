@@ -1,8 +1,9 @@
+
 import UIKit
 import Then
 import Kingfisher
 
-class CategroyCell: UICollectionViewCell {
+class MineFeatureCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,14 +25,14 @@ class CategroyCell: UICollectionViewCell {
         self.contentView.addSubview(self.iconImageView)
         self.contentView.addSubview(self.titleLb)
         iconImageView.snp.makeConstraints { make in
-            make.width.height.equalTo(54)
-            make.top.equalTo(0)
+            make.width.height.equalTo(wScale(20))
+            make.top.equalTo(wScale(16))
             make.centerX.equalToSuperview()
         }
         titleLb.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.left.greaterThanOrEqualTo(0)
-            make.top.equalTo(iconImageView.snp.bottom).offset(2)
+            make.top.equalTo(iconImageView.snp.bottom).offset(wScale(10))
         }
     }
     
@@ -42,7 +43,7 @@ class CategroyCell: UICollectionViewCell {
     lazy var titleLb: UILabel = {
         UILabel().then {
             $0.textColor = .kText2
-            $0.font = .systemFont(ofSize: 12, weight: .medium)
+            $0.font = .kScale(14, weight: .medium)
             $0.textAlignment = .center
         }
     }()

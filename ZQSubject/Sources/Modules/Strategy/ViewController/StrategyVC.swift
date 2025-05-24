@@ -208,8 +208,7 @@ extension StrategyVC {
         //想要header高度发生变化的话需要重新设置param,如果只是wControllers不需要这样设置,
         //所以这里只需要在高度发生变化的时候触发设置param就可以了
         self.param = titleParam
-        
-        
+    
     }
 
     ///刷新，重新请求初始化接口

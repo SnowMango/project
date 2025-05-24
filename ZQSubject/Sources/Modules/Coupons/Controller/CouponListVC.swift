@@ -1,0 +1,97 @@
+
+import UIKit
+import Then
+
+class CouponListVC: BaseViewController {
+    var currentPage: Int = 1
+    var status: Int = 0
+    var items: [String] = ["", ""]
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        makeUI()
+    }
+    
+    func reloadData() {
+       
+    }
+    
+    func makeUI() {
+        view.addSubview(collectionView)
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalTo(UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0))
+        }
+        
+    }
+    
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = wScale(10)
+        
+        layout.sectionInset = UIEdgeInsets(top: 0, left: wScale(16), bottom: 0, right: wScale(16))
+        return UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+            $0.delegate = self
+            $0.dataSource = self
+            $0.backgroundColor = .clear
+            $0.showsVerticalScrollIndicator = false
+            $0.register(CouponListCell.self, forCellWithReuseIdentifier: "CouponListCell")
+        }
+    }()
+}
+
+extension CouponListVC {
+    func requestMore()  {
+        requestList(page: currentPage + 1,true)
+    }
+    
+    func requestNew()  {
+        requestList(page: 1, false)
+    }
+    ///请求文章列表
+    func requestList(page:Int, _ more: Bool = false) {
+        NetworkManager.shared.request(AuthTarget.coupons(current: page, size: 10, stauts: self.status)) { (result: NetworkPageResult<StrategyArticleModel>) in
+            self.collectionView.mj_footer?.endRefreshing()
+            do {
+//                self.currentPage = page
+//                let response = try result.get()
+//                if more {
+//                    if response.records.count > 0 {
+//                        self.t += response.records
+//                    }else {
+//                        self.tableView.mj_footer?.endRefreshingWithNoMoreData()
+//                    }
+//                }else {
+//                    self.articleDatas = response.records
+//                }
+            } catch NetworkError.server(_ ,let message){
+                self.view.showText(message)
+            } catch {
+                self.view.showText("网络错误刷新失败")
+            }
+        }
+    }
+}
+
+extension CouponListVC:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.items.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let item = self.items[indexPath.row]
+        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "CouponListCell", for: indexPath) as! CouponListCell
+      
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var size = CGSize.zero
+        size.width = collectionView.frame.width - wScale(16)*2
+        size.height = wScale(110)
+        return size
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       
+    }
+}

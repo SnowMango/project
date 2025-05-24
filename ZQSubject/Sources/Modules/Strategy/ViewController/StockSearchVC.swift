@@ -24,10 +24,9 @@ class StockSearchVC: BaseViewController {
         searchBar.searchTextFild.rx.text.orEmpty
             .bind(to: textFieldText)
             .disposed(by: disposeBag)
-       
-        
+
+        searchBar.searchTextFild.delegate = self
         searchBar.searchTextFild.rx.text.orEmpty
-            .filter({ $0.count > 0 })
             .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] text in
                 self?.requestSearch(text)
@@ -35,17 +34,18 @@ class StockSearchVC: BaseViewController {
             .disposed(by: disposeBag)
         
         searchBar.searchBtn.rx.tap.subscribe { [weak self] _ in
-            if let text = self?.searchBar.searchTextFild.text, text.count > 0 {
-                self?.requestSearch(text)
+            self?.searchBar.searchTextFild.resignFirstResponder()
+            if let text = self?.searchBar.searchTextFild.text, text.count == 0 {
+                self?.resultVC.dismiss()
             }
         }.disposed(by: disposeBag)
         
         cleanBtn.rx.tap.subscribe { [weak self] _ in
             self?.showClean()
         }.disposed(by: disposeBag)
+        
     }
     
-
     func showClean() {
         let alert = UIAlertController(title: "提示", message: "确定要删除历史记录吗？", preferredStyle: .alert)
         
@@ -162,7 +162,6 @@ class StockSearchVC: BaseViewController {
 }
 
 extension StockSearchVC {
-    
 
     func loadAllHistory() -> [SearchStockModel]?  {
         guard let profile = AppManager.shared.profile else { return nil }
@@ -178,11 +177,17 @@ extension StockSearchVC {
         if let index = self.historyItems.firstIndex(of: history) {
             self.historyItems.remove(at: index)
         }
-        self.historyItems.append(history)
+        if self.historyItems.count >= 20 {
+            self.historyItems.removeLast()
+        }
+        var save: [SearchStockModel] = []
+        save.append(history)
+        save += self.historyItems
+       
         guard let profile = AppManager.shared.profile else { return  }
         let key = "key-histroy-\(profile.id)"
-        
-        guard let data = try? JSONEncoder().encode(self.historyItems) else { return }
+        self.historyItems = save
+        guard let data = try? JSONEncoder().encode(save) else { return }
         UserDefaults.standard.set(data, forKey: key)
     }
     
@@ -193,14 +198,21 @@ extension StockSearchVC {
     }
 }
 
+extension StockSearchVC: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.resultVC.show()
+    }
+}
+
 extension StockSearchVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.searchBar.searchTextFild.resignFirstResponder()
-        self.resultVC.dismiss()
         let stock = self.resultVC.results[indexPath.row]
+        
         self.save(history: stock)
         reloadData()
+        self.resultVC.dismiss()
         Router.shared.route("/stock/detail",parameters: ["code": stock.code,
                                                          "name": stock.name])
     }
@@ -208,7 +220,13 @@ extension StockSearchVC: UITableViewDelegate {
 extension StockSearchVC {
     
     func requestSearch(_ text:String) {
-        if self.resultVC.keyword == text {
+        if self.resultVC.dismissing{
+            return
+        }
+        if text.count == 0 {
+            self.resultVC.results.removeAll()
+            self.resultVC.keyword = nil
+            self.resultVC.tableView.reloadData()
             return
         }
         NetworkManager.shared.request(AuthTarget.stockSearch(keyword: text)) { (result: NetworkResult<[SearchStockModel]>) in
@@ -217,7 +235,6 @@ extension StockSearchVC {
                 self.resultVC.results = response
                 self.resultVC.keyword = text
                 self.resultVC.tableView.reloadData()
-                self.resultVC.show()
             } catch {
                 
             }
@@ -242,7 +259,8 @@ class StockSearchResultVC: UITableViewController {
     
     var results: [SearchStockModel] = []
     var keyword: String?
-
+    var dismissing: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -264,6 +282,7 @@ class StockSearchResultVC: UITableViewController {
     }
     
     func show(_ animated: Bool = true) {
+        self.dismissing = false
         self.view.superview?.bringSubviewToFront(self.view)
         if !self.view.isHidden {
             return
@@ -279,6 +298,10 @@ class StockSearchResultVC: UITableViewController {
         })
     }
     func dismiss(_ animated: Bool = true) {
+        self.dismissing = true
+        self.keyword = nil
+        self.results.removeAll()
+        self.tableView.reloadData()
         if !animated {
             self.view.alpha = 1
             self.view.isHidden = true

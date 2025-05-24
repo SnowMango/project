@@ -78,47 +78,6 @@ struct JumpManager {
         return adWeb
     }
     
-    ///底部导航控制器跳转方法
-    static func jumpToFirstLevelPage(_ tag: String, webURL: String? = nil) {
-        
-        ///获取到当前的底部导航的ViewController列表
-        guard let tabBar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController,
-              let navVCList = tabBar.viewControllers as? [BaseNavigationController] else {
-            return
-        }
-        
-        @discardableResult func toFirstLevelPage(cla: AnyClass) -> UIViewController? {
-            for (index, navVC) in navVCList.enumerated() {
-                guard let vc = navVC.viewControllers.first, vc.isKind(of: cla) else {continue}
-                navVC.popToRootViewController(animated: false)
-                if let topNav = tabBar.selectedViewController as? BaseNavigationController {
-                    topNav.popToRootViewController(animated: false)
-                }
-                tabBar.selectedIndex = index
-                
-                return vc
-            }
-            return nil
-        }
-        
-        switch tag {
-        case TabBarURLTag.home.rawValue:
-            toFirstLevelPage(cla: HomeVC.self)
-            
-            
-        case TabBarURLTag.strategy.rawValue:
-            toFirstLevelPage(cla: StrategyVC.self)
-            
-        case TabBarURLTag.asset.rawValue:
-            toFirstLevelPage(cla: AssetVC.self)
-            
-        case TabBarURLTag.me.rawValue:
-            toFirstLevelPage(cla: MineVC.self)
-            
-        default:
-            break
-        }
-        
-    }
+  
     
 }

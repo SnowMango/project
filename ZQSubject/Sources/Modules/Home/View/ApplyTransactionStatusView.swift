@@ -1,12 +1,15 @@
 
 import UIKit
 import Then
+import RxCocoa
+import RxSwift
 
 class ApplyTransactionStatusView: UIView {
-    var currentStep: AssetFlowView.FlowStep = .account
+    var disposeBag = DisposeBag()
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        makeRx()
         reloadData()
     }
     
@@ -14,87 +17,29 @@ class ApplyTransactionStatusView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func signupClick() {
-        if currentStep == .strategy {
-            self.window?.showLoading()
-            AppManager.shared.refreshUserInfo()
-            NotificationCenter.default.addObserver(self, selector: #selector(noticeRoute), name: UserProfileDidUpdateName, object: nil)
-            return
-//            Router.shared.route(currentStep.path)
-        }
-        guard let profile = AppManager.shared.profile else { return }
-        
-        if profile.needRisk() {
-            AppLink.risk.routing()
-            return
-        }
-        if profile.needRealName() {
-            Router.shared.route("/commit/auth")
-            return
-        }
-        if currentStep == .account {
-            Router.shared.route("/open/account")
-            return
-        }
-        if let url = profile.salesStaffInfo?.salespersonQrCode {
-            let title = "截图微信扫码"
-            let content = "添加客服，咨询交易账户相关"
-            let alert = WindowAlert(title: title, content: content, url: url, actionTitle: "在线客服", alertType: .join)
-            alert.doneCallBack = {
-                AppLink.support.routing()
-            }
-            alert.show()
-        }
-    }
-    
-    @objc func bindClick() {
-        guard let profile = AppManager.shared.profile else { return }
-        if profile.needRisk() {
-            AppLink.risk.routing()
-            return
-        }
-        if profile.needRealName() {
-            Router.shared.route("/commit/auth")
-            return
-        }
-        self.window?.showLoading()
-        AppManager.shared.refreshUserInfo()
-        NotificationCenter.default.addObserver(self, selector: #selector(noticeRoute), name: UserProfileDidUpdateName, object: nil)
-    }
-    
-    @objc func noticeRoute() {
-        self.window?.hideHud()
-        NotificationCenter.default.removeObserver(self)
-        guard let profile = AppManager.shared.profile else { return }
-        if !profile.bindFundsAccount() {
-            Router.shared.route(AssetFlowView.FlowStep.account.path)
-            return
-        }
-        if !profile.bindQMTAccount() {
-            Router.shared.route(AssetFlowView.FlowStep.system.path)
-            return
-        }
-        if profile.strategySuccess() {
-            AppLink.assetDetail.routing()
-            return
-        }
-        Router.shared.route(AssetFlowView.FlowStep.strategy.path)
-    }
-
     func reloadData() {
         guard let profile = AppManager.shared.profile else { return }
-        var progress: CGFloat = 0.0
-        if let _ = profile.fundAccount {
-            progress = 0.5
+        guard let board = profile.userServerStatusBoard else {
+            self.isHidden = true
+            return
         }
-        if let item = profile.quantitativeStrategyCarryInfoList?.first {
-            progress = 0.9
-            if item.verificationResult == 1 {
-                progress = 1
-            }
-        }
-        update(progress: max(min(1, progress), 0))
+        self.isHidden = false
         
+        let progress: CGFloat = CGFloat(Int(board.loadingProgress ?? "0") ?? 0)
+        update(progress: max(min(1, progress/100.0), 0))
+        step1Lb.text = nil
+        step2Lb.text = nil
+        step3Lb.text = nil
+        if let step = board.steps(), step.count >= 3 {
+            step1Lb.text = step[0]
+            step2Lb.text = step[1]
+            step3Lb.text = step[2]
+        }
+        
+        accountView.isHidden = progress > 50
+        accountView.load(with: board)
+        strategyStatusView.isHidden = !accountView.isHidden
+        strategyStatusView.load(with: board)
     }
     
     func update(progress: CGFloat) {
@@ -105,9 +50,33 @@ class ApplyTransactionStatusView: UIView {
         point3View.backgroundColor = abs(progress - 1) < 0.01 ? UIColor("#FFCF0F"):.white
     }
     
+    func makeRx() {
+        accountView.doneBtn.rx.tap.subscribe { _ in
+            guard let profile = AppManager.shared.profile, let board = profile.userServerStatusBoard else { return }
+            if let path = board.jumpLinkAddress {
+                Router.shared.route(path)
+            }
+        }.disposed(by: disposeBag)
+        
+        accountView.goBtn.rx.tap.subscribe { _ in
+            guard let profile = AppManager.shared.profile, let board = profile.userServerStatusBoard else { return }
+            if let path = board.buttonLinkAddress {
+                Router.shared.route(path)
+            }
+        }.disposed(by: disposeBag)
+        
+        strategyStatusView.goBtn.rx.tap.subscribe { _ in
+            guard let profile = AppManager.shared.profile, let board = profile.userServerStatusBoard else { return }
+            if let path = board.buttonLinkAddress {
+                Router.shared.route(path)
+            }
+        }.disposed(by: disposeBag)
+    }
+    
+    
     //MARK: setup
     func setupUI() {
-        self.titleLb.text = "搭载进度"
+        self.titleLb.text = "服务看板"
         
         addSubview(titleLb)
         addSubview(cardView)
@@ -310,7 +279,6 @@ class ApplyTransactionStatusView: UIView {
         return UILabel().then {
             $0.textColor = .white
             $0.font = .kScale(13, weight: .medium)
-            $0.text = "开户"
         }
     }()
     
@@ -318,7 +286,6 @@ class ApplyTransactionStatusView: UIView {
         return UILabel().then {
             $0.textColor = .white
             $0.font = .kScale(13, weight: .medium)
-            $0.text = "开通交易系统"
         }
     }()
     
@@ -326,7 +293,6 @@ class ApplyTransactionStatusView: UIView {
         return UILabel().then {
             $0.textColor = .white
             $0.font = .kScale(13, weight: .medium)
-            $0.text = "搭载策略"
         }
     }()
     
@@ -339,7 +305,7 @@ class ApplyTransactionStatusView: UIView {
     lazy var stepsStack: UIStackView = {
         return UIStackView(frame: .zero).then {
             $0.spacing = 0
-            $0.distribution = .fillProportionally
+            $0.distribution = .fill
             $0.alignment = .center
             $0.axis = .vertical
         }
@@ -347,8 +313,7 @@ class ApplyTransactionStatusView: UIView {
     
     lazy var accountView: HomeAccountView = {
         HomeAccountView().then {
-            $0.advView.isHidden = true
-//            $0.isHidden = true
+            $0.isHidden = true
         }
     }()
     

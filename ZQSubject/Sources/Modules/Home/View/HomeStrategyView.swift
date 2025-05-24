@@ -1,19 +1,26 @@
 
 import UIKit
 import Then
+import Kingfisher
 
 class HomeStrategyView: UIView {
   
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    func load(with board: StatusBoard) {
+        statusIconIV.kf.setImage(with: URL(string: board.describeIcon ?? ""))
+        statusMessageLb.text = board.describeMessage
+        goBtn.setTitle(board.buttonText, for: .normal)
+        infoView.isHidden = board.buttonText == nil
+    }
+    
     //MARK: setup
     func setupUI() {
         addSubview(contentStack)
@@ -23,7 +30,7 @@ class HomeStrategyView: UIView {
         statusView.addSubview(statusMessageLb)
         
         contentStack.addArrangedSubview(infoView)
-        infoView.addSubview(doneBtn)
+        infoView.addSubview(goBtn)
         
         contentStack.snp.makeConstraints { make in
             make.left.right.top.equalTo(0)
@@ -49,12 +56,12 @@ class HomeStrategyView: UIView {
             make.left.equalTo(0)
         }
 
-        doneBtn.snp.makeConstraints { make in
+        goBtn.snp.makeConstraints { make in
             make.left.equalTo(wScale(12))
             make.right.equalTo(wScale(-12))
             make.top.equalTo(0)
             make.height.equalTo(wScale(44))
-            make.bottom.lessThanOrEqualTo(wScale(-20))
+            make.bottom.equalTo(wScale(-20))
         }
     }
     
@@ -74,7 +81,6 @@ class HomeStrategyView: UIView {
     lazy var statusIconIV: UIImageView = {
         UIImageView().then {
             $0.image = UIImage(named: "success.normal")
-            //alert.success alert.error alert.info
         }
     }()
     
@@ -83,23 +89,19 @@ class HomeStrategyView: UIView {
         return UILabel().then {
             $0.textColor = .kText2
             $0.font = .kScale(14, weight: .medium)
-            $0.text = "策略搭载审核失败，请重新提交"
         }
     }()
-    
     
     lazy var infoView: UIView = {
         UIView()
     }()
     
-    lazy var doneBtn: UIButton = {
+    lazy var goBtn: UIButton = {
         UIButton().then {
             $0.setTitleColor(.white, for: .normal)
             $0.backgroundColor = .kTheme
             $0.layer.cornerRadius = wScale(8)
             $0.titleLabel?.font = .kScale(16, weight: .medium)
-            $0.setTitle("去搭载", for: .normal)
-//            $0.addTarget(self, action: #selector(bindClick), for: .touchUpInside)
         }
     }()
     
