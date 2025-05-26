@@ -4,12 +4,12 @@ import Then
 import Kingfisher
 
 class CouponListCell: RadiusCollectionCell {
-    
+    var item: Coupon?
     override init(frame: CGRect) {
         super.init(frame: frame)
         makeUI()
         separatorStyle = .none
-        mock()
+
     }
     
     required init?(coder: NSCoder) {
@@ -18,41 +18,17 @@ class CouponListCell: RadiusCollectionCell {
     
     func load(with coupon: Coupon) {
         if coupon.isPriceCoupon {
-            titleLb.attributedText = coupon.discountValue.highlightKeyword("￥", color: UIColor(0xFD3A3A), font: .kScale(14, weight: .medium)).add(.kern, value: -2)
-            nameLb.text = "满\(Int(coupon.thresholdAmount ?? 0))减\(Int(coupon.price ?? 0))"
-           
+            titleLb.attributedText = coupon.discountValue.highlightKeyword("￥", color: UIColor(0xFD3A3A), font: .kScale(14, weight: .medium)).add(.kern, value: -1)
         } else {
-            nameLb.text = "限时免费体验"
-            titleLb.attributedText = coupon.discountValue.highlightKeyword("天", color: UIColor(0xFD3A3A), font: .kScale(14, weight: .medium)).add(.kern, value: -2)
+            titleLb.attributedText = coupon.discountValue.highlightKeyword("天", color: UIColor(0xFD3A3A), font: .kScale(14, weight: .medium)).add(.kern, value: -1)
         }
-       
-        descLb.text = (coupon.validStartTime ?? "--") + "-" + (coupon.validEndTime ?? "--")
-        switch coupon.status {
-        case .unused:
-            goBtn.isEnabled = true
-            goBtn.setTitle("立即使用", for: .normal)
-            goBtn.backgroundColor = UIColor("#F52D24")
-        case .used:
-            goBtn.isEnabled = false
-            goBtn.setTitle("已使用", for: .normal)
-            goBtn.backgroundColor = UIColor("#EDE8E6")
-        case .expired:
-            goBtn.isEnabled = false
-            goBtn.setTitle("已过期", for: .normal)
-            goBtn.backgroundColor = UIColor("#EDE8E6")
-        }
-       
-       
-    }
+        nameLb.text = coupon.name
+        
+        descLb.text = coupon.discountTime
     
-    func mock() {
-        titleLb.attributedText = "￥50".highlightKeyword("￥", color: UIColor(0xFD3A3A), font: .kScale(14, weight: .medium)).add(.kern, value: -2)
-        
-        nameLb.text = "满10000减50"
-        descLb.text = "2025.04.01-2025.04.30"
-        
-        
-        goBtn.backgroundColor = UIColor("#F52D24")
+        goBtn.isEnabled = coupon.status == .unused
+        goBtn.backgroundColor = goBtn.isEnabled ? UIColor("#F52D24"):UIColor("#EDE8E6")
+        goBtn.setTitle(coupon.status.desc, for: .normal)
     }
     
     func makeUI() {
@@ -80,11 +56,13 @@ class CouponListCell: RadiusCollectionCell {
         nameLb.snp.makeConstraints { make in
             make.left.equalTo(wScale(110))
             make.bottom.equalTo(rangeView.snp.centerY)
+            make.right.lessThanOrEqualTo(wScale(-85))
         }
         rangeView.addSubview(descLb)
         descLb.snp.makeConstraints { make in
             make.left.equalTo(wScale(110))
             make.top.equalTo(rangeView.snp.centerY).offset(wScale(6))
+            make.right.lessThanOrEqualTo(wScale(-85))
         }
         
         rangeView.addSubview(goBtn)

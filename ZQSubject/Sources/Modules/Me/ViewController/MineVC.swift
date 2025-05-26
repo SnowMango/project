@@ -40,14 +40,16 @@ class MineVC: BaseViewController {
         }else {
             avatarIV.image = UIImage(named:"avatar.default")
         }
-        
-
+    
         var phoneNum = "--"
         if let phone = profile.mobile {
             phoneNum = phone.desensitizationPhone()
         }
         phoneNumLb.text = phoneNum
         
+        integralLb.text = "\(profile.availablePoints ?? 0)"
+        
+        couponsLb.text = "\(profile.couponCount ?? 0)"
         //账号
         if let resource = AppManager.shared.resource(with:"my_account"){
             mineAccount.item = resource.data.first

@@ -268,7 +268,7 @@ extension AuthTarget: AppTargetProtocol {
                                       encoding: JSONEncoding.default)
             
         case .coupons(let current, let size,let status):
-            return .requestParameters(parameters: ["current":current,
+            return .requestParameters(parameters: ["pages":current,
                                                    "size":size,
                                                    "status":status],
                                       encoding: JSONEncoding.default)

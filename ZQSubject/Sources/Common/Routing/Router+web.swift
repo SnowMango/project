@@ -15,6 +15,15 @@ extension Router {
             return true
         }
         
+        /// web调用返回
+        route.addRoute("/web/go-back") { _ in
+            guard let top =  UIApplication.shared.topController as? BaseWebController else {
+                return false
+            }
+            top.navigationController?.popViewController(animated: true)
+            return true
+        }
+        
         /// 去开户
         route.addRoute("/web/open-account") { _ in
             return Router.shared.route("/open/account")

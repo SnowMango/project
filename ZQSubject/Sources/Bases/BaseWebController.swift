@@ -320,12 +320,11 @@ extension BaseWebController: WKNavigationDelegate, WKUIDelegate, WKScriptMessage
         if let url = navigationAction.request.url {
             Logger.debug("web link to \(url.absoluteString)")
             if url.scheme == "liangjie", let host = url.host {
-                let locolPath = "/web/\(host)"
                 let stay: [String] = ["open-account","service"]
                 if !stay.contains(host) {
                     self.navigationController?.popViewController(animated: false)
                 }
-                Router.shared.route(locolPath)
+                Router.shared.route(url.absoluteString)
                 decisionHandler(.cancel)
                 return
             }

@@ -23,18 +23,19 @@ class RefreshHeader: MJRefreshGifHeader {
     
     override func beginRefreshing() {
         super.beginRefreshing()
-        beginRefreshingTime = Date().timeIntervalSince1970
+//        beginRefreshingTime = Date().timeIntervalSince1970
     }
     
     override func endRefreshing() {
-        let endTime = Date().timeIntervalSince1970
-        let sub = endTime - beginRefreshingTime
-        if sub < 1.5 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + (1.5 - sub)) {
-                super.endRefreshing()
-            }
-        } else {
-            super.endRefreshing()
-        }
+//        let endTime = Date().timeIntervalSince1970
+//        let sub = endTime - beginRefreshingTime
+        super.endRefreshing()
+//        if sub < 1.5 {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + (1.5 - sub)) {
+//               
+//            }
+//        } else {
+//          
+//        }
     }
 }

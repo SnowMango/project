@@ -2,6 +2,9 @@
 import Foundation
 
 class UserProfile: Decodable {
+    var availablePoints: Int? ///可用积分
+    var couponCount: Int? ///优惠券数量
+
     var avatar: String? /// 头像URL
     var createTime: String? /// 创建时间
     var email: String?  /// 邮箱

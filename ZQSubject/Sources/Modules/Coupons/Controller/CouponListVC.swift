@@ -12,14 +12,7 @@ class CouponListVC: BaseViewController {
         collectionView.mj_header = RefreshHeader(refreshingBlock: { [weak self] in
             self?.requestNew()
         })
-        collectionView.mj_footer = RefreshFooter(refreshingBlock: {[weak self] in
-            self?.requestMore()
-        })
         collectionView.mj_header?.beginRefreshing()
-    }
-    
-    func reloadData() {
-       
     }
     
     func makeUI() {
@@ -46,28 +39,39 @@ class CouponListVC: BaseViewController {
 
 extension CouponListVC {
     func requestMore()  {
-//        requestList(page: currentPage + 1,true)
+        requestList(page: currentPage + 1,true)
     }
     
     func requestNew()  {
-//        requestList(page: 1, false)
+        requestList(page: 1, false)
     }
+   
     ///请求文章列表
-    func requestList(page:Int, _ more: Bool = false) {
-        NetworkManager.shared.request(AuthTarget.coupons(current: page, size: 10, stauts: self.status)) { (result: NetworkPageResult<Coupon>) in
+    func requestList(page:Int, _ isLoadMore: Bool = false) {
+        let size: Int = 10
+        NetworkManager.shared.request(AuthTarget.coupons(current: page, size: size, stauts: self.status)) { (result: NetworkPageResult<Coupon>) in
             self.collectionView.mj_header?.endRefreshing()
+            self.collectionView.mj_footer?.endRefreshing()
             do {
                 self.currentPage = page
                 let response = try result.get()
-                if more {
-                    if response.records.count > 0 {
-                        self.t += response.records
-                    }else {
-                        self.tableView.mj_footer?.endRefreshingWithNoMoreData()
+                let dataMore = response.records.count >= size
+                if isLoadMore {
+                    self.items += response.records
+                    if response.records.count < size {
+                        self.collectionView.mj_footer?.endRefreshingWithNoMoreData()
                     }
                 }else {
-                    self.articleDatas = response.records
+                    self.items = response.records
+                    if dataMore {
+                        self.collectionView.mj_footer = RefreshFooter(refreshingBlock: {[weak self] in
+                            self?.requestMore()
+                        })
+                    }else {
+                        self.collectionView.mj_footer = nil
+                    }
                 }
+                self.collectionView.reloadData()
             } catch NetworkError.server(_ ,let message){
                 self.view.showText(message)
             } catch {
@@ -85,7 +89,7 @@ extension CouponListVC:UICollectionViewDataSource, UICollectionViewDelegate, UIC
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item = self.items[indexPath.row]
         let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "CouponListCell", for: indexPath) as! CouponListCell
-      
+        cell.load(with: item)
         return cell
     }
     
