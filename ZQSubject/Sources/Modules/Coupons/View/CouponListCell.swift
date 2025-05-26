@@ -16,6 +16,11 @@ class CouponListCell: RadiusCollectionCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func goClick(){
+        guard let item = item, let usePath = item.imageUrl else { return }
+        Router.shared.route(usePath)
+    }
+    
     func load(with coupon: Coupon) {
         if coupon.isPriceCoupon {
             titleLb.attributedText = coupon.discountValue.highlightKeyword("￥", color: UIColor(0xFD3A3A), font: .kScale(14, weight: .medium)).add(.kern, value: -1)
@@ -88,8 +93,8 @@ class CouponListCell: RadiusCollectionCell {
     lazy var titleLb: UILabel = {
         UILabel().then {
             $0.textColor = UIColor("#F52D24")
-            $0.font = .systemFont(ofSize: 36, weight: .bold)
-            $0.minimumScaleFactor = 0.75
+            $0.font = .systemFont(ofSize: 30, weight: .bold)
+            $0.minimumScaleFactor = 0.82
             $0.textAlignment = .center
         }
     }()
@@ -115,6 +120,7 @@ class CouponListCell: RadiusCollectionCell {
             $0.setTitleColor(.white, for: .disabled)
             $0.titleLabel?.font = .kScale(13, weight: .medium)
             $0.clipsToBounds = true
+            $0.addTarget(self, action: #selector(goClick), for: .touchUpInside)
         }
     }()
 }

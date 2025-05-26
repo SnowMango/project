@@ -78,6 +78,7 @@ enum AppLink {
     /// 策略详情
 //    case strategy(id: Int)
     case freeExperience
+
 }
 
 
@@ -106,13 +107,13 @@ extension AppLink {
             "https://www.shgsec.com/main/home/softwaredownload/index.shtml"
         case .aboutUs:
             "\(env.tokenWebHost)/abuout-us"
-//        case .strategy(let id):
-//            "http://192.168.2.134/news-detail?news_id=\(id)"
+            //        case .strategy(let id):
+            //            "http://192.168.2.134/news-detail?news_id=\(id)"
         case .freeExperience:
             "\(env.tokenWebHost)/free-experience"
         }
+       
     }
-    
     func routing() {
         Router.shared.route(self.path)
     }

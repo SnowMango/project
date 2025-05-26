@@ -18,7 +18,21 @@ class CouponListVC: BaseViewController {
     func makeUI() {
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0))
+            make.top.equalTo(8)
+            make.left.equalTo(wScale(16))
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(wScale(-10))
+        }
+        emptyView.isHidden = true
+        collectionView.backgroundView = emptyView
+        emptyView.addSubview(emptyLb)
+        emptyLb.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        emptyView.addSubview(emptyIV)
+        emptyIV.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(emptyLb.snp.top).offset(wScale(-25))
         }
     }
     
@@ -26,13 +40,31 @@ class CouponListVC: BaseViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
-        layout.sectionInset = UIEdgeInsets(top: 0, left: wScale(16), bottom: 0, right: wScale(16))
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         return UICollectionView(frame: .zero, collectionViewLayout: layout).then {
             $0.delegate = self
             $0.dataSource = self
             $0.backgroundColor = .clear
             $0.showsVerticalScrollIndicator = false
             $0.register(CouponListCell.self, forCellWithReuseIdentifier: "CouponListCell")
+        }
+    }()
+    
+    lazy var emptyView: RadiusView = {
+        RadiusView().then {
+            $0.backgroundColor = .white
+        }
+    }()
+    
+    lazy var emptyIV: UIImageView = {
+        return UIImageView().then { $0.image = UIImage(named: "coupon.empty") }
+    }()
+    
+    lazy var emptyLb: UILabel = {
+        UILabel().then {
+            $0.textColor = .kText1
+            $0.font = .kScale(14, weight: .regular)
+            $0.text = "暂无优惠券"
         }
     }()
 }
@@ -72,6 +104,7 @@ extension CouponListVC {
                     }
                 }
                 self.collectionView.reloadData()
+                self.emptyView.isHidden = self.items.count != 0
             } catch NetworkError.server(_ ,let message){
                 self.view.showText(message)
             } catch {
@@ -95,7 +128,7 @@ extension CouponListVC:UICollectionViewDataSource, UICollectionViewDelegate, UIC
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var size = CGSize.zero
-        size.width = collectionView.frame.width - wScale(16)*2
+        size.width = collectionView.frame.width
         size.height = wScale(100)
         if indexPath.row == items.count - 1 {
             size.height = wScale(110)
