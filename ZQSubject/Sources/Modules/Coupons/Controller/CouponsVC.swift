@@ -55,7 +55,6 @@ class CouponsVC: WMZPageController {
 //            $0.wTopSuspension = true
 //            $0.wBounces = true
             $0.wTitleArr = ["未使用","已使用","已过期"]
-            
             $0.wMenuAnimal = PageTitleMenuPDD
             $0.wMenuTitleSelectUIFont = .kScale(15, weight: .medium)
             $0.wMenuTitleUIFont = .kScale(15, weight: .medium)

@@ -33,16 +33,16 @@ class StockSearchVC: BaseViewController {
             })
             .disposed(by: disposeBag)
         
-        searchBar.searchBtn.rx.tap.subscribe { [weak self] _ in
+        searchBar.searchBtn.rx.tap.subscribe(onNext: { [weak self] _ in
             self?.searchBar.searchTextFild.resignFirstResponder()
             if let text = self?.searchBar.searchTextFild.text, text.count == 0 {
                 self?.resultVC.dismiss()
             }
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
-        cleanBtn.rx.tap.subscribe { [weak self] _ in
+        cleanBtn.rx.tap.subscribe(onNext: { [weak self] _ in
             self?.showClean()
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
     }
     

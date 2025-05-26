@@ -17,9 +17,9 @@ class MineVC: BaseViewController {
     
         reloadData()
         
-        NotificationCenter.default.rx.notification(UserProfileDidUpdateName).subscribe {[weak self] _ in
+        NotificationCenter.default.rx.notification(UserProfileDidUpdateName).subscribe(onNext: {[weak self] _ in
             self?.reloadData()
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
         settingBtn.rx.tap.subscribe(onNext: { _ in
             Router.shared.route("/app/setting")
@@ -49,14 +49,14 @@ class MineVC: BaseViewController {
         phoneNumLb.text = phoneNum
         
         //账号
-        if let resource = AppManager.shared.resource(with:"my_account"), let item = resource.data.first {
-            mineGroup.item = item
+        if let resource = AppManager.shared.resource(with:"my_account"){
+            mineAccount.item = resource.data.first
         }
         mineAccount.isHidden = mineAccount.item == nil
         
         //我的底部banner
-        if let resource = AppManager.shared.resource(with:"my_bottom_banner"), let item = resource.data.first {
-            mineGroup.item = item
+        if let resource = AppManager.shared.resource(with:"my_bottom_banner") {
+            mineGroup.item = resource.data.first
         }
         mineGroup.isHidden = mineGroup.item == nil
         

@@ -14,19 +14,17 @@ class HomeVC: BaseViewController {
         hiddenNavigationBarWhenShow = true
         setupUI()
         
-        msgBtn.rx.tap.subscribe { _ in
-//            Router.shared.route("/message")
-            Router.shared.route("https://demo-test.cn/demo.html")
-        }.disposed(by: disposeBag)
+        msgBtn.rx.tap.subscribe(onNext: { _ in
+            Router.shared.route("/message")
+        }).disposed(by: disposeBag)
         
-        contactUsBtn.rx.tap.subscribe { _ in
+        contactUsBtn.rx.tap.subscribe(onNext: { _ in
             AppLink.support.routing()
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
        
-        NotificationCenter.default.rx.notification(UserProfileDidUpdateName).subscribe {[weak self] _ in
+        NotificationCenter.default.rx.notification(UserProfileDidUpdateName).subscribe(onNext: { [weak self] _ in
             self?.reloadData()
-        }.disposed(by: disposeBag)
-        
+        }).disposed(by: disposeBag)
         
         AppManager.shared.startTask()
         AppManager.shared.loginInit()

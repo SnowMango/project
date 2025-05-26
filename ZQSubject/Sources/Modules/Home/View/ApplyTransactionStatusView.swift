@@ -51,26 +51,31 @@ class ApplyTransactionStatusView: UIView {
     }
     
     func makeRx() {
-        accountView.doneBtn.rx.tap.subscribe { _ in
+        accountView.doneBtn.rx.tap.subscribe(onNext: { _ in
             guard let profile = AppManager.shared.profile, let board = profile.userServerStatusBoard else { return }
+            if profile.needRealName() {
+                Router.shared.route("/commit/auth")
+                return
+            }
             if let path = board.jumpLinkAddress {
                 Router.shared.route(path)
             }
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
-        accountView.goBtn.rx.tap.subscribe { _ in
+        accountView.goBtn.rx.tap.subscribe(onNext: { _ in
             guard let profile = AppManager.shared.profile, let board = profile.userServerStatusBoard else { return }
             if let path = board.buttonLinkAddress {
                 Router.shared.route(path)
             }
-        }.disposed(by: disposeBag)
-        
-        strategyStatusView.goBtn.rx.tap.subscribe { _ in
+        }).disposed(by: disposeBag)
+        strategyStatusView.goBtn.rx.tap.subscribe(onNext: {
             guard let profile = AppManager.shared.profile, let board = profile.userServerStatusBoard else { return }
+            
             if let path = board.buttonLinkAddress {
                 Router.shared.route(path)
             }
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
+        
     }
     
     

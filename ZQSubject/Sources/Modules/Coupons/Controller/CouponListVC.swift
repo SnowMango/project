@@ -5,10 +5,17 @@ import Then
 class CouponListVC: BaseViewController {
     var currentPage: Int = 1
     var status: Int = 0
-    var items: [String] = ["", ""]
+    var items: [Coupon] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
+        collectionView.mj_header = RefreshHeader(refreshingBlock: { [weak self] in
+            self?.requestNew()
+        })
+        collectionView.mj_footer = RefreshFooter(refreshingBlock: {[weak self] in
+            self?.requestMore()
+        })
+        collectionView.mj_header?.beginRefreshing()
     }
     
     func reloadData() {
@@ -20,14 +27,12 @@ class CouponListVC: BaseViewController {
         collectionView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0))
         }
-        
     }
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = wScale(10)
-        
+        layout.minimumLineSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 0, left: wScale(16), bottom: 0, right: wScale(16))
         return UICollectionView(frame: .zero, collectionViewLayout: layout).then {
             $0.delegate = self
@@ -41,28 +46,28 @@ class CouponListVC: BaseViewController {
 
 extension CouponListVC {
     func requestMore()  {
-        requestList(page: currentPage + 1,true)
+//        requestList(page: currentPage + 1,true)
     }
     
     func requestNew()  {
-        requestList(page: 1, false)
+//        requestList(page: 1, false)
     }
     ///请求文章列表
     func requestList(page:Int, _ more: Bool = false) {
-        NetworkManager.shared.request(AuthTarget.coupons(current: page, size: 10, stauts: self.status)) { (result: NetworkPageResult<StrategyArticleModel>) in
-            self.collectionView.mj_footer?.endRefreshing()
+        NetworkManager.shared.request(AuthTarget.coupons(current: page, size: 10, stauts: self.status)) { (result: NetworkPageResult<Coupon>) in
+            self.collectionView.mj_header?.endRefreshing()
             do {
-//                self.currentPage = page
-//                let response = try result.get()
-//                if more {
-//                    if response.records.count > 0 {
-//                        self.t += response.records
-//                    }else {
-//                        self.tableView.mj_footer?.endRefreshingWithNoMoreData()
-//                    }
-//                }else {
-//                    self.articleDatas = response.records
-//                }
+                self.currentPage = page
+                let response = try result.get()
+                if more {
+                    if response.records.count > 0 {
+                        self.t += response.records
+                    }else {
+                        self.tableView.mj_footer?.endRefreshingWithNoMoreData()
+                    }
+                }else {
+                    self.articleDatas = response.records
+                }
             } catch NetworkError.server(_ ,let message){
                 self.view.showText(message)
             } catch {
@@ -87,7 +92,10 @@ extension CouponListVC:UICollectionViewDataSource, UICollectionViewDelegate, UIC
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var size = CGSize.zero
         size.width = collectionView.frame.width - wScale(16)*2
-        size.height = wScale(110)
+        size.height = wScale(100)
+        if indexPath.row == items.count - 1 {
+            size.height = wScale(110)
+        }
         return size
     }
     

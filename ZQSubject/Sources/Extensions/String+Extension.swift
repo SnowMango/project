@@ -319,11 +319,15 @@ extension String {
         return mutableAttributedString
     }
     
-    func highlightKeyword(_ keyword: String, color: UIColor) -> NSAttributedString {
+    func highlightKeyword(_ keyword: String, color: UIColor, font: UIFont? = nil) -> NSMutableAttributedString {
         let attributedString = NSMutableAttributedString(string: self)
-        let keywordRange = (self as NSString).range(of: keyword)
-        if keywordRange.location != NSNotFound {
-            attributedString.addAttribute(.foregroundColor, value: color, range: keywordRange)
+        let range = (self as NSString).range(of: keyword)
+        if range.location != NSNotFound {
+            var attributes: [NSAttributedString.Key: Any] = [.foregroundColor: color]
+            if let font = font {
+                attributes[.font] = font
+            }
+            attributedString.addAttributes(attributes, range: range)
         }
         return attributedString
     }
@@ -333,7 +337,7 @@ extension String {
        ///   - color: 高亮颜色（默认红色）
        ///   - font: 高亮字体（默认保持原字体）
        /// - Returns: 带高亮效果的 NSAttributedString
-       func highlightNumbers(color: UIColor = .red, font: UIFont? = nil) -> NSAttributedString {
+       func highlightNumbers(color: UIColor = .red, font: UIFont? = nil) -> NSMutableAttributedString {
            let attributedString = NSMutableAttributedString(string: self)
            
            // 正则匹配规则：整数、小数、百分数
