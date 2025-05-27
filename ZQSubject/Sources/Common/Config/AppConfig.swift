@@ -59,8 +59,7 @@ enum AppLink {
     case serviceTerms
     /// 隐私协议
     case privacyTerms
-    /// 服务合作协议
-    case cooperationTerms
+    
     /// 我的订单
     case order
     /// 服务器
@@ -71,8 +70,7 @@ enum AppLink {
     case news(id: Int)
     /// 风险测评
     case risk
-    /// 资产详情
-    case assetDetail
+
     /// 关于我们
     case aboutUs
     /// 策略详情
@@ -91,8 +89,6 @@ extension AppLink {
             "\(env.tokenWebHost)/user-service"
         case .privacyTerms:
             "\(env.tokenWebHost)/privacy"
-        case .cooperationTerms:
-            ""
         case .order:
             "\(env.tokenWebHost)/my-order"
         case .server:
@@ -103,17 +99,13 @@ extension AppLink {
             "\(env.tokenWebHost)/news-detail?news_id=\(id)"
         case .risk:
             "\(env.tokenWebHost)/risk-assessment"
-        case .assetDetail:
-            "https://www.shgsec.com/main/home/softwaredownload/index.shtml"
         case .aboutUs:
             "\(env.tokenWebHost)/abuout-us"
-            //        case .strategy(let id):
-            //            "http://192.168.2.134/news-detail?news_id=\(id)"
         case .freeExperience:
             "\(env.tokenWebHost)/free-experience"
         }
-       
     }
+    
     func routing() {
         Router.shared.route(self.path)
     }
@@ -143,8 +135,6 @@ enum UserDefaultKey: String {
     case upgradeAppCode = "UpgradeAppCode"
     ///启动广告数据
     case splashAD = "SplashAD"
-
-    
     ///用户token
     case userToken = "UserToken"
     ///用户ID

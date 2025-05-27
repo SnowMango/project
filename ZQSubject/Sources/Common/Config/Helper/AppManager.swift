@@ -177,15 +177,6 @@ class AppManager {
     }
     
 
-    func saveUserInfo(_ data: LoginModel) {
-        kUserDefault.set(data.id, forKey: UserDefaultKey.userID.rawValue)
-        kUserDefault.set(data.mobile, forKey: UserDefaultKey.phoneNum.rawValue)
-        kUserDefault.set(data.profilePicture, forKey: UserDefaultKey.avatar.rawValue)
-        kUserDefault.set(data.token, forKey: UserDefaultKey.userToken.rawValue)
-        kUserDefault.set(data.userNo, forKey: UserDefaultKey.userNO.rawValue)
-        kUserDefault.set(data.username, forKey: UserDefaultKey.username.rawValue)
-    }
-    
     func removeUserInfo(isDeleteAccount: Bool = false) {
         if (isDeleteAccount) {
             kUserDefault.removeObject(forKey: UserDefaultKey.phoneNum.rawValue)

@@ -5,8 +5,6 @@ import RxCocoa
 import RxSwift
 
 class StockSearchVC: BaseViewController {
-
-    let textFieldText = BehaviorRelay(value: "")
     
     private var historyItems: [SearchStockModel] = []
 
@@ -20,14 +18,11 @@ class StockSearchVC: BaseViewController {
         }
         reloadData()
         requestHot()
-        
-        searchBar.searchTextFild.rx.text.orEmpty
-            .bind(to: textFieldText)
-            .disposed(by: disposeBag)
-
+    
         searchBar.searchTextFild.delegate = self
         searchBar.searchTextFild.rx.text.orEmpty
             .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
             .subscribe(onNext: { [weak self] text in
                 self?.requestSearch(text)
             })

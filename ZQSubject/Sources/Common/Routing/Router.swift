@@ -40,6 +40,13 @@ class Router {
             JumpManager.jumpToWeb(url.absoluteString)
             return false
         }
+        
+        JLRoutes(forScheme: "http").addRoute("*") { req in
+            guard let url = req[JLRouteURLKey] as? URL else { return false}
+            JumpManager.jumpToWeb(url.absoluteString)
+            return false
+        }
+        
         JLRoutes(forScheme: "liangjie").addRoute("*") { req in
             guard let url = req[JLRouteURLKey] as? URL else { return false}
             let appURL = url.absoluteString.replacingOccurrences(of: "liangjie://", with: "/web/")

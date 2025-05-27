@@ -143,6 +143,7 @@ enum AuthTarget {
     case stockDetail(String)
     /// 0-未使用 1-已使用 2-已过期
     case coupons(current:Int, size:Int, stauts:Int)
+
 }
 
 extension AuthTarget: AppTargetProtocol {
@@ -202,7 +203,7 @@ extension AuthTarget: AppTargetProtocol {
             "stock/detail/\(code)"
         case .coupons(_, _, _):
             "coupons/user"
-            
+        
         }
     }
     
@@ -288,3 +289,38 @@ extension AuthTarget: AppTargetProtocol {
     
 }
 
+enum GetTarget {
+    case aichat(String)
+    case chatHistory
+}
+
+extension GetTarget: AppTargetProtocol {
+    var path: String {
+        switch self {
+        case .aichat(_):
+            "/stock/smart-selection"
+        case .chatHistory:
+            "stock/chat-history"
+        }
+    }
+    
+    var task: Moya.Task {
+        var params: [String: Any] = [:]
+        switch self {
+        case .aichat(let message):
+            params["message"] = message
+        default:
+            break
+        }
+        return .requestParameters(parameters: params,
+                                  encoding: URLEncoding.default)
+    }
+    
+    var method: Moya.Method {
+        return .get
+    }
+    var headers: [String : String]? {
+        guard let token = AppManager.shared.token else { return [:] }
+        return ["satoken":token]
+    }
+}

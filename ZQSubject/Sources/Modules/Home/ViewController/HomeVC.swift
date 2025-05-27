@@ -122,6 +122,7 @@ class HomeVC: BaseViewController {
         levitate.snp.makeConstraints { (make) in
             make.right.equalTo(-10)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-40)
+            make.width.height.equalTo(wScale(68))
         }
         
         noticeView.snp.makeConstraints { (make) in
@@ -315,31 +316,7 @@ class HomeVC: BaseViewController {
 
 extension HomeVC {
     func getData() {
-//
-//        NetworkManager.shared.request(.home, modelType: HomeModel.self, success: { (model) in
-//                //处理数据
-//            self.homeData = model
-//            self.reloadUI()
-//            /// 因为布局原因，获取了home数据在加载新手指南
-//            NetworkManager.shared.request(.theADs(advertCodes: [AdvertCode.D03]), modelType: [BaseADModel].self, success: { (model) in
-//                //处理数据
-//            self.beginnerData = model ?? []
-//               
-//                self.reloadUI()
-//            }) { (_,_) in
-////                self.mainTable.mj_header?.endRefreshing()
-//            }
-//            
-//        }) { (_,_) in
-////            self.mainTable.mj_header?.endRefreshing()
-//        }
-        
-        
-//        self.scrollView.mj_header?.endRefreshing()
        
-    
-        
-        
     }
     
     func requestStroy() {

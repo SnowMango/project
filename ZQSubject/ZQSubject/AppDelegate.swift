@@ -75,19 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSInteger(UNAuthorizationOptions.badge.rawValue)
         JPUSHService.register(forRemoteNotificationConfig: entity, delegate: self)
         
-        
-        if #available(iOS 15.0, *) {
-            let navigationBar = UINavigationBar.appearance()
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()//重置属性来适配不透明
-            appearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont.kBoldFontScale(18)]
-            navigationBar.scrollEdgeAppearance = appearance
-            navigationBar.standardAppearance = appearance
-            navigationBar.isTranslucent = false
-            //当设置了header的话,会在设置的高度上默认再加一个高度,这里设置增加的默认高度为0
-            UITableView.appearance().sectionHeaderTopPadding = 0
-        }
-        
 
     }
 

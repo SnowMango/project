@@ -24,7 +24,7 @@ class AIStrategyVC: BaseViewController {
         let gifIV = UIImageView()
         view.addSubview(gifIV)
         if let path = Bundle.main.url(forResource: "aibot.logo", withExtension: "gif") {
-            gifIV.kf.setImage(with: path,options: [.forceRefresh])
+            gifIV.kf.setImage(with: path)
         }
         gifIV.snp.makeConstraints { make in
             make.centerX.equalToSuperview()

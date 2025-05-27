@@ -204,7 +204,7 @@ extension BaseWebController {
         let dict = [
             "channel": channel,
             "version": kAppVersion,
-            "userId": kUserDefault.string(forKey: UserDefaultKey.userID.rawValue) ?? "",
+           
             "deviceType": Device.current.safeDescription,
             "systemVersion": kDeviceSystemVersion,
             "token": kUserDefault.string(forKey: UserDefaultKey.userToken.rawValue) ?? "",
@@ -231,11 +231,11 @@ extension BaseWebController: WKNavigationDelegate, WKUIDelegate, WKScriptMessage
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         print("开始加载\(webView.url?.absoluteString ?? "")")
     }
-    
+
     /// web加载完成
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         print("加载完成")
-        
+    
         self.progressView.isHidden = true
         self.view.hideHud()
         
@@ -267,8 +267,7 @@ extension BaseWebController: WKNavigationDelegate, WKUIDelegate, WKScriptMessage
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         //目前这个失败的触发是第三方页面再次跳转之后,点击返回会出现-999的加载错误
         let err = error as NSError
-        
-        print("didFail加载失败:\(err.description)")
+    
         self.view.hideHud()
         self.progressView.progress = 0
         self.progressView.isHidden = true
@@ -277,7 +276,6 @@ extension BaseWebController: WKNavigationDelegate, WKUIDelegate, WKScriptMessage
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
         if let currentURL = self.currentURL {
             webView.load(URLRequest(url: currentURL))
-
         }
     }
     

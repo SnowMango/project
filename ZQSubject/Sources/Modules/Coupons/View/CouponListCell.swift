@@ -17,7 +17,7 @@ class CouponListCell: RadiusCollectionCell {
     }
     
     @objc func goClick(){
-        guard let item = item, let usePath = item.imageUrl else { return }
+        guard let item = item, let usePath = item.jumpUrl else { return }
         Router.shared.route(usePath)
     }
     

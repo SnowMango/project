@@ -69,9 +69,7 @@ class LoginVC: BaseViewController {
         hiddenNavigationBarWhenShow = true
        
         initUI()
-//        if let _ = kUserDefault.value(forKey: UserDefaultKey.isAgreeProtocol.rawValue) {
-//            checkBtn.isSelected = true
-//        }
+
         if let phone = kUserDefault.string(forKey:  UserDefaultKey.phoneNum.rawValue) {
             accoutField.textField.text = phone
         }

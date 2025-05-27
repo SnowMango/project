@@ -108,7 +108,7 @@ extension CouponListVC {
             } catch NetworkError.server(_ ,let message){
                 self.view.showText(message)
             } catch {
-                self.view.showText("网络错误刷新失败")
+                self.view.showText("请求错误刷新失败")
             }
         }
     }

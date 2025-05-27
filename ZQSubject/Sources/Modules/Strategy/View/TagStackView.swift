@@ -65,7 +65,6 @@ class TagStackView: UIView {
                 self.frame.size.height = mh
             }
         }
-       
     }
 }
 

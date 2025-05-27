@@ -73,64 +73,7 @@ class PopWindowManager {
         
     }
     // 步骤 1.体验用户未领取权益 2.体验用户已领取权益未风测 3.体验用户已领取权益已风测未实名 4.体验用户已实名未绑定券商账户 5.体验用户已绑定券商账户
-    enum FreeStep: Int {
-        case right  = 1
-        case risk
-        case realName
-        case account
-        case build
-        
-        var title: String {
-            switch self {
-            case .right:
-                "立即领取"
-            case .risk:
-                "立即前往"
-            case .realName:
-                "立即前往"
-            case .account:
-                "去开户"
-            case .build:
-                "去搭载"
-            }
-        }
-        var moreTitle: String? {
-            switch self {
-            case .account:
-                "已开户，去绑定 >"
-            case .build:
-                "查看服务器信息 >"
-            default:
-                nil
-            }
-        }
     
-        var mainPath: String? {
-            switch self {
-            case .right:
-                AppLink.freeExperience.path
-            case .risk:
-                AppLink.risk.path
-            case .realName:
-                "/commit/auth"
-            case .account:
-                "/open/account"
-            case .build:
-                "/build/strategy"
-            }
-        }
-        var morePath: String? {
-            switch self {
-            case .account:
-                "/bind/account"
-            case .build:
-                AppLink.server.path
-            default:
-                nil
-            }
-        }
-        
-    }
     //MARK:--
     ///主页广告弹窗
     func showHomeADViewIfNeeded(_ finishCall: finishedCall) {
@@ -145,16 +88,19 @@ class PopWindowManager {
                 guard let item = response.activityInfoList.first(where: { $0.activityCode == freeCode }) else { callFunc(); return}
                 // 已领取免费体验权益 且活动未失效
                 if item.status != 1 { callFunc();return }
-                guard let s = item.step, let step = FreeStep(rawValue: s),let url = item.imageUrl else { callFunc();return }
+                
+                
+                guard let step = item.toastStep, let url = item.imageUrl, step != .done else { callFunc();return }
                 guard AppManager.shared.needHomeAd(step.rawValue) else { callFunc();return }
+                
                 AppManager.shared.doneHomeAd(step.rawValue)
-                FreeActivityAlert(url: url, actionTitle: step.title, moreTitle: step.moreTitle) {
-                    if let path = step.mainPath {
+                FreeActivityAlert(url: url, actionTitle: item.toastTitle, moreTitle: item.toastMoreTitle) {
+                    if let path = item.toastMainPath {
                         Router.shared.route(path)
                     }
                     callFunc()
                 } moreBlock: {
-                    if let path = step.morePath {
+                    if let path = item.toastMorePath {
                         Router.shared.route(path)
                     }
                     callFunc()

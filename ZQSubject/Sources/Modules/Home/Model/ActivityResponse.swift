@@ -11,7 +11,7 @@ struct Activity: Decodable {
     /// 1:满减，2:折扣，3:秒杀，4:拼团，5:新人礼包
     let activityType: Int
     /// 活动描述
-    let desc: String?
+//    let desc: String?
     /// 活动结束时间
     let endTime: String?
     /// 是否领取了当前活动的权益 0未领取 1已领取
@@ -25,16 +25,43 @@ struct Activity: Decodable {
     /// 弹窗图片的oss地址
     var imageUrl: String?
     
-    enum CodingKeys: String, CodingKey {
-        case activityCode
-        case activityName
-        case activityType
-        case desc = "description"
-        case endTime
-        case rights
-        case startTime
-        case status
-        case step
-        case imageUrl
+    var buttonLinkAddress: String?
+    var buttonText: String?
+    var jumpLinkAddress: String?
+    var jumpLinkDescribe: String?
+    
+}
+
+extension Activity {
+    enum FreeStep: Int {
+        case right  = 1
+        case risk
+        case realName
+        case account
+        case build
+        case done
+    }
+    
+    var toastStep: FreeStep? {
+        guard let step = step else {
+            return nil
+        }
+        return FreeStep(rawValue: step)
+    }
+    var toastTitle: String? {
+        guard let _ = self.buttonLinkAddress else { return nil }
+        return buttonText
+    }
+    
+    var toastMoreTitle: String? {
+        guard let _ = self.jumpLinkAddress else { return nil }
+        return "\(jumpLinkDescribe ?? "") >"
+    }
+    
+    var toastMainPath: String? {
+        self.buttonLinkAddress
+    }
+    var toastMorePath: String? {
+        self.jumpLinkAddress
     }
 }

@@ -167,7 +167,7 @@ extension Router {
         }
         
         route.addRoute("/ai/chat") { _ in
-            UIApplication.shared.open(StockSearchVC(), animated: true)
+            UIApplication.shared.open(AIChatVC(), animated: true)
             return true
         }
         

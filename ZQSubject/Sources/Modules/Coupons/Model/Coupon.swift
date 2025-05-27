@@ -54,6 +54,8 @@ struct Coupon: Decodable {
     var description: String?
     // 优惠券图片地址
     var imageUrl: String?
+    // 使用链接
+    var jumpUrl: String?
     
     var price: Float?
     // 会员时长（天数，仅会员券类型有效）

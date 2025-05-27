@@ -7,13 +7,23 @@ class BaseNavigationController: UINavigationController {
     override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
         self.delegate = self.helper.delegate
-       
+        self.view.backgroundColor = .white
+        navigationBar.isTranslucent = false
+        navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.kScale(16, weight: .medium)]
+        if #available(iOS 15.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = .white
+            appearance.shadowColor = .white
+            navigationBar.standardAppearance = appearance
+            navigationBar.scrollEdgeAppearance = appearance
+        }
+    
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 extension UIViewController {

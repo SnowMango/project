@@ -13,7 +13,6 @@ public func wScale(_ w: CGFloat) -> CGFloat {
 
 /// 顶部安全区高度
 public func kSafeTopH() -> CGFloat {
-    
     let scene = UIApplication.shared.connectedScenes.first
     guard let windowScene = scene as? UIWindowScene else { return 0 }
     guard let window = windowScene.windows.first else { return 0 }
