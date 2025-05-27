@@ -37,13 +37,13 @@ class Router {
     private func httpsRouter() {
         JLRoutes(forScheme: "https").addRoute("*") { req in
             guard let url = req[JLRouteURLKey] as? URL else { return false}
-            JumpManager.jumpToWeb(url.absoluteString)
+            UIApplication.shared.open(BaseWebController.load(url), animated: true)
             return false
         }
         
         JLRoutes(forScheme: "http").addRoute("*") { req in
             guard let url = req[JLRouteURLKey] as? URL else { return false}
-            JumpManager.jumpToWeb(url.absoluteString)
+            UIApplication.shared.open(BaseWebController.load(url), animated: true)
             return false
         }
         
