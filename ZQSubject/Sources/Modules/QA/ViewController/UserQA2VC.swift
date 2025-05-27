@@ -5,7 +5,7 @@ import Then
 class UserQA2VC: BaseViewController {
     typealias QueMeta = (icon: String, title: String)
     var answers: [QueMeta] = []
-    var selectIndex: Int = 0
+    var selectIndex: Int = -1
     var commoit: [JSON] = []
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +21,9 @@ class UserQA2VC: BaseViewController {
     }
     
     func showNext() {
+        if selectIndex < 0 {
+             return
+        }
         let vc = UserQA3VC()
         let answer = answers[selectIndex].title
         commoit.append(JSON(["question":"2", "answer":answer]))

@@ -41,6 +41,14 @@ class BaseWebController: BaseViewController {
             .receive(on: DispatchQueue.main)
             .asObservable()
             .subscribe(onNext: { [weak self] progress in
+                if Float(progress) >= 1.0 {
+                    UIView.animate(withDuration: 0.3, animations: { () in
+                        self?.progressView.alpha = 0.0
+                    }, completion: { finished in
+                        self?.progressView.setProgress(0.0, animated: false)
+                    })
+                    return
+                }
                 self?.progressView.setProgress(Float(progress), animated: true)
             }).disposed(by: disposeBag)
         
@@ -51,7 +59,7 @@ class BaseWebController: BaseViewController {
                 self?.navigationItem.title = title
             }).disposed(by: disposeBag)
         
-        webView.load(URLRequest(url: adapter(openURL)))
+        webView.load(URLRequest(url: adapter(openURL), cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 20))
         
     }
     
@@ -74,14 +82,16 @@ class BaseWebController: BaseViewController {
     
     func adapter(_ url: URL) -> URL {
         guard internalURL(url), let token = AppManager.shared.token else { return url }
-        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+        
+        guard var components = URLComponents(url: URL(string: url.absoluteString.replacingOccurrences(of: "#", with: "h5"))!, resolvingAgainstBaseURL: false) else {
             return url
         }
+
         var items = components.queryItems ?? []
         items.append(URLQueryItem(name: "token",value: token))
         components.queryItems = items
         if let newURL = components.url {
-            return newURL
+            return URL(string: newURL.absoluteString.replacingOccurrences(of: "h5", with: "#"))!
         }
         return url
     }
@@ -125,26 +135,6 @@ class BaseWebController: BaseViewController {
             $0.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
         }
     }()
-    
-    ///判断是否内部链接
-    func checkIsInnerURL(_ url: String?) -> Bool {
-        guard let url = url  else {
-            return false
-        }
-        var isInner = false
-        let preUrl = url.split(separator: "?").first!
-        let hostList = env.tokenWebHost.split(separator: ",")
-        //循环host,判断是否需要添加token
-        hostList.forEach { (host) in
-            if preUrl.contains(host){
-                //内部H5
-                isInner = true
-                return
-            }
-        }
-        return isInner
-    }
-    
 
 }
 
@@ -200,6 +190,7 @@ extension BaseWebController: WKNavigationDelegate, WKUIDelegate, WKScriptMessage
         if navigationAction.targetFrame == nil {
             webView.load(navigationAction.request)
         }
+        
         if let url = navigationAction.request.url {
             Logger.debug("web link to \(url.absoluteString)")
             if url.scheme == "liangjie", let host = url.host {

@@ -233,15 +233,26 @@ extension AIChatVC: UITextFieldDelegate {
 extension AIChatVC {
     
     func requsetAiChat(_ message: String) {
+       
+        if message.count > 0 {
+            let user: ChatMessage = ChatMessage(role: .user, content: message)
+            let lastIndex = self.messages.count
+            let items = [user]
+            self.messages += items
+            let indexs: [IndexPath] = items.enumerated().map { index, _ in
+                IndexPath(item: lastIndex + index, section: 0)
+            }
+            self.collectionView.insertItems(at: indexs)
+        }
+        
         self.startAnserLoading()
         NetworkManager.shared.request(GetTarget.aichat(message)) { (result: NetworkResult<String>) in
             self.stopAnserLoading()
             do {
                 let respnose = try result.get()
-                let user: ChatMessage = ChatMessage(role: .user, content: message)
                 let ai: ChatMessage = ChatMessage(role: .assistant, content: respnose)
-                let lastIndex = max(self.messages.count - 1, 0)
-                let items = [user, ai]
+                let lastIndex = self.messages.count
+                let items = [ai]
                 self.messages += items
                 let indexs: [IndexPath] = items.enumerated().map { index, _ in
                     IndexPath(item: lastIndex + index, section: 0)

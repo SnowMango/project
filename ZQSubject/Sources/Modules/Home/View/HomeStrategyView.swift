@@ -68,7 +68,7 @@ class HomeStrategyView: UIView {
     lazy var contentStack: UIStackView = {
         return UIStackView(frame: .zero).then {
             $0.spacing = 0
-            $0.distribution = .fillProportionally
+            $0.distribution = .fill
             $0.alignment = .center
             $0.axis = .vertical
         }

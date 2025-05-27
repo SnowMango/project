@@ -102,7 +102,7 @@ class AppManager {
         guard let resources = self.kingKongItems else {
             return nil
         }
-        return resources.filter { $0.position == position }
+        return resources.filter{ $0.position == position }.sorted { $0.sort < $1.sort }
     }
     
     func kingkongFilePath() -> URL? {

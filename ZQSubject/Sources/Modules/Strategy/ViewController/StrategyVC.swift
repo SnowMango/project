@@ -158,21 +158,16 @@ extension StrategyVC {
                 self.products = response.records
                 self.refreshUI()
             } catch {
-                
+                self.refreshUI()
             }
         }
-        if let resources = AppManager.shared.appResources {
-            if  let category = resources.first(where: {  $0.resourceKey == "market_information_classification" }) {
-                self.categories = category.data
-            }
-            if  let banner = resources.first(where: {  $0.resourceKey == "QS_middle_banner" }){
-                self.banners = banner.data
-            }
-            self.downSc?.mj_header?.endRefreshing()
-        }else {
-            self.downSc?.mj_header?.endRefreshing()
+        if let resource = AppManager.shared.resource(with: "market_information_classification") {
+            self.categories = resource.data
         }
-        
+        if let resource = AppManager.shared.resource(with: "QS_middle_banner") {
+            self.banners = resource.data
+        }
+        self.downSc?.mj_header?.endRefreshing()
     }
     
     private func loadLocalData() {

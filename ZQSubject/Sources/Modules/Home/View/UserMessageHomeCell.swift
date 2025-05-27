@@ -147,7 +147,7 @@ class UserMessageHomeCell: UICollectionViewCell {
         return UIStackView().then {
             $0.spacing = wScale(12)
             $0.alignment = .center
-            $0.distribution = .fillProportionally
+            $0.distribution = .fill
             $0.axis = .vertical
         }
     }()

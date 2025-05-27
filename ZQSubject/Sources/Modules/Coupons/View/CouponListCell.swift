@@ -17,6 +17,12 @@ class CouponListCell: RadiusCollectionCell {
     }
     
     @objc func goClick(){
+        guard let profile = AppManager.shared.profile else { return }
+        if profile.needRealName() {
+            Router.shared.route("/commit/auth")
+            return
+        }
+        
         guard let item = item, let usePath = item.jumpUrl else { return }
         Router.shared.route(usePath)
     }

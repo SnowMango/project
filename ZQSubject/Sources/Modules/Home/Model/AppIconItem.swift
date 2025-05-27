@@ -5,5 +5,7 @@ struct AppIconItem: Decodable {
     var iconLinkUrl: String?
     /// 位置 0首页金刚区 1我的页金刚区
     var position: Int = 0
+
+    var sort: Int = 0
 }
 
