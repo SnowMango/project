@@ -40,6 +40,13 @@ class StockSearchVC: BaseViewController {
         }).disposed(by: disposeBag)
         
     }
+    override func baseBack() {
+        if !resultVC.view.isHidden {
+            resultVC.dismiss()
+            return
+        }
+        super.baseBack()
+    }
     
     func showClean() {
         let alert = UIAlertController(title: "提示", message: "确定要删除历史记录吗？", preferredStyle: .alert)
@@ -68,6 +75,10 @@ class StockSearchVC: BaseViewController {
     @objc func tapTag(_ tap: UITapGestureRecognizer) {
         guard let v = tap.view else { return }
         let item = historyItems[v.tag]
+        
+        self.save(history: item)
+        reloadData()
+
         Router.shared.route("/stock/detail",parameters: ["code": item.code,
                                                          "name": item.name])
     }

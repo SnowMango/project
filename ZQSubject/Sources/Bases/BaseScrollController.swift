@@ -24,6 +24,8 @@ class BaseScrollController: BaseViewController {
         
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets.zero)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(0).priority(.low)
         }
     }
     
