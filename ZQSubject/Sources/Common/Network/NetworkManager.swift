@@ -21,6 +21,7 @@ class NetworkManager {
             do {
                 let response = try result.get()
                 if !Array(200..<300).contains(response.statusCode) {
+                    Logger.warn("success but statusCode is \(response.statusCode)")
                     completion(.failure(.network(MoyaError.statusCode(response))))
                     return
                 }
@@ -48,6 +49,8 @@ class NetworkManager {
             
         }
     }
+    
+
 }
 
 

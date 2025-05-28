@@ -28,6 +28,7 @@ class CouponListCell: RadiusCollectionCell {
     }
     
     func load(with coupon: Coupon) {
+        self.item = coupon
         if coupon.isPriceCoupon {
             titleLb.attributedText = coupon.discountValue.highlightKeyword("￥", color: UIColor(0xFD3A3A), font: .kScale(14, weight: .medium)).add(.kern, value: -1)
         } else {

@@ -34,7 +34,7 @@ enum NetworkError: Error{
     }
 }
 
-typealias NetworkResult<Success> = Result<Success , NetworkError>
+typealias NetworkResult<Success> = Result<Success, NetworkError>
 typealias OptionalJSONResult = NetworkResult<JSON?>
 typealias JSONResult = NetworkResult<JSON>
 

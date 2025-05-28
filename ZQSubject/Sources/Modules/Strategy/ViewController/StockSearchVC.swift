@@ -207,7 +207,6 @@ extension StockSearchVC: UITableViewDelegate {
         
         self.save(history: stock)
         reloadData()
-        self.resultVC.dismiss()
         Router.shared.route("/stock/detail",parameters: ["code": stock.code,
                                                          "name": stock.name])
     }
