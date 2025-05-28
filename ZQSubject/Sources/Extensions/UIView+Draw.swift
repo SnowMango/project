@@ -8,12 +8,6 @@
 
 import UIKit
 
-extension CACornerMask {
-    static var layerAllCorners: CACornerMask {
-        return  [.layerMinXMinYCorner, .layerMinXMaxYCorner,
-                 .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-    }
-}
 extension UIView {
     /// 部分圆角
     ///
@@ -23,13 +17,7 @@ extension UIView {
     func corner(byRoundingCorners corners: UIRectCorner, radii: CGFloat) {
 
         if #available(iOS 11.0, *) {
-            let maps: [UInt : CACornerMask] = [UIRectCorner.topLeft.rawValue:.layerMinXMinYCorner,
-                                               UIRectCorner.topRight.rawValue:.layerMinXMaxYCorner,
-                                               UIRectCorner.bottomLeft.rawValue:.layerMaxXMinYCorner,
-                                               UIRectCorner.bottomRight.rawValue:.layerMaxXMaxYCorner,
-                                               UIRectCorner.allCorners.rawValue:.layerAllCorners]
-        
-            self.layer.maskedCorners = maps[corners.rawValue] ?? .layerAllCorners
+            self.layer.maskedCorners = CACornerMask(rawValue: corners.rawValue)
             self.layer.cornerRadius = radii
             return
         }
