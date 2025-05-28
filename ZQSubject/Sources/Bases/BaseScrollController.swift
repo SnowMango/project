@@ -23,8 +23,8 @@ class BaseScrollController: BaseViewController {
         }
         
         contentView.snp.makeConstraints { make in
-            make.edges.equalTo(UIEdgeInsets.zero)
-            make.centerX.equalToSuperview()
+            make.leading.trailing.top.bottom.equalTo(scrollView.contentLayoutGuide)
+            make.width.equalTo(scrollView.frameLayoutGuide)
             make.height.equalTo(0).priority(.low)
         }
     }

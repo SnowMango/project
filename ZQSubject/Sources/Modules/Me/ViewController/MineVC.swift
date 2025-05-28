@@ -5,13 +5,14 @@ import AVFoundation
 import RxCocoa
 import RxSwift
 
-class MineVC: BaseViewController {
+class MineVC: BaseScrollController {
  
 
     var hasUnread: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         hiddenNavigationBarWhenShow = true
+        scrollView.contentInsetAdjustmentBehavior = .never
         setupUI()
         setupLayout()
     
@@ -86,9 +87,7 @@ class MineVC: BaseViewController {
     }
     //MARK: -
     func setupUI() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        
+    
         contentView.addSubview(backgourdIV)
         contentView.addSubview(userView)
         contentView.addSubview(settingBtn)
@@ -115,15 +114,7 @@ class MineVC: BaseViewController {
     }
     
     func setupLayout() {
-        scrollView.snp.makeConstraints { (make) in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(0)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-        }
-        contentView.snp.makeConstraints { make in
-            make.left.right.top.bottom.equalTo(0)
-            make.centerX.equalToSuperview()
-        }
+       
         
         backgourdIV.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
@@ -162,9 +153,9 @@ class MineVC: BaseViewController {
         
         integralView.snp.makeConstraints { make in
             make.centerX.equalToSuperview().multipliedBy(0.5)
-            make.top.greaterThanOrEqualTo(0)
             make.centerY.equalToSuperview()
-            make.bottom.lessThanOrEqualTo(0)
+            make.left.top.greaterThanOrEqualTo(0)
+            make.width.equalTo(0).priority(.low)
         }
         
         integralLb.snp.makeConstraints { make in
@@ -183,9 +174,9 @@ class MineVC: BaseViewController {
         
         couponsView.snp.makeConstraints { make in
             make.centerX.equalToSuperview().multipliedBy(1.5)
-            make.top.greaterThanOrEqualTo(0)
             make.centerY.equalToSuperview()
-            make.bottom.lessThanOrEqualTo(0)
+            make.left.top.greaterThanOrEqualTo(0)
+            make.width.equalTo(0).priority(.low)
         }
         
         couponsLb.snp.makeConstraints { make in
@@ -230,7 +221,6 @@ class MineVC: BaseViewController {
             make.left.equalTo(wScale(16))
             make.top.equalTo(0)
         }
-    
         mineFeatures.snp.makeConstraints { make in
             make.left.right.equalTo(0)
             make.top.equalTo(featureTitleLb.snp.bottom).offset(wScale(14))
@@ -239,18 +229,6 @@ class MineVC: BaseViewController {
     }
     
     //MARK: -
-    lazy var scrollView: UIScrollView = {
-        return UIScrollView(frame: .zero).then {
-            $0.showsVerticalScrollIndicator = false
-            $0.contentInsetAdjustmentBehavior = .never
-        }
-    }()
-    
-    lazy var contentView: UIView = {
-        return UIView().then {
-            $0.backgroundColor = .clear
-        }
-    }()
     
     lazy var backgourdIV: UIImageView = {
         UIImageView().then { $0.image = UIImage(named: "mine.top.bg") }
@@ -342,7 +320,6 @@ class MineVC: BaseViewController {
             $0.axis = .vertical
         }
     }()
-    
     
     lazy var mineAccount: MineAccountView = {
         MineAccountView().then {

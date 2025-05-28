@@ -150,7 +150,7 @@ class FreeActivityAlert: UIView {
             make.top.equalTo(closeBtn.snp.bottom).offset(wScale(5))
             make.centerX.equalToSuperview()
             make.width.equalTo(wScale(307))
-            make.height.equalTo(wScale(470))
+            make.height.equalTo(wScale(378))
             make.bottom.lessThanOrEqualTo(0)
         }
         

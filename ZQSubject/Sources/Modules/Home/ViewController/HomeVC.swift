@@ -4,7 +4,7 @@ import MJRefresh
 import Then
 import RxCocoa
 
-class HomeVC: BaseViewController {
+class HomeVC: BaseScrollController {
     
     var hasUnread: Bool = false
     
@@ -91,10 +91,9 @@ class HomeVC: BaseViewController {
     }
     
     private func setupUI() {
-        view.addSubview(scrollView)
+
         view.addSubview(levitate)
-       
-        scrollView.addSubview(contentView)
+    
         contentView.addSubview(topView)
         contentView.addSubview(contactUsBtn)
         contentView.addSubview(msgBtn)
@@ -226,24 +225,7 @@ class HomeVC: BaseViewController {
             $0.setImage(UIImage(named: "contact"), for: .normal)
         }
     }()
-    
-    lazy var scrollView: UIScrollView = {
-        return UIScrollView(frame: .zero).then {
-            $0.showsVerticalScrollIndicator = false
-            $0.mj_header = RefreshHeader(refreshingBlock: {[weak self] in
-                self?.getData()
-            })
-//            $0.mj_header?.mj_h += kStatusBarH()
-//            $0.mj_header?.ignoredScrollViewContentInsetTop -= kStatusBarH()*0.5
-        }
-    }()
-    
-    lazy var contentView: UIView = {
-        return UIView().then {
-            $0.backgroundColor = .white
-        }
-    }()
-    
+
     lazy var msgBtn: UIButton = {
         UIButton().then {
             $0.setImage(UIImage(named: "message"), for: .normal)
@@ -345,9 +327,14 @@ extension HomeVC {
         NetworkManager.shared.request(AuthTarget.unreadMsg) { (result: JSONResult) in
             do {
                 let response = try result.get()
-                let unreadCount = response["unreadCount"].intValue
-                let _ = response["readCount"].intValue
-                self.hasUnread = unreadCount > 0
+                var unread: Int = 0
+                if let categories = response.array {
+                    for item in categories {
+                        let unreadCount = item["unreadCount"].intValue
+                        unread += unreadCount
+                    }
+                }
+                self.hasUnread = unread > 0
                 self.updateUnread()
             } catch {
                 

@@ -8,6 +8,12 @@
 
 import UIKit
 
+extension CACornerMask {
+    static var layerAllCorners: CACornerMask {
+        return  [.layerMinXMinYCorner, .layerMinXMaxYCorner,
+                 .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+    }
+}
 extension UIView {
     /// 部分圆角
     ///
@@ -15,6 +21,19 @@ extension UIView {
     ///   - corners: 需要实现为圆角的角，可传入多个
     ///   - radii: 圆角半径
     func corner(byRoundingCorners corners: UIRectCorner, radii: CGFloat) {
+
+        if #available(iOS 11.0, *) {
+            let maps: [UInt : CACornerMask] = [UIRectCorner.topLeft.rawValue:.layerMinXMinYCorner,
+                                               UIRectCorner.topRight.rawValue:.layerMinXMaxYCorner,
+                                               UIRectCorner.bottomLeft.rawValue:.layerMaxXMinYCorner,
+                                               UIRectCorner.bottomRight.rawValue:.layerMaxXMaxYCorner,
+                                               UIRectCorner.allCorners.rawValue:.layerAllCorners]
+        
+            self.layer.maskedCorners = maps[corners.rawValue] ?? .layerAllCorners
+            self.layer.cornerRadius = radii
+            return
+        }
+        
         let maskPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii))
         let maskLayer = CAShapeLayer()
         maskLayer.frame = self.bounds
