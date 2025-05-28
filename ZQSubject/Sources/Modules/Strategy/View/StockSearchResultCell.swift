@@ -22,8 +22,6 @@ class StockSearchResultCell: UITableViewCell {
         self.codeLb.text = model.code
     }
     
-    
-    
     func setupUI() {
         contentView.addSubview(self.titleLb)
         contentView.addSubview(self.codeLb)

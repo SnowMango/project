@@ -158,6 +158,7 @@ class StockSearchVC: BaseViewController {
     lazy var hotStockView: HotStockView = {
         HotStockView().then {
             $0.backgroundColor = UIColor("#FCFAED")
+            $0.clipsToBounds = true
         }.gradient {
             $0.colors = [UIColor(0xFFFFFF).cgColor,UIColor(0xFCFAED).cgColor]
             $0.startPoint = CGPoint(x: 0.5, y: 1)

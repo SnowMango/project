@@ -241,10 +241,8 @@ class StockDetailVC: BaseViewController {
         fundHoldingView.snp.makeConstraints { make in
             make.left.equalTo(0)
         }
-    
     }
     
-   
     lazy var titleView: UIView = {
         UIView()
     }()
@@ -279,6 +277,7 @@ class StockDetailVC: BaseViewController {
     lazy var infoView: RadiusView = {
         RadiusView().then {
             $0.backgroundColor = UIColor("#FCFAED")
+            $0.clipsToBounds = true
         }.gradient {
             $0.colors = [UIColor(0xFFFFFF).cgColor,UIColor(0xFCFAED).cgColor]
             $0.startPoint = CGPoint(x: 0.5, y: 1)
@@ -527,7 +526,15 @@ extension StockDetailVC {
     
     func reloadData() {
         guard let stock = self.stock else { return }
-        self.odLb.text = stock.baseInfo.od
+        let fm = DateFormatter()
+        fm.dateFormat = "yyyyMMdd"
+        if let value = stock.baseInfo.od, let up = fm.date(from: value) {
+            fm.dateFormat = "yyyy-MM-dd"
+            self.odLb.text = fm.string(from: up)
+        }else {
+            self.odLb.text = "--"
+        }
+       
         if let value =  stock.baseInfo.pc {
             self.pcLb.text = "\(value)"
         }else {
@@ -545,13 +552,13 @@ extension StockDetailVC {
         }
         
         if let value =  stock.baseInfo.fv {
-            self.fvLb.text = "\(value)"
+            self.fvLb.text = "\(Int(value))"
         }else {
             self.fvLb.text = "--"
         }
         
         if let value =  stock.baseInfo.tv {
-            self.tvLb.text = "\(value)"
+            self.tvLb.text = "\(Int(value))"
         }else {
             self.tvLb.text = "--"
         }

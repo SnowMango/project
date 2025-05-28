@@ -57,6 +57,7 @@ class RadiusView: UIView {
             call(bggl)
             return self
         }
+        bggl.frame = self.bounds
         self.layer.addSublayer(bggl)
         call(bggl)
         return self

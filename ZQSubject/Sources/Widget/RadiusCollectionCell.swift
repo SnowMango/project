@@ -8,9 +8,10 @@ class RadiusCollectionCell: UICollectionViewCell, SectionRadiusProtocol {
         case none
         case line
     }
+    
     var separatorStyle: RadiusCollectionCell.SeparatorStyle = .line {
         didSet {
-            self.separator.isHidden = separatorStyle == .none
+            updateSeparator()
         }
     }
     var separatorColor: UIColor? =  UIColor("#EFEFEF"){
@@ -35,15 +36,10 @@ class RadiusCollectionCell: UICollectionViewCell, SectionRadiusProtocol {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        if self.separatorStyle == .line {
-            updateSeparator()
-        }else {
-            self.separator.isHidden = true
-        }
+        updateSeparator()
         layoutRadius()
         bringSubviewToFront(self.separator)
     }
-    
     
     override func updateConstraints() {
         separatorLayout()
@@ -60,6 +56,10 @@ class RadiusCollectionCell: UICollectionViewCell, SectionRadiusProtocol {
     }
     
     func updateSeparator() {
+        if self.separatorStyle == .none {
+            self.separator.isHidden = true
+            return
+        }
         guard let collection = self.superview as? UICollectionView  else {
             return
         }
