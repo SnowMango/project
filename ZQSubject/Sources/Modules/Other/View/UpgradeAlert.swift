@@ -24,7 +24,7 @@ class UpgradeAlert: BaseAlert {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .kBoldFontScale(20)
+        label.font = .kBoldScale(20)
         label.textColor = .kText2
     
         return label
@@ -41,7 +41,7 @@ class UpgradeAlert: BaseAlert {
     lazy var actionBtn: UIButton = {
         let btn = UIButton()
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = .kBoldFontScale(17)
+        btn.titleLabel?.font = .kBoldScale(17)
         btn.backgroundColor = .kTheme
         btn.addTarget(self, action: #selector(taps), for: .touchUpInside)
         btn.layer.cornerRadius = wScale(21.5)
@@ -53,7 +53,7 @@ class UpgradeAlert: BaseAlert {
     lazy var closeBtn: UIButton = {
         let btn = UIButton()
         btn.setTitleColor(.kText2, for: .normal)
-        btn.titleLabel?.font = .kBoldFontScale(17)
+        btn.titleLabel?.font = .kBoldScale(17)
         btn.backgroundColor = UIColor("#DDE8FB")
         btn.addTarget(self, action: #selector(closeTap), for: .touchUpInside)
         btn.layer.cornerRadius = wScale(21.5)
@@ -64,7 +64,7 @@ class UpgradeAlert: BaseAlert {
     
     lazy var versionLabel: UILabel = {
         let label = UILabel()
-        label.font = .kFontScale(12)
+        label.font = .kScale(12)
         label.textColor = UIColor("#858585")
         label.textAlignment = .center
         return label

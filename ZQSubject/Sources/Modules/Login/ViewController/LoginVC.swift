@@ -30,7 +30,7 @@ class LoginVC: BaseViewController {
         let btn = UIButton()
         btn.setTitle("登录", for: .normal)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = .kFontScale(17)
+        btn.titleLabel?.font = .kScale(17)
         btn.layer.cornerRadius = wScale(24)
         btn.isEnabled = false
         btn.backgroundColor = .kText1
@@ -55,7 +55,7 @@ class LoginVC: BaseViewController {
         attributeStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.kTheme, range: NSMakeRange(10, 8))
         attributeStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.kTheme, range: NSMakeRange(19, 6))
         label.attributedText = attributeStr
-        label.font = .kFontScale(12)
+        label.font = .kScale(12)
         label.numberOfLines = 2
         label.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapProtocolAction(_:)))
@@ -89,7 +89,7 @@ class LoginVC: BaseViewController {
         
         let titleLb = UILabel()
         titleLb.text = "账号登录"
-        titleLb.font = .kFontScale(24)
+        titleLb.font = .kScale(24)
         titleLb.textColor = .kText2
         view.addSubview(titleLb)
         titleLb.snp.makeConstraints { make in

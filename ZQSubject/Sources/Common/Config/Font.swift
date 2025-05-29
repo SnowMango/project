@@ -1,11 +1,8 @@
 import UIKit
 
 extension UIFont {
-    static func kFontScale(_ f: CGFloat) -> UIFont {
-        return UIFont.systemFont(ofSize:  wScale(f))
-    }
     
-    static func kBoldFontScale(_ f: CGFloat) -> UIFont {
+    static func kBoldScale(_ f: CGFloat) -> UIFont {
         return UIFont.boldSystemFont(ofSize: wScale(f))
     }
     

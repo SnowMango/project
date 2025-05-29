@@ -31,7 +31,7 @@ class SettingVC: BaseViewController {
         title = "设置"
 
         let lb1 = UILabel()
-        lb1.font = .kFontScale(13)
+        lb1.font = .kScale(13)
         lb1.textColor = .kText1
         lb1.text = "账号和隐私"
         view.addSubview(lb1)
@@ -49,7 +49,7 @@ class SettingVC: BaseViewController {
         }
         
         let versionLb = UILabel()
-        versionLb.font = .kFontScale(13)
+        versionLb.font = .kScale(13)
         versionLb.textColor = .kText1
         versionLb.numberOfLines = 0
         versionLb.textAlignment = .center
@@ -68,7 +68,7 @@ class SettingVC: BaseViewController {
         let btn = UIButton()
         btn.setTitle("退出登录", for: .normal)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = .kFontScale(17)
+        btn.titleLabel?.font = .kScale(17)
         btn.layer.cornerRadius = wScale(24)
         btn.backgroundColor = .kTheme
         btn.addTarget(self, action: #selector(logout), for: .touchUpInside)

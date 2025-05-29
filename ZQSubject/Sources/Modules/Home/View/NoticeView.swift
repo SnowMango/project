@@ -12,7 +12,7 @@ class NoticeView: UIView {
     private lazy var marquee: MarqueeLabel = {
         let label = MarqueeLabel()
         label.textColor = UIColor("#FC4B4B")
-        label.font = .kFontScale(12)
+        label.font = .kScale(12)
         label.speed = .rate(30)
         return label
     }()

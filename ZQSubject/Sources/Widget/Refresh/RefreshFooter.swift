@@ -88,7 +88,7 @@ class RefreshGifFooter: MJRefreshAutoGifFooter {
         v.isHidden = true
         
         let lb = UILabel()
-        lb.font = .kFontScale(12)
+        lb.font = .kScale(12)
         lb.textColor = .kText2
         lb.text = "玩命加载中"
         v.addSubview(lb)
@@ -112,7 +112,7 @@ class RefreshGifFooter: MJRefreshAutoGifFooter {
         v.isHidden = true
         
         let lb = UILabel()
-        lb.font = .kFontScale(12)
+        lb.font = .kScale(12)
         lb.textColor = .kText2
         lb.text = "我是有底线的"
         v.addSubview(lb)

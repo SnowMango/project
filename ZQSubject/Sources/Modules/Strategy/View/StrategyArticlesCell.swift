@@ -14,7 +14,7 @@ class StrategyArticlesCell: UITableViewCell {
     ///标题
     lazy var titleLabel: UILabel = {
         let l = UILabel()
-        l.font = .kFontScale(14)
+        l.font = .kScale(14)
         l.textColor = .kText2
         l.numberOfLines = 3
         return l
@@ -23,7 +23,7 @@ class StrategyArticlesCell: UITableViewCell {
     ///摘要
     lazy var summaryLabel: UILabel = {
         let l = UILabel()
-//        l.font = kFontScale(12)
+//        l.font = kScale(12)
 //        l.textColor = kColor_51x3
         l.numberOfLines = 3
         return l
@@ -33,7 +33,7 @@ class StrategyArticlesCell: UITableViewCell {
     ///作者、时间
     lazy var dateLabel: UILabel = {
         let l = UILabel()
-        l.font = .kFontScale(10)
+        l.font = .kScale(10)
         l.textColor = .kText1
         return l
     }()

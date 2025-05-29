@@ -7,7 +7,7 @@ class SettingCell: UITableViewCell {
     lazy var titleLb = {
         let lb = UILabel()
         lb.textColor = .kText2
-        lb.font = .kFontScale(14)
+        lb.font = .kScale(14)
         return lb
     }()
     

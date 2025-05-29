@@ -113,7 +113,7 @@ class BaseViewController: UIViewController {
     
     func configNavBar() {
         //设置标题颜色与字体
-        let dict:NSDictionary = [NSAttributedString.Key.foregroundColor: UIColor.black ,NSAttributedString.Key.font : UIFont.kBoldFontScale(18)]
+        let dict:NSDictionary = [NSAttributedString.Key.foregroundColor: UIColor.black ,NSAttributedString.Key.font : UIFont.kBoldScale(18)]
         self.navigationController?.navigationBar.titleTextAttributes = dict as? [NSAttributedString.Key : Any]
         
         self.navigationController?.navigationBar.isTranslucent = false
@@ -164,7 +164,7 @@ class NoNetTips: UIView {
         }
         
         let label = UILabel()
-        label.font = .kFontScale(13)
+        label.font = .kScale(13)
         label.textColor =  UIColor.init(r: 208, g: 2, b: 27)
         label.text = "当前网络不可用，请检查您的网络设置。"
         bgView.addSubview(label)

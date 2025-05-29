@@ -32,7 +32,7 @@ class PrivacyVC: BaseViewController {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .kBoldFontScale(19)
+        label.font = .kBoldScale(19)
         label.textAlignment = .center
         label.text = "隐私政策"
         return label
@@ -41,7 +41,7 @@ class PrivacyVC: BaseViewController {
     lazy var contentLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = .kFontScale(14)
+        label.font = .kScale(14)
         label.textColor = .kText2
         let attributeStr = NSMutableAttributedString(string:
                                                         "我们非常重视用户个人信息和隐私权的保护，请您在使用我们的产品或服务前认真阅读并确认充分理解隐私政策及用户协议，以便您做出您认为适当的选择。点击“同意”及表示您已阅读、充分理解并同意《用户服务协议》、《隐私协议》的所有条款，我们将尽全力保护您的个人信息安全。")
@@ -59,7 +59,7 @@ class PrivacyVC: BaseViewController {
     lazy var actionBtn: UIButton = {
         let btn = UIButton()
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = .kBoldFontScale(17)
+        btn.titleLabel?.font = .kBoldScale(17)
         btn.backgroundColor = .kTheme
         btn.addTarget(self, action: #selector(taps), for: .touchUpInside)
         btn.setTitle("同意协议", for: .normal)
@@ -81,7 +81,7 @@ class PrivacyVC: BaseViewController {
         btn.addTarget(self, action: #selector(closeTap), for: .touchUpInside)
         btn.setTitle("不同意并退出", for: .normal)
         btn.setTitleColor(.kText1, for: .normal)
-        btn.titleLabel?.font = .kFontScale(14)
+        btn.titleLabel?.font = .kScale(14)
         btn.backgroundColor = nil
         return btn
     }()

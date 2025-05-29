@@ -15,8 +15,8 @@ class StrategyVC: WMZPageController {
         pageParam.wTopSuspension = true
         pageParam.wBounces = true
         pageParam.wMenuAnimal = PageTitleMenuPDD
-        pageParam.wMenuTitleSelectUIFont = .kFontScale(16)
-        pageParam.wMenuTitleUIFont = .kFontScale(16)
+        pageParam.wMenuTitleSelectUIFont = .kScale(16)
+        pageParam.wMenuTitleUIFont = .kScale(16)
         pageParam.wMenuTitleColor = .kText1
         pageParam.wMenuTitleSelectColor = .kText2
         pageParam.wMenuIndicatorColor = .kTheme

@@ -31,7 +31,7 @@ class WindowAlert: UIView {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .kBoldFontScale(20)
+        label.font = .kBoldScale(20)
         label.textColor = .kText2
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -178,7 +178,7 @@ extension WindowAlert {
             contentLabel.textAlignment = .left
             contentLabel.text = content
             contentView.addSubview(actionBtn)
-            actionBtn.titleLabel?.font = .kBoldFontScale(17)
+            actionBtn.titleLabel?.font = .kBoldScale(17)
             actionBtn.setTitle(actionTitle ?? "确定", for: .normal)
             
             titleLabel.snp.makeConstraints { (make) in
@@ -212,10 +212,10 @@ extension WindowAlert {
             contentLabel.textAlignment = .left
             contentLabel.text = content
             contentView.addSubview(actionBtn)
-            actionBtn.titleLabel?.font = .kBoldFontScale(17)
+            actionBtn.titleLabel?.font = .kBoldScale(17)
             actionBtn.setTitle(actionTitle ?? "确定", for: .normal)
             contentView.addSubview(closeBtn)
-            closeBtn.titleLabel?.font = .kFontScale(17)
+            closeBtn.titleLabel?.font = .kScale(17)
             closeBtn.setTitle(closeTitle ?? "取消", for: .normal)
             
             titleLabel.snp.makeConstraints { (make) in
@@ -311,7 +311,7 @@ extension WindowAlert {
 //                make.bottom.equalToSuperview().inset(wScale(25))
             }
             contentView.addSubview(actionBtn)
-            actionBtn.titleLabel?.font = .kBoldFontScale(17)
+            actionBtn.titleLabel?.font = .kBoldScale(17)
             actionBtn.setTitle(actionTitle ?? "确定", for: .normal)
             actionBtn.snp.makeConstraints { (make) in
                 make.top.equalTo(contentLabel.snp.bottom).offset(wScale(14))

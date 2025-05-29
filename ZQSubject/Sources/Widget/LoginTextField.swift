@@ -44,7 +44,7 @@ class LoginTextField: UIView {
     lazy private var cutDownBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("获取验证码", for: .normal)
-        btn.titleLabel?.font = .kFontScale(14)
+        btn.titleLabel?.font = .kScale(14)
         btn.isEnabled = false
         btn.addTarget(self, action: #selector(getCodeAction), for: .touchUpInside)
         addSubview(btn)
@@ -93,7 +93,7 @@ extension LoginTextField {
         self.layer.cornerRadius = cornerRadius
         self.backgroundColor = UIColor("F8F8F8")
         
-        textField.attributedPlaceholder = placeHolder?.attributedString(font: .kFontScale(14), textColor: UIColor("AAAAAA"), lineSpaceing: nil, wordSpaceing: nil)
+        textField.attributedPlaceholder = placeHolder?.attributedString(font: .kScale(14), textColor: UIColor("AAAAAA"), lineSpaceing: nil, wordSpaceing: nil)
         timeLabel.textAlignment = .center
         countDownText = "后重新获取"
         
@@ -118,7 +118,7 @@ extension LoginTextField {
         
         if type == .verifyCode {
             cutDownBtn.setTitleColor(.kText1, for: .normal)
-            cutDownBtn.titleLabel?.font = .kFontScale(14)
+            cutDownBtn.titleLabel?.font = .kScale(14)
             cutDownBtn.snp.makeConstraints { (make) in
                 make.left.equalTo(textField.snp.right).offset(wScale(5))
                 make.width.equalTo(wScale(105))
