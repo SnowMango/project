@@ -12,7 +12,7 @@ enum TabBarURLTag: String {
         case .home:
             "首页"
         case .strategy:
-            "量化策略"
+            "策略资讯"
         case .asset:
             "AI选策略"
         case .me:

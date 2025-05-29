@@ -177,22 +177,3 @@ enum UserDefaultKey: String {
     
 }
 
-
-enum WebURL: String {
-    /// 公告
-    case notice = "/message-detail?id="
-    /// 开户
-    case openAccount = "/open-account-process"
-    /// 文章
-    case news = "/news/detail?id="
-    
-    
-    ///返回拼接后的url
-    var url : String {
-        if let host = kUserDefault.string(forKey: UserDefaultKey.webHost.rawValue) {
-            return  host + self.rawValue
-        } else {
-            return self.rawValue
-        }
-    }
-}
