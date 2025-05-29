@@ -4,14 +4,19 @@ import RxSwift
 class BaseViewController: UIViewController {
     var disposeBag = DisposeBag()
     
-    init(_ hidesBottomBar: Bool = true){
+    init(){
         super.init(nibName: nil, bundle: nil)
-        self.hidesBottomBarWhenPushed = hidesBottomBar
+        self.hidesBottomBarWhenPushed = true
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.hidesBottomBarWhenPushed = true
+    }
+    
+    func bottomBarWhenPushed(_ hides: Bool) -> Self {
+        self.hidesBottomBarWhenPushed = hides
+        return self
     }
     
     // MARK: - properties

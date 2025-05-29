@@ -111,13 +111,14 @@ extension AppLink {
     }
     
 }
+
 /// 环境配置
 #if DEBUG
-let env: Environment = .dev
+var env: Environment = .dev
 #elseif TEST
-let env: Environment = .test
+var env: Environment = .test
 #else
-let env: Environment = .pro
+var env: Environment = .pro
 #endif
 
 ///渠道标识
