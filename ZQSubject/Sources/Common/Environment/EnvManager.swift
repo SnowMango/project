@@ -46,8 +46,8 @@ class EnvManager {
         view.load(env)
         window.addSubview(view)
         view.snp.makeConstraints { make in
-            make.left.equalTo(10)
-            make.top.equalTo(44)
+            make.left.equalTo(view.insets.left)
+            make.top.equalTo(view.insets.top)
         }
         view.alpha = 0
         UIView.animate(withDuration: 0.25) {
@@ -83,7 +83,7 @@ class TestLevitateView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private var insets: UIEdgeInsets = UIEdgeInsets(top: 44, left: 10, bottom: 20, right: 10)
+    var insets: UIEdgeInsets = UIEdgeInsets(top: 44, left: 10, bottom: 20, right: 10)
     @objc func showLink() {
         Router.shared.route("change/env")
     }

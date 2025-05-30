@@ -193,6 +193,8 @@ extension Router {
             alert.addAction(UIAlertAction(title: Environment.pro.desc, style: .default, handler: { _ in
                 EnvManager.shared.change(.pro, reboot: true)
             }))
+            
+            alert.addAction(UIAlertAction(title: "取消", style: .cancel))
             top.present(alert, animated: true)
             return true
         }
