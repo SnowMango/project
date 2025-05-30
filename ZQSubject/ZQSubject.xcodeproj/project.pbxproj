@@ -286,7 +286,7 @@
 				CODE_SIGN_ENTITLEMENTS = ZQSubject/ZQSubject.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1046;
+				CURRENT_PROJECT_VERSION = 1047;
 				DEVELOPMENT_TEAM = JWZ974JZH5;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -327,13 +327,17 @@
 				);
 				INFOPLIST_FILE = ZQSubject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "量界";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "需要您的同意，APP才能访问媒体资料库";
 				INFOPLIST_KEY_NSCameraUsageDescription = "需要访问相机以选择照片";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要您的同意，APP才能访问麦克风";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "需要您的同意，APP才能保存图片到相册";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "需要访问相册以选择照片";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -363,7 +367,7 @@
 				CODE_SIGN_ENTITLEMENTS = ZQSubject/ZQSubject.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1046;
+				CURRENT_PROJECT_VERSION = 1047;
 				DEVELOPMENT_TEAM = JWZ974JZH5;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -404,13 +408,17 @@
 				);
 				INFOPLIST_FILE = ZQSubject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "量界";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "需要您的同意，APP才能访问媒体资料库";
 				INFOPLIST_KEY_NSCameraUsageDescription = "需要访问相机以选择照片";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要您的同意，APP才能访问麦克风";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "需要您的同意，APP才能保存图片到相册";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "需要访问相册以选择照片";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -439,7 +447,7 @@
 				CODE_SIGN_ENTITLEMENTS = ZQSubject/ZQSubject.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1046;
+				CURRENT_PROJECT_VERSION = 1047;
 				DEVELOPMENT_TEAM = JWZ974JZH5;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -480,13 +488,17 @@
 				);
 				INFOPLIST_FILE = ZQSubject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "量界";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "需要您的同意，APP才能访问媒体资料库";
 				INFOPLIST_KEY_NSCameraUsageDescription = "需要访问相机以选择照片";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要您的同意，APP才能访问麦克风";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "需要您的同意，APP才能保存图片到相册";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "需要访问相册以选择照片";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
