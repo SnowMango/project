@@ -11,7 +11,7 @@ extension Router {
         }
         /// web调用退出登录
         route.addRoute("/web/login") { _ in
-//            AppManager.shared.showLogin()
+            AppManager.shared.showLogin()
             return true
         }
         
