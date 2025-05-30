@@ -76,6 +76,8 @@ class BaseViewController: UIViewController {
         configNavBar()
         
         NotificationCenter.default.addObserver(self, selector: #selector(networkState), name: .reachabilityChanged, object: nil)
+        
+        EnvManager.shared.showTestUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {

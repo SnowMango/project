@@ -178,6 +178,25 @@ extension Router {
             return true
         }
         
+        route.addRoute("change/env") { _ in
+            guard let top = UIApplication.shared.topController else { return false}
+            let alert = UIAlertController(title: "App环境", message: "切换环境app会退出", preferredStyle: .actionSheet)
+            
+            alert.addAction(UIAlertAction(title: Environment.local.desc, style: .default, handler: { _ in
+                EnvManager.shared.change(.test, reboot: true)
+            }))
+            
+            alert.addAction(UIAlertAction(title: Environment.test.desc, style: .default, handler: { _ in
+                EnvManager.shared.change(.test, reboot: true)
+            }))
+            
+            alert.addAction(UIAlertAction(title: Environment.pro.desc, style: .default, handler: { _ in
+                EnvManager.shared.change(.pro, reboot: true)
+            }))
+            top.present(alert, animated: true)
+            return true
+        }
+        
         
     }
 }

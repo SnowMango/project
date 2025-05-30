@@ -5,23 +5,39 @@ enum Environment: Int {
     case dev     = 1
     case test
     case pro
-    
+    case local
     func name() -> String {
         switch self {
         case .dev:
+            return "Develop"
+        case .local:
+            return "Local"
+        case .test:
+            return "Test"
+        case .pro:
+            return "Product"
+        }
+    }
+    
+    var desc:String {
+        switch self {
+        case .dev:
             return "开发环境"
+        case .local:
+            return "后台本地"
         case .test:
             return "测试环境"
         case .pro:
-            return "生产环境"
+            return "正式环境"
         }
     }
     
     func baseURL() -> URL {
         switch self {
         case .dev:
-//            return URL(string: "http://192.168.2.200:9091/userService")!
             return URL(string: "https://zqapi-test.zhunqikj.cn/userService")!
+        case .local:
+            return URL(string: "http://192.168.2.200:9091/userService")!
         case .test:
             return URL(string: "https://zqapi-test.zhunqikj.cn/userService")!
         case .pro:
@@ -31,7 +47,7 @@ enum Environment: Int {
     
     var tokenWebHost: String {
         switch self {
-        case .dev:
+        case .dev, .local:
             "https://zqapi-test.zhunqikj.cn/#"
         case .test:
             "https://zqapi-test.zhunqikj.cn/#"
@@ -42,7 +58,7 @@ enum Environment: Int {
     
     var supportHost: String {
         switch self {
-        case .dev:
+        case .dev, .local:
             "https://zqapi-test.zhunqikj.cn"
         case .test:
             "https://zqapi-test.zhunqikj.cn"

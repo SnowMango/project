@@ -54,7 +54,7 @@ class SettingVC: BaseViewController {
         versionLb.numberOfLines = 0
         versionLb.textAlignment = .center
         let production: String = switch env {
-        case .dev: "当前版本(V\(kAppVersion))\n\(AppBuildVersion)"
+        case .dev, .local: "当前版本(V\(kAppVersion))\n\(AppBuildVersion)"
         case .test: "当前版本(V\(kAppVersion))\n\(AppBuildVersion)"
         case .pro: "当前版本(V\(kAppVersion))"
         }
